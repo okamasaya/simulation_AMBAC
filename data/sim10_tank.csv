@@ -1,0 +1,4 @@
+arm_pose,com_x[m],com_z[m],h_max[m],h_force_limit[m],mu_needed_at_0.20m
+arm stowed back-up (COM rear),-0.0230,0.4071,0.250,0.257,0.160
+arm down (neutral),0.0000,0.3448,0.250,0.304,0.229
+arm forward (COM front),0.0374,0.3822,0.250,0.330,0.236
