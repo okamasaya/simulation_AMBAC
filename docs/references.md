@@ -70,6 +70,12 @@
 - **[R40]** P. Virtanen et al., "SciPy 1.0: fundamental algorithms for scientific computing in Python," *Nature Methods*, 17, 261–272, 2020.
 - **[R41]** J. D. Hunter, "Matplotlib: A 2D graphics environment," *Computing in Science & Engineering*, 9(3), 90–95, 2007.
 
+## H. 関連する事例
+
+- **[R45]** T. Libby, T. Y. Moore, E. Chang-Siu, D. Li, D. J. Cohen, A. Jusufi, R. J. Full, "Tail-assisted pitch control in lizards, robots and dinosaurs," *Nature*, 481, 181–184, 2012. doi:10.1038/nature10710 ✓（尻尾を振って空中で姿勢を制御する）
+- **[R46]** M. R. Yeadon, "The biomechanics of twisting somersaults. Part III: aerial twist," *Journal of Sports Sciences*, 11, 209–218, 1993. ✓（空中での腕などの非対称な動きでひねりを生む）
+- **[R47]** Boston Dynamics による油圧式 Atlas の引退と電動式 Atlas の発表（2024 年 4 月）. 報道の例: https://builtin.com/articles/boston-dynamics-electric-atlas-20240417 ✓
+
 ## 章と参考文献の対応
 
 | 章 | 参考文献 |

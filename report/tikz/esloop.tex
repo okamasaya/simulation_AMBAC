@@ -1,0 +1,10 @@
+% 進化戦略の 1 反復
+\begin{tikzpicture}[>=Stealth,font=\footnotesize,box/.style={draw,rounded corners,fill=gray!8,align=center,minimum width=2.6cm,minimum height=1.0cm}]
+\node[box] (a) at (0,0) {方策のパラメータ $\bm w$};
+\node[box] (b) at (3.6,0) {ノイズを加えた\\$\bm w\pm\sigma\bm\varepsilon_k$};
+\node[box] (c) at (7.2,0) {シミュレーションで\\一括評価（報酬）};
+\node[box] (d) at (7.2,-1.9) {報酬を順位に変換};
+\node[box] (e) at (3.6,-1.9) {勾配を推定\\$\frac{1}{n\sigma}\sum(r^+-r^-)\bm\varepsilon$};
+\node[box] (f) at (0,-1.9) {Adam で更新};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d); \draw[->,thick] (d)--(e); \draw[->,thick] (e)--(f); \draw[->,thick] (f)--(a);
+\end{tikzpicture}

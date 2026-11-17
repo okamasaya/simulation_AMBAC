@@ -1,0 +1,20 @@
+% スイング・ツイスト分解
+\begin{tikzpicture}[>=Stealth,font=\small]
+\begin{scope}
+  \fill (0,0) circle (2pt) node[left]{肩};
+  \draw[line width=4pt,gray!50] (0,0)--(0,-2);
+  \draw[line width=4pt,blue!60] (0,0)--(1.4,-1.4);
+  \draw[->,thick] (0,-1.2) arc (-90:-45:1.2);
+  \node at (0.75,-1.35) {スイング};
+  \node[align=center,font=\footnotesize] at (0.6,-2.6) {腕の向きを変える\\（2 自由度）};
+\end{scope}
+\begin{scope}[shift={(4.5,0)}]
+  \fill (0,0) circle (2pt);
+  \draw[line width=4pt,blue!60] (0,0)--(1.4,-1.4);
+  \draw[thick] (0.9,-0.9) ellipse (0.35 and 0.15);
+  \draw[->,thick] (1.25,-0.9) arc (0:-200:0.35 and 0.15);
+  \node at (1.8,-0.6) {ツイスト};
+  \node[align=center,font=\footnotesize] at (0.6,-2.6) {腕の長軸まわりにひねる\\（1 自由度）};
+\end{scope}
+\node[font=\footnotesize,align=left] at (9.2,-1.0) {上腕の姿勢 $R = R_{\text{swing}}R_{\text{twist}}$\\ひねりの値は分解の仕方\\（基準姿勢・順序）に依存する};
+\end{tikzpicture}

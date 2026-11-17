@@ -69,6 +69,11 @@
 
 \subsection{進化戦略（ES）}
 
+\begin{figure}[htbp]\centering
+\resizebox{0.85\linewidth}{!}{\input{tikz/esloop}}
+\caption{進化戦略（OpenAI-ES）の 1 反復の流れ。}\label{fig:tikz-esloop}
+\end{figure}
+
 進化戦略は、方策のパラメータそのものにノイズを加えて試し、報酬の良かった方向へパラメータを動かす方法である \cite{R19}。
 パラメータ $\bm w$ のまわりで、正規分布のノイズ $\bm\varepsilon_k$ を加えた $\bm w+\sigma\bm\varepsilon_k$ を $n$ 通り試すと、
 報酬の勾配は

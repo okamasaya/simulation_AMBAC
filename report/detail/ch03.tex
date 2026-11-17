@@ -1,1 +1,61 @@
-% ch03
+\section{詳細解説}
+
+\subsection{リアクションホイールの大きさと旋回の速さ}
+
+人間大の胴体（Sim03 と同じ）に、大きさの違う 3 種類のホイールを付けた場合、90° の静止 → 静止旋回に必要なホイールの回転を比べた（図~\ref{fig:D4_rw_tradeoff.png}）。
+旋回角は $\Delta\theta = -(I_w/A)\Delta\varphi_w$ なので、ホイールの慣性 $I_w$ が小さいほど多く回す必要がある。
+
+\begin{longtable}{lrr}
+\toprule
+ホイール & 90° に必要な回転数 & 10 s で旋回するときの最大回転数 \\ \midrule \endhead
+0.5 kg、半径 0.08 m & 1598 回 & 17982 rpm \\
+2.0 kg、半径 0.12 m（Sim03） & 178 回 & 2003 rpm \\
+8.0 kg、半径 0.18 m & 20 回 & 226 rpm \\
+\bottomrule
+\end{longtable}
+
+最小躍度のプロファイルで回すと、最大回転数は平均の 1.875 倍になる。
+一般的な衛星用ホイールの最大回転数（数千 rpm）を上限とすると、0.5 kg のホイールでは 10 s の旋回は不可能で、2 kg 以上が必要になる。
+同じ 90° を AMBAC（手足のループ）で行うと、人間大で約 13 s かかる（第~\ref{ch:dyn}章）。\textbf{2 kg のホイールは、16 kg の手足と同程度の速さで向きを変えられる}。
+
+\DFIG{D4_rw_tradeoff.png}{90° の静止 → 静止旋回に必要なホイールの最大回転数と旋回時間。点線は典型的な上限、破線は AMBAC（人間大）の 90° 旋回時間。}
+
+\subsection{運動量飽和の解析解}
+
+一定の外乱トルク $\tau_d$ のもとで姿勢を保つとき、角運動量は $L(t)=\tau_dt$ で増え続ける。
+\begin{itemize}
+\item \textbf{RW}：ホイールの回転数は $\omega_w(t) = \tau_dt/I_w$ で直線的に増え、$t_{\mathrm{sat}} = I_w\omega_{\max}/\tau_d$ で飽和する。
+  Sim03 の値（$I_w=0.0144$ kg\,m$^2$、600 rad/s、0.01 N\,m）を入れると $t_{\mathrm{sat}} = 864$ s で、シミュレーションと一致する。
+\item \textbf{AMBAC}：周回周波数は $f(t) = \tau_dt\langle1/A\rangle/|\Delta\theta_c|$ で直線的に増え、
+  $t_{\mathrm{sat}} = f_{\max}|\Delta\theta_c|/(\tau_d\langle1/A\rangle)$ で飽和する。Sim03 の値では 118 s である。
+\end{itemize}
+どちらも「溜められる角運動量の容量 ÷ 外乱トルク」で飽和までの時間が決まる。
+
+\subsection{周回内の揺れの補償}
+
+AMBAC で周回しながら姿勢を保つと、周回平均の姿勢 $\bar\theta$ は一定でも、実際の姿勢 $\theta$ は位相 $\varphi$ に応じて大きく揺れる。
+この揺れはループの形から事前に計算できる：
+\begin{equation}
+\theta_{\mathrm{osc}}(\varphi) = -\int_0^\varphi\Gamma(q(\varphi'))\cdot\frac{dq}{d\varphi'}\,d\varphi' - \frac{\varphi}{2\pi}\Delta\theta_c\quad(\text{平均を引いて周期関数にしたもの}).
+\end{equation}
+制御では $\bar\theta = \theta-\theta_{\mathrm{osc}}(\varphi)$ を推定して、これをフィードバックに使った。
+こうすると周回内の揺れに反応して指令がばたつくことがなくなり、周回平均の姿勢を $\pm0.3^\circ$ に保てた。
+\textbf{物理の構造（揺れの形）を知っていると、制御設計が簡単になる}例である。
+
+\subsection{ループの形の最適化の詳細}
+
+Part A の最適円ループは、中心（腕・脚の角度）と半径を格子状に変えて、ループ内部の曲率の面積分が最大のものを選んだ。
+\begin{itemize}
+\item 探索範囲：半径 10°〜90°（5° 刻み）、中心は可動域内を 4 格子ごと。ループ全体が可動域に収まるものだけを候補とした。
+\item 最良：中心（腕 $-20^\circ$、脚 $-40^\circ$）、半径 70°、1 周あたり $+6.70^\circ$。
+\item 上界（同じ符号の曲率をすべて囲む）は $+9.57^\circ$ で、円という形の制約のために 70\% にとどまる。
+  第~\ref{ch:ai}章の学習方策は、円より自由な形（可動域で切り取られた楕円）で 98\% に達した。
+\end{itemize}
+
+\section*{考察課題}
+\begin{exercise}
+RW と AMBAC を併用して外乱下で姿勢を保つとき、どちらに先に角運動量を溜めるのがよいか。それぞれの容量と、周回内の揺れの有無から考えよ。
+\end{exercise}
+\begin{exercise}
+AMBAC の角運動量容量 $h_{\mathrm{AMBAC}}$ を大きくする方法を 3 つ挙げよ（ヒント：$f_{\max}$, $\Delta\theta_c$, $\langle1/A\rangle$ のそれぞれ）。
+\end{exercise}

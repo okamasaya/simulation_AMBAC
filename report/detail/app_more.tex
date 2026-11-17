@@ -1,0 +1,87 @@
+\chapter{詳しい導出（詳細版）}\label{app:more}
+
+付録~\ref{app:deriv} の導出を補う。
+
+\section{3 次元の $A(q)$, $B(q)$}
+
+胴体（質量 $m_b$、胴体重心まわりの慣性テンソル $I_b$、胴体座標の原点を胴体重心とする）と、点質量 $m_i$（胴体座標での位置 $\bm p_i(q)$）からなる系を考える。
+系重心は $\bm c = \sum_i m_i\bm p_i/M$（胴体重心を含めて和をとる、胴体重心の位置は $\bm 0$）。
+胴体座標で表した角速度を $\bm\omega$ とすると、慣性系での各点の速度を胴体座標で表したものは
+\[
+\bm v_i = \bm\omega\times\bm p_i + \dot{\bm p}_i,\qquad \bm v_c = \bm\omega\times\bm c + \dot{\bm c}
+\]
+（全体の並進速度は重心系では打ち消されるので省略した）。重心まわりの角運動量は、$\bm r_i=\bm p_i-\bm c$ を使って
+\begin{align}
+\bm L &= I_b\bm\omega + \sum_i m_i\,\bm r_i\times(\bm v_i-\bm v_c)
+ = I_b\bm\omega + \sum_i m_i\,\bm r_i\times(\bm\omega\times\bm r_i) + \sum_i m_i\,\bm r_i\times(\dot{\bm p}_i-\dot{\bm c}).
+\end{align}
+ベクトル三重積の公式 $\bm r\times(\bm\omega\times\bm r) = (|\bm r|^2E-\bm r\bm r^\top)\bm\omega$ を使い、
+$\dot{\bm p}_i = (\partial\bm p_i/\partial q)\dot q$ と書くと
+\begin{equation}
+\bm L = \underbrace{\left[I_b + \sum_i m_i\left(|\bm r_i|^2E-\bm r_i\bm r_i^\top\right)\right]}_{A(q)}\bm\omega
+ + \underbrace{\sum_i m_i\,\bm r_i\times\frac{\partial(\bm p_i-\bm c)}{\partial q}}_{B(q)}\dot q .
+\end{equation}
+ここで $\sum_im_i\bm r_i = 0$ を使った（$\bm c$ の時間変化の項の一部が消える）。腕を棒として扱うときは、棒を $n$ 個の点質量に分けて和をとる（本報告書では $n=40$）。
+
+\section{周回平均モデル（2 つの時間スケール）}
+
+AMBAC のループを周波数 $f$ で回すとき、姿勢 $\theta$ の変化には 2 つの時間スケールがある。
+\begin{itemize}
+\item \textbf{速い変化}：周回内の揺れ。位相 $\varphi$ の周期関数 $\theta_{\mathrm{osc}}(\varphi)$。
+\item \textbf{遅い変化}：周回ごとに進む正味の回転と、角運動量による回転。
+\end{itemize}
+$\theta = \bar\theta + \theta_{\mathrm{osc}}(\varphi)$ と分解し、$\dot\varphi = 2\pi f$ として基本式 $\dot\theta = L/A(\varphi) - g(\varphi)\dot\varphi$（$g=\Gamma\cdot dq/d\varphi$）に代入する。
+$\theta_{\mathrm{osc}}$ を $\theta_{\mathrm{osc}}'(\varphi) = -g(\varphi) + \Delta\theta_c/(2\pi)$（周期関数になるように平均を引いたもの）と選ぶと
+\begin{equation}
+\dot{\bar\theta} = f\Delta\theta_c + \frac{L}{A(\varphi)} .
+\end{equation}
+右辺第 2 項を 1 周で平均すると $L\langle1/A\rangle$ となり、付録~\ref{app:saturation} の平均化モデルが得られる。
+平均化の誤差は $L/A$ の周回内の変動の大きさと周期の積の程度で、ループが速いほど小さい。
+Sim05B では、60 s 後の周回平均の姿勢の誤差が 0.4° だった。
+
+\section{ガウス・ボンネの定理の直観的な説明}
+
+単位球面上の球面三角形の内角を $\alpha_1,\alpha_2,\alpha_3$ とすると、その面積（立体角）は
+\begin{equation}
+\Omega = \alpha_1+\alpha_2+\alpha_3-\pi \quad(\text{ジラールの定理})
+\end{equation}
+である。平面の三角形では内角の和は $\pi$ だが、球面では面積の分だけ大きくなる。
+
+球面上で、曲線に沿って「ひねらずに」（接平面内で回転させずに）ベクトルを運ぶことを平行移動という。
+大円の弧に沿って平行移動すると、ベクトルは弧に対して一定の角度を保つ。三角形の頂点で進行方向が $\pi-\alpha_k$ だけ曲がるので、
+1 周したとき、ベクトルは進行方向に対して合計 $\sum_k(\pi-\alpha_k)$ だけ相対的に回り、進行方向自体は 1 周で $2\pi$ 回るので、
+ベクトルの正味の回転は
+\begin{equation}
+2\pi - \sum_k(\pi-\alpha_k) = \alpha_1+\alpha_2+\alpha_3-\pi = \Omega
+\end{equation}
+となる。一般の閉曲線は細かい三角形に分けて同じ議論ができ、「平行移動による回転 = 囲んだ面積 × 曲率（球面では 1）」が得られる。
+コッドマンの例では、下・前・横の 3 頂点の内角がすべて 90° なので、$\Omega = 3\times\pi/2-\pi = \pi/2$（90°）である。
+
+\section{次元解析によるフルード則}
+
+地上で腕を動かす機体の転倒は、次の量で決まる：長さ $\ell$（機体の大きさ）、動作時間 $T$、重力 $g$、質量 $m$、ZMP の位置 $p$。
+次元は $[\ell]=\mathrm{L}$、$[T]=\mathrm{T}$、$[g]=\mathrm{L\,T^{-2}}$、$[m]=\mathrm{M}$、$[p]=\mathrm{L}$。
+5 つの量と 3 つの基本次元から、バッキンガムの $\Pi$ 定理により 2 つの無次元量を作れる：
+\begin{equation}
+\Pi_1 = \frac{p}{\ell},\qquad \Pi_2 = \frac{\ell}{gT^2}\quad(\text{フルード数}).
+\end{equation}
+形が相似で、質量の分布も相似なら、$\Pi_1 = \Phi(\Pi_2)$ という関係が成り立つ。
+転倒の限界 $p/\ell = a/\ell$（一定）に対応する $\Pi_2$ は 1 つに決まるので、$T_{\min}\propto\sqrt{\ell/g}$ となる。
+質量 $m$ は、他の量と組み合わせて無次元量を作れないので、結果に現れない（重い機体も軽い機体も、形と重力が同じなら同じ時間で転倒限界に達する）。
+
+\section{進化戦略の勾配推定}
+
+報酬 $F(\bm w)$ をガウス分布で平滑化した関数
+\[
+J(\bm w) = \mathbb E_{\bm\varepsilon\sim\mathcal N(0,E)}\left[F(\bm w+\sigma\bm\varepsilon)\right]
+\]
+の勾配は、
+\begin{equation}
+\nabla_{\bm w}J = \frac{1}{\sigma}\,\mathbb E\left[F(\bm w+\sigma\bm\varepsilon)\,\bm\varepsilon\right]
+\end{equation}
+と書ける（ガウス分布の密度の微分を使う）。この期待値を $n$ 個のサンプルで近似したものが、第~\ref{ch:basics-opt}章の推定式である。
+対称サンプリングでは $\bm\varepsilon$ と $-\bm\varepsilon$ の差 $\frac{1}{2\sigma}\mathbb E[(F(\bm w+\sigma\bm\varepsilon)-F(\bm w-\sigma\bm\varepsilon))\bm\varepsilon]$ を使い、
+$F$ の定数部分（ベースライン）が打ち消されるので、推定のばらつきが小さくなる。
+
+平滑化の幅 $\sigma$ より小さな構造は見えなくなる一方、$\sigma$ 程度の大きさのパラメータの変化による報酬の変化は捉えられる。
+幾何学的位相のような 2 次の効果は、方策が静止に近いと $O(\sigma^2)$ の小さな変化しか生まないので、勾配の推定が難しくなる。

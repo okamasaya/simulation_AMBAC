@@ -89,6 +89,13 @@ R = {
     "R37": "V. T. Inman, J. B. Saunders, L. C. Abbott, \"Observations on the function of the shoulder joint,\" "
            "*Journal of Bone and Joint Surgery*, 26(1), 1–30, 1944.（肩甲上腕リズム）",
     "R38": "American Academy of Orthopaedic Surgeons, *Joint Motion: Method of Measuring and Recording*, AAOS, 1965.（関節可動域の標準値）",
+    # H. 関連する事例
+    "R45": "T. Libby, T. Y. Moore, E. Chang-Siu, D. Li, D. J. Cohen, A. Jusufi, R. J. Full, \"Tail-assisted pitch control in lizards, "
+           "robots and dinosaurs,\" *Nature*, 481, 181–184, 2012. doi:10.1038/nature10710 ✓（尻尾を振って空中で姿勢を制御する）",
+    "R46": "M. R. Yeadon, \"The biomechanics of twisting somersaults. Part III: aerial twist,\" *Journal of Sports Sciences*, 11, 209–218, 1993. ✓"
+           "（空中での腕などの非対称な動きでひねりを生む）",
+    "R47": "Boston Dynamics による油圧式 Atlas の引退と電動式 Atlas の発表（2024 年 4 月）. 報道の例: "
+           "https://builtin.com/articles/boston-dynamics-electric-atlas-20240417 ✓",
     # G. ソフトウェア
     "R39": "C. R. Harris et al., \"Array programming with NumPy,\" *Nature*, 585, 357–362, 2020.",
     "R40": "P. Virtanen et al., \"SciPy 1.0: fundamental algorithms for scientific computing in Python,\" *Nature Methods*, 17, 261–272, 2020.",
@@ -103,6 +110,7 @@ GROUPS = [
     ("E. 地上での安定性・移動", ["R28", "R29", "R30", "R31", "R32", "R33"]),
     ("F. 肩・人体工学", ["R34", "R35", "R36", "R37", "R38"]),
     ("G. ソフトウェア", ["R39", "R40", "R41"]),
+    ("H. 関連する事例", ["R45", "R46", "R47"]),
 ]
 
 USE = {

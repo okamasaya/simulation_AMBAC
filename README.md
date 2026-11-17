@@ -15,7 +15,7 @@ AMBAC（Active Mass Balance Auto Control）は『機動戦士ガンダム』で�
 - **第 1 段階**（完了）: 形状（機体の構成）と、それが姿勢制御・安定性・移動能力に与える意味を議論する。
 - **第 2 段階**（これから）: 組み合わせた形状について、最適な動作の校正値を定義し、要求した動きや性能を実現できるかを検証する。
 
-**技術報告書（PDF, 約 90 ページ）**: [report/AMBAC_technical_report.pdf](report/AMBAC_technical_report.pdf)（LaTeX ソースは `report/`）
+**技術報告書（PDF）**: [87 ページ版](report/AMBAC_technical_report.pdf) ／ [詳細版 159 ページ](report/AMBAC_technical_report_detailed.pdf)（LaTeX ソースは `report/`）
 
 ストーリーの詳細、スコープ、前提は [00. 目的・ストーリー・スコープ](docs/00_purpose.md) を参照。
 各章で参照した資料は、各章の末尾と [参考文献一覧](docs/references.md) にまとめている。
@@ -95,7 +95,7 @@ sims/      シミュレーションスクリプト（実行すると data/ と f
 data/      シミュレーション出力（CSV / NPZ / 数値まとめ）
 figures/   図
 notebooks/ （予定）対話的に試すノートブック
-tools/     補助スクリプト（references.py: 参考文献一覧・各章の参考文献節・報告書の参考文献を生成）
+tools/     補助スクリプト（references.py: 参考文献、report_tables.py: 報告書の表と数値出力の記録）
 report/    技術報告書（LaTeX ソースと PDF）
 ```
 
@@ -121,6 +121,7 @@ python sim07_spatial.py
 python sim08_shoulder.py
 python sim09_legs.py
 python sim10_steps.py              # 約3分
+python detail_figures.py           # 詳細版の追加図（約2分）
 ```
 
 ## ロードマップ

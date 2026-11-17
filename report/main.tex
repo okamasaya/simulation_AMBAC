@@ -26,7 +26,7 @@
 \newcommand{\defcap}[2]{\expandafter\def\csname cap@#1\endcsname{#2}}
 \newcommand{\FIG}[1]{%
   \begin{figure}[htbp]\centering
-  \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{#1}%
+  \includegraphics[width=\linewidth,height=\ifdetailed 0.50\else 0.42\fi\textheight,keepaspectratio]{#1}%
   \caption{\csname cap@#1\endcsname}\label{fig:#1}
   \end{figure}}
 \makeatother
@@ -42,6 +42,10 @@
 \floatname{algorithm}{アルゴリズム}
 % 詳細版だけに入れる内容
 \newcommand{\Detail}[1]{\ifdetailed\input{detail/#1}\fi}
+\newcommand{\DFIG}[2]{\begin{figure}[tbp]\centering
+  \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{detail/#1}%
+  \caption{#2}\label{fig:#1}\end{figure}}
+\newcommand{\DTAB}[1]{{\small\input{detail/tables/#1}}}
 \newtcolorbox{keypoint}{colback=gray!6,colframe=gray!60,boxrule=0.5pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
 
 \title{\textbf{AMBAC から考える\\二足歩行・形状・フィジカル AI}\\[0.5em]
@@ -97,13 +101,18 @@
 \Detail{ch08}
 
 \part{結論}
+\Detail{related}
 \input{chapters/99_conclusion}
+\Detail{phase2}
 
 \appendix
 \input{chapters/app_derivations}
 \input{chapters/app_numerics}
 \input{chapters/app_parameters}
 \Detail{glossary}
+\Detail{app_more}
+\Detail{answers}
+\ifdetailed\input{detail/tables/outputs}\fi
 
 \input{references}
 \end{document}

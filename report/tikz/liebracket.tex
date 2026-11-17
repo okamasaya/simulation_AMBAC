@@ -1,0 +1,12 @@
+% リー括弧：4 つの動きで、どちらでもない方向へずれる
+\begin{tikzpicture}[>=Stealth,font=\small,scale=1.3]
+\coordinate (O) at (0,0);
+\draw[->,very thick,blue!70] (0,0)--(2,0) node[midway,below]{$X$（$\varepsilon$）};
+\draw[->,very thick,red!70] (2,0)--(2.4,1.6) node[midway,right]{$Y$（$\varepsilon$）};
+\draw[->,very thick,blue!70] (2.4,1.6)--(0.5,2.0) node[midway,above]{$-X$};
+\draw[->,very thick,red!70] (0.5,2.0)--(0.25,0.55) node[midway,left]{$-Y$};
+\fill (0,0) circle (1.5pt) node[below left]{出発点};
+\fill (0.25,0.55) circle (1.5pt);
+\draw[->,thick,dashed] (0,0)--(0.25,0.55);
+\node[align=left,font=\footnotesize] at (4.6,0.6) {元の点に戻らず\\$\varepsilon^2[X,Y]$ だけずれる\\（縦列駐車で横に動けるのと同じ）};
+\end{tikzpicture}
