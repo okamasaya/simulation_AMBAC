@@ -1,0 +1,31 @@
+[plain] iter    0  reward -4.1578  (0 s)
+[plain] iter   50  reward -3.0131  (20 s)
+[plain] iter  100  reward -3.0059  (40 s)
+[plain] iter  150  reward -3.0044  (60 s)
+[plain] iter  200  reward -3.0037  (78 s)
+[plain] iter  249  reward -3.0012  (97 s)
+[cpg] iter    0  reward -3.9020  (0 s)
+[cpg] iter   50  reward -3.0323  (20 s)
+[cpg] iter  100  reward -3.0089  (40 s)
+[cpg] iter  150  reward -3.0055  (61 s)
+[cpg] iter  200  reward -3.0034  (80 s)
+[cpg] iter  249  reward -3.0038  (101 s)
+[tg] iter    0  reward -4.7013  (0 s)
+[tg] iter   50  reward -0.5296  (10 s)
+[tg] iter  100  reward -0.4706  (20 s)
+[tg] iter  150  reward -0.4694  (30 s)
+[tg] iter  200  reward -0.4576  (40 s)
+[tg] iter  249  reward -0.4581  (49 s)
+
+=== 評価（25 s, 指標: 終端誤差 / 最後 5 s の平均誤差）===
+目標   +90°:  plain  61.8° /  61.8°  cpg  61.8° /  61.8°  tg   0.2° /   0.2°  expert   8.7° /   8.7°
+目標   -90°:  plain  49.7° /  49.7°  cpg  49.7° /  49.7°  tg   0.1° /   0.1°  expert   7.9° /   7.8°
+目標   +45°:  plain  16.8° /  16.8°  cpg  16.8° /  16.8°  tg   0.1° /   0.1°  expert   6.1° /   6.1°
+目標  +150°:  plain 121.8° / 121.8°  cpg 121.8° / 121.8°  tg   0.4° /   0.4°  expert  21.3° /  17.3°
+[plain] 格子モデルと厳密モデルの差 max 0.010°
+[cpg] 格子モデルと厳密モデルの差 max 0.009°
+[tg] 格子モデルと厳密モデルの差 max 0.319°
+学習と同じ評価関数での報酬: plain -3.001, cpg -3.004, tg -0.458, expert -1.177
+[tg] 学習したループ: 中心 (腕 -11°, 脚 -10°), 振幅 (120°, 128°), δ 1° → 1 周あたり +9.34°（Sim03 最適円 +6.70°, 可動域内上界 +9.57°）
+[tg] 目標 +90°: 関節軌道の符号付き掃引面積 +33.5 rad²（正=反時計回り）
+[tg] 目標 -90°: 関節軌道の符号付き掃引面積 -33.3 rad²（正=反時計回り）

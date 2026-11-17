@@ -1,0 +1,9 @@
+test,controller,err_mean_deg,err_p95_deg,rate_mean_deg_s,propellant_kg,ambac_cycles
+nominal,open-loop OC,17.4425,17.4425,0.0000,1.9689,6.1214
+nominal,MPC,10.5364,10.5364,0.0000,3.6471,5.4060
+nominal,MPC + wobble comp.,0.0210,0.0210,0.0000,3.0468,0.6121
+nominal,learned (ES),0.0945,0.0945,0.0024,4.6641,0.2616
+randomized(100),open-loop OC,30.5111,68.7452,0.8956,1.9689,6.1214
+randomized(100),MPC,14.5675,23.3350,0.0303,5.4051,2.9225
+randomized(100),MPC + wobble comp.,0.1950,0.6894,0.0307,5.5561,0.8248
+randomized(100),learned (ES),0.0945,0.0983,0.0024,4.9250,0.2616

@@ -5,7 +5,7 @@ Part B: 最適制御（線形計画 LP）による配分。90° 静止→静止�
 Part C: モデル誤差・外乱がある場合の比較（スラスタ + AMBAC, T = 60 s）
         (a) 最適制御・開ループ（公称モデルで一度だけ計画）
         (b) MPC（2 s ごとに LP を再計画）
-        (b') MPC + 揺れ補償（目標を「目標 − 現在位相の揺れ」に置換、終盤 10 s は AMBAC 停止）
+        (b') MPC + 揺れ補償（計画から予測した終端位相の揺れを目標から差し引く、終盤 10 s は AMBAC 停止）
         (c) 学習方策（ES、ドメインランダム化で学習）
         評価用プラントは「周回内の揺れ」を含む位相モデル（制御器側は平均化モデル）
 
@@ -14,6 +14,7 @@ Part C: モデル誤差・外乱がある場合の比較（スラスタ + AMBAC,
   位相モデル   : θ'  = (L − h)/A(φ) − g(φ) φ',  φ' = 2π f     （g = Γ·dq/dφ, ループ上で厳密）
 """
 import json
+import os
 import time
 
 import numpy as np
@@ -234,8 +235,16 @@ class MPC:
                 kw = dict(th0=float(theta_bar(st)[m]), L0=float(st["L"][m]), use_amb=True, soft=True,
                           N=max(4, int(np.ceil(Trem / 0.5))))
                 if self.comp:
-                    kw.update(target=TARGET - float(interp_ph(OSC, st["phi"][m])), amb_until=Trem - T_FREEZE)
-                self.p[m] = plan_lp(Trem, **kw)
+                    # 旋回終了時の位相 φ_end を計画から予測し、その位相での揺れを目標から差し引く（反復）
+                    kw["amb_until"] = Trem - T_FREEZE
+                    phi_end = float(st["phi"][m])
+                    for _ in range(3):
+                        kw["target"] = TARGET - float(interp_ph(OSC, phi_end))
+                        p = plan_lp(Trem, **kw)
+                        phi_end = float(st["phi"][m]) + 2 * np.pi * p["dt"] * p["f"].sum()
+                    self.p[m] = p
+                else:
+                    self.p[m] = plan_lp(Trem, **kw)
         j = [min(int((t - self.t0) / p["dt"]), len(p["tau"]) - 1) for p in self.p]
         return (np.array([p["tau"][k] for p, k in zip(self.p, j)]),
                 np.array([p["f"][k] for p, k in zip(self.p, j)]))
@@ -297,7 +306,13 @@ rng = np.random.default_rng(0)
 es = OpenAIES(NET.init(rng, scale=0.3), sigma=0.05, lr=0.02, n_pairs=32, seed=2)
 N_IT, NB = 800, 24
 log = []; t0 = time.time()
-print("\n=== Part C: 学習 ===")
+POLICY_FILE = DATA / "sim05b_policy.npy"
+if POLICY_FILE.exists() and not os.environ.get("RETRAIN"):
+    es.x = np.load(POLICY_FILE)                  # 学習済み方策を再利用（再学習は RETRAIN=1）
+    N_IT = 0
+    print("\n=== Part C: 学習済み方策を読み込み（再学習するには RETRAIN=1）===")
+else:
+    print("\n=== Part C: 学習（約 12 分）===")
 for it in range(N_IT):
     pl = sample_plants(NB, rng)
     P = es.ask()
@@ -310,9 +325,11 @@ for it in range(N_IT):
         log.append((it, reward(st1, plb1).mean(), e.mean(), r_.mean(), pr.mean()))
         print(f"iter {it:4d}  reward {log[-1][1]:+8.2f}  姿勢誤差 {e.mean():6.2f}°  残留角速度 {r_.mean():.3f}°/s"
               f"  推進剤 {pr.mean():6.2f} kg  ({time.time() - t0:.0f} s)", flush=True)
-np.savetxt(DATA / "sim05b_training_log.csv", np.array(log), delimiter=",", comments="",
-           header="iter,reward,err_deg,rate_deg_s,propellant_kg")
-np.save(DATA / "sim05b_policy.npy", es.x)
+if N_IT:
+    np.savetxt(DATA / "sim05b_training_log.csv", np.array(log), delimiter=",", comments="",
+               header="iter,reward,err_deg,rate_deg_s,propellant_kg")
+if N_IT:
+    np.save(POLICY_FILE, es.x)
 
 # ---- 評価 -------------------------------------------------------------------
 rng_test = np.random.default_rng(123)
