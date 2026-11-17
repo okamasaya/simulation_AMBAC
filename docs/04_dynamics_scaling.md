@@ -110,3 +110,10 @@ $$
 2. **弾性・回生**: 直列弾性アクチュエータ（ばね）で周回運動のエネルギーをほぼゼロにできるか。
    共振周波数とループ周波数の整合。
 3. **3 次元化**: 3 次元ではロール・ピッチ・ヨーの結合（非可換性）により、平面では見えない回転が生じる。
+
+## 参考文献
+
+- [R16] B. Wie, *Space Vehicle Dynamics and Control*, 2nd ed., AIAA, 2008.（リアクションホイール・CMG・スラスタによる姿勢制御）
+- [R33] G. Galilei, *Discorsi e dimostrazioni matematiche intorno a due nuove scienze*（新科学対話）, 1638.（二乗三乗則）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

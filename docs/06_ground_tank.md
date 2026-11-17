@@ -40,7 +40,7 @@ $$
 - 腕を持ち上げて加速する前半は、ZMP が前方に出る（前のめり）。後方で減速する後半は、後方に出る（のけぞり）。
 - 摩擦係数 0.6 の路面では、**滑るより先に転倒する**（滑らない限界 1.09 s ＜ 転倒しない限界 1.62 s）。
 
-### スケーリング：フルード則
+### スケーリング：フルード則 [R29]
 
 | 長さ倍率 s | 地球 | 火星 | 月 |
 |---|---|---|---|
@@ -137,3 +137,14 @@ $$
 
 > **修正履歴**: 当初 Part B の最適化で、肘の関節の速度・加速度の制約が課されていなかった（制約を間引くときの配列の取り方の誤り）。
 > 修正後、地球での最短時間は 1.00 s（38% 短縮）から 1.03 s（36% 短縮）に変わった。月面の結果（2.01 s）は変わらない。
+
+## 参考文献
+
+- [R26] D. Kraft, "A software package for sequential quadratic programming," Technical Report DFVLR-FB 88-28, DLR, 1988.（SLSQP: scipy の minimize で使用）
+- [R27] T. Flash and N. Hogan, "The coordination of arm movements: an experimentally confirmed mathematical model," *Journal of Neuroscience*, 5(7), 1688–1703, 1985.（最小躍度軌道）
+- [R28] M. Vukobratović and B. Borovac, "Zero-moment point — thirty five years of its life," *International Journal of Humanoid Robotics*, 1(1), 157–173, 2004.
+- [R29] R. McN. Alexander and A. S. Jayes, "A dynamic similarity hypothesis for the gaits of quadrupedal mammals," *Journal of Zoology*, 201(1), 135–152, 1983.（フルード数による相似則）
+- [R30] D. Karnopp, "Computer simulation of stick-slip friction in mechanical dynamic systems," *Journal of Dynamic Systems, Measurement, and Control*, 107(1), 100–103, 1985.
+- [R33] G. Galilei, *Discorsi e dimostrazioni matematiche intorno a due nuove scienze*（新科学対話）, 1638.（二乗三乗則）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

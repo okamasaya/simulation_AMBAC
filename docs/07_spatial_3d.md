@@ -143,3 +143,12 @@ $$
 - 地上モデルは台車が静止している前提（転倒・滑りの開始条件のみ）。
 - 宇宙での 3 次元の最適ループ（与えた目標姿勢に最短で到達する腕の動作系列）は、まだ求めていない。
   非可換性があるため、これは学習・計画の良い課題になる。
+
+## 参考文献
+
+- [R8] T. R. Kane and M. P. Scher, "Human self-rotation by means of limb movements," *Journal of Biomechanics*, 3(1), 39–49, 1970. doi:10.1016/0021-9290(70)90049-7 ✓
+- [R18] M. D. Shuster, "A survey of attitude representations," *Journal of the Astronautical Sciences*, 41(4), 439–517, 1993.（回転の表現と特異点）
+- [R26] D. Kraft, "A software package for sequential quadratic programming," Technical Report DFVLR-FB 88-28, DLR, 1988.（SLSQP: scipy の minimize で使用）
+- [R28] M. Vukobratović and B. Borovac, "Zero-moment point — thirty five years of its life," *International Journal of Humanoid Robotics*, 1(1), 157–173, 2004.
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

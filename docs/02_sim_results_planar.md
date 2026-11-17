@@ -37,3 +37,12 @@
 - 今回のループは曲率の弱い領域に置かれている。曲率マップ中央の負のピーク
   （腕 ≈ −20°、脚 ≈ +50°）を囲めば 1 周あたりの回転量は増やせる → ループ最適化が次の課題。
 - 1 周あたり約 3° は人間の宇宙飛行士の経験（ゆっくりとしか向きを変えられない）と定性的に整合。
+
+## 参考文献
+
+- [R4] R. Montgomery, "Gauge theory of the falling cat," in M. J. Enos (ed.), *Dynamics and Control of Mechanical Systems: The Falling Cat and Related Problems*, Fields Institute Communications, vol. 1, American Mathematical Society, 1993.
+- [R7] T. R. Kane and M. P. Scher, "A dynamical explanation of the falling cat phenomenon," *International Journal of Solids and Structures*, 5(7), 663–670, 1969.
+- [R8] T. R. Kane and M. P. Scher, "Human self-rotation by means of limb movements," *Journal of Biomechanics*, 3(1), 39–49, 1970. doi:10.1016/0021-9290(70)90049-7 ✓
+- [R27] T. Flash and N. Hogan, "The coordination of arm movements: an experimentally confirmed mathematical model," *Journal of Neuroscience*, 5(7), 1688–1703, 1985.（最小躍度軌道）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

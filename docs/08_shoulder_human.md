@@ -16,11 +16,11 @@ Sim07 で、球面座標の肩（2 軸ジンバル）を使って 3 次元の AM
 
 ## 8.1 Part A: コッドマンのパラドックス ＝ 肩の幾何学的位相
 
-**コッドマンのパラドックス**: 腕を「下 → 前 → 横 → 下」と動かして元の向きに戻すと、
+**コッドマンのパラドックス** [R34, R35]: 腕を「下 → 前 → 横 → 下」と動かして元の向きに戻すと、
 一度もひねっていないのに、上腕が長軸まわりに 90° ひねられている。
 
 「ひねらずに動かす」とは、各瞬間の回転軸が常に腕に垂直であること（ひねり方向の角速度がゼロ）を指す。
-このとき、ループ 1 周後のひねりは次のようになる（ガウス・ボンネの定理）。
+このとき、ループ 1 周後のひねりは次のようになる（ガウス・ボンネの定理 [R11]）。
 
 $$
 \text{ひねり角} = \text{腕の向きが単位球面上で囲んだ立体角}
@@ -118,3 +118,15 @@ AMBAC の数学は、宇宙の巨大ロボットと人の肩に共通してい�
 - 可動域は「水平内転」「スイング・ツイスト分解によるひねり」で単純化した。実際の可動域は姿勢に依存して連続的に変わる。
 - 左右の前腕の重なり（どちらが上か）と、左右の腕どうしの干渉は扱っていない。
 - 股関節（同じく球関節だが、骨盤のくぼみが深く安定な代わりに可動域が狭い）への展開は今後の課題。
+
+## 参考文献
+
+- [R11] M. P. do Carmo, *Differential Geometry of Curves and Surfaces*, Prentice-Hall, 1976.（ガウス・ボンネの定理）
+- [R24] X. B. Peng, P. Abbeel, S. Levine, M. van de Panne, "DeepMimic: Example-guided deep reinforcement learning of physics-based character skills," *ACM Transactions on Graphics*, 37(4), 2018.（モーションキャプチャーを手本とする物理ベースの強化学習）
+- [R34] E. A. Codman, *The Shoulder*, Thomas Todd, Boston, 1934.（コッドマンのパラドックス）
+- [R35] J. C. Politti, G. Goroso, M. E. Valentinuzzi, O. Bravo, "Codman's paradox of the arm rotations is not a paradox: mathematical validation," *Medical Engineering & Physics*, 20(4), 257–260, 1998. ✓（その後も解釈をめぐる議論がある）
+- [R36] G. Wu et al., "ISB recommendation on definitions of joint coordinate systems of various joints for the reporting of human joint motion — Part II: shoulder, elbow, wrist and hand," *Journal of Biomechanics*, 38(5), 981–992, 2005.（肩の角度の測り方の標準）
+- [R37] V. T. Inman, J. B. Saunders, L. C. Abbott, "Observations on the function of the shoulder joint," *Journal of Bone and Joint Surgery*, 26(1), 1–30, 1944.（肩甲上腕リズム）
+- [R38] American Academy of Orthopaedic Surgeons, *Joint Motion: Method of Measuring and Recording*, AAOS, 1965.（関節可動域の標準値）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

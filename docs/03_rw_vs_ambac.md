@@ -105,3 +105,12 @@ $$
    巨大ロボで h_AMBAC がどう伸びるかは、アクチュエータのスケーリング則次第（Sim04 で検証予定）。
 3. **揺れの小さいループ**: 「正味回転は大きく、周回内の揺れは小さい」ループ形状の多目的最適化。
 4. **フィジカル AI**: RW＋AMBAC＋スラスタの統合制御（運動量の配分）を、最適制御と学習でそれぞれ解いて比較する。
+
+## 参考文献
+
+- [R5] J. E. Marsden, *Lectures on Mechanics*, London Mathematical Society Lecture Note Series 174, Cambridge University Press, 1992.
+- [R15] D. N. Nenchev, K. Yoshida, P. Vichitkulsawat, M. Uchiyama, "Reaction null-space control of flexible structure mounted manipulator systems," *IEEE Transactions on Robotics and Automation*, 15(6), 1011–1023, 1999.
+- [R16] B. Wie, *Space Vehicle Dynamics and Control*, 2nd ed., AIAA, 2008.（リアクションホイール・CMG・スラスタによる姿勢制御）
+- [R17] M. J. Sidi, *Spacecraft Dynamics and Control: A Practical Engineering Approach*, Cambridge University Press, 1997.
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

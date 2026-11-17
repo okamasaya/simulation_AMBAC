@@ -80,3 +80,12 @@ Sim09 で「段差や不整地では脚が有利だろう」という注釈を�
 - 戦車型の前端の高さ（0.25 m）は仮定。フリッパー付きの履帯なら形の限界は上がる。
 - 二本脚の股関節トルクのモデルは単純化している（重心を前へ移す分の上体の前傾だけを考えた）。手すりや手をつくことは扱っていない。
 - 段の角での履帯の変形、足の滑り、膝の摩擦は扱っていない。
+
+## 参考文献
+
+- [R29] R. McN. Alexander and A. S. Jayes, "A dynamic similarity hypothesis for the gaits of quadrupedal mammals," *Journal of Zoology*, 201(1), 135–152, 1983.（フルード数による相似則）
+- [R31] F. B. Horak and L. M. Nashner, "Central programming of postural movements: adaptation to altered support-surface configurations," *Journal of Neurophysiology*, 55(6), 1369–1381, 1986.（足首の戦略・腰の戦略）✓
+- [R32] J. Y. Wong, *Theory of Ground Vehicles*, 4th ed., Wiley, 2008.（履帯車両の走行・段差乗り越え）
+- [R33] G. Galilei, *Discorsi e dimostrazioni matematiche intorno a due nuove scienze*（新科学対話）, 1638.（二乗三乗則）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

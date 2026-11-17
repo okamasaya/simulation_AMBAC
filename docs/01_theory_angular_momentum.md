@@ -82,10 +82,18 @@ L ≠ 0 なら θ̇ = (L − B·q̇)/A(q)。内部運動では L は変えられ
 - 動作が「経路のみ」に依存するため、**形状空間での計画**と**トルク・時間の配分**を分離できる。
 - 曲率マップは学習した方策の解釈手段（なぜその動きを選んだか）としても使える。
 
-## 参考文献（入口）
-- R. Montgomery, "Gauge theory of the falling cat" (1993)
-- J. E. Marsden, *Lectures on Mechanics* (1992) — mechanical connection と幾何学的位相
-- Y. Nakamura, R. Mukherjee, "Nonholonomic path planning of space robots via a bidirectional approach", IEEE T-RA (1991)
-- E. Papadopoulos, S. Dubowsky, "On the nature of control algorithms for free-floating space manipulators" (1991)
-- K. Yoshida — 宇宙ロボットの一般化ヤコビ行列 / 反動零空間 (Reaction Null-Space) 制御
-- R. W. Brockett, "Asymptotic stability and feedback stabilization" (1983)
+## 参考文献
+
+- [R4] R. Montgomery, "Gauge theory of the falling cat," in M. J. Enos (ed.), *Dynamics and Control of Mechanical Systems: The Falling Cat and Related Problems*, Fields Institute Communications, vol. 1, American Mathematical Society, 1993.
+- [R5] J. E. Marsden, *Lectures on Mechanics*, London Mathematical Society Lecture Note Series 174, Cambridge University Press, 1992.
+- [R6] A. Shapere and F. Wilczek (eds.), *Geometric Phases in Physics*, World Scientific, 1989.
+- [R7] T. R. Kane and M. P. Scher, "A dynamical explanation of the falling cat phenomenon," *International Journal of Solids and Structures*, 5(7), 663–670, 1969.
+- [R8] T. R. Kane and M. P. Scher, "Human self-rotation by means of limb movements," *Journal of Biomechanics*, 3(1), 39–49, 1970. doi:10.1016/0021-9290(70)90049-7 ✓
+- [R9] R. W. Brockett, "Asymptotic stability and feedback stabilization," in R. W. Brockett, R. S. Millman, H. J. Sussmann (eds.), *Differential Geometric Control Theory*, Birkhäuser, pp. 181–191, 1983.
+- [R10] R. M. Murray and S. S. Sastry, "Nonholonomic motion planning: steering using sinusoids," *IEEE Transactions on Automatic Control*, 38(5), 700–716, 1993.
+- [R12] Y. Nakamura and R. Mukherjee, "Nonholonomic path planning of space robots via a bidirectional approach," *IEEE Transactions on Robotics and Automation*, 7(4), 500–514, 1991. doi:10.1109/70.86080 ✓
+- [R13] E. Papadopoulos and S. Dubowsky, "On the nature of control algorithms for free-floating space manipulators," *IEEE Transactions on Robotics and Automation*, 7(6), 750–758, 1991.
+- [R14] Y. Umetani and K. Yoshida, "Resolved motion rate control of space manipulators with generalized Jacobian matrix," *IEEE Transactions on Robotics and Automation*, 5(3), 303–314, 1989.
+- [R15] D. N. Nenchev, K. Yoshida, P. Vichitkulsawat, M. Uchiyama, "Reaction null-space control of flexible structure mounted manipulator systems," *IEEE Transactions on Robotics and Automation*, 15(6), 1011–1023, 1999.
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）

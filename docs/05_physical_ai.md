@@ -1,7 +1,7 @@
 # 05. フィジカル AI 編：学習は AMBAC を発見できるか、どう配分すべきか（Sim05）
 
 スクリプト: `sims/sim05a_learn_ambac.py`, `sims/sim05b_allocation.py`
-学習器: `src/ambac/es.py`（numpy のみの MLP と進化戦略 OpenAI-ES）
+学習器: `src/ambac/es.py`（numpy のみの MLP と進化戦略 OpenAI-ES [R19]、更新則は Adam [R20]）
 
 ## 5.0 問題設定と問い
 
@@ -32,7 +32,7 @@
 |---|---|
 | **plain** | 観測（姿勢誤差, 関節角）→ MLP → 関節角速度 |
 | **cpg** | plain の観測に周期信号 sin/cos(2πft) を追加 |
-| **tg** | 振動子（内部位相 ψ）が目標関節角 q* = c + A⊙(cos ψ, sin(ψ+δ)) を生成する。学習するのはループの中心 c・振幅 A・形 δ と、姿勢誤差 → 位相速度のフィードバック則（MLP）。PMTG（Iscen+ 2018）と同系統の「軌道生成器を学習で調整する」構造 |
+| **tg** | 振動子（内部位相 ψ）が目標関節角 q* = c + A⊙(cos ψ, sin(ψ+δ)) を生成する。学習するのはループの中心 c・振幅 A・形 δ と、姿勢誤差 → 位相速度のフィードバック則（MLP）。PMTG [R21] と同系統の「軌道生成器を学習で調整する」構造 |
 | expert（比較） | Sim03 の最適円ループを、揺れ補償付きフィードバックで回すモデルベース制御 |
 
 **結果（25 s 後の姿勢誤差）**
@@ -200,3 +200,16 @@ MPC＋揺れ補償はこれを人手で設計して解決した。学習方策�
 - 最適制御の計画に学習した残差方策を重ねるハイブリッド制御の実装と評価
 - 3 次元化（ロール・ピッチ・ヨーの非可換性）で同じ問いを立て直す
 - 弾性要素（ばね）による周回エネルギーの回生と、学習によるリズムの獲得
+
+## 参考文献
+
+- [R9] R. W. Brockett, "Asymptotic stability and feedback stabilization," in R. W. Brockett, R. S. Millman, H. J. Sussmann (eds.), *Differential Geometric Control Theory*, Birkhäuser, pp. 181–191, 1983.
+- [R10] R. M. Murray and S. S. Sastry, "Nonholonomic motion planning: steering using sinusoids," *IEEE Transactions on Automatic Control*, 38(5), 700–716, 1993.
+- [R19] T. Salimans, J. Ho, X. Chen, S. Sidor, I. Sutskever, "Evolution strategies as a scalable alternative to reinforcement learning," arXiv:1703.03864, 2017.
+- [R20] D. P. Kingma and J. Ba, "Adam: A method for stochastic optimization," *ICLR*, 2015. arXiv:1412.6980.
+- [R21] A. Iscen, K. Caluwaerts, J. Tan, T. Zhang, E. Coumans, V. Sindhwani, V. Vanhoucke, "Policies modulating trajectory generators," *Proceedings of the 2nd Conference on Robot Learning (CoRL)*, PMLR 87, 916–926, 2018. ✓
+- [R22] A. J. Ijspeert, "Central pattern generators for locomotion control in animals and robots: A review," *Neural Networks*, 21(4), 642–653, 2008.
+- [R23] J. Tobin, R. Fong, A. Ray, J. Schneider, W. Zaremba, P. Abbeel, "Domain randomization for transferring deep neural networks from simulation to the real world," *IEEE/RSJ IROS*, 2017.
+- [R25] Q. Huangfu and J. A. J. Hall, "Parallelizing the dual revised simplex method," *Mathematical Programming Computation*, 10(1), 119–142, 2018.（HiGHS: scipy の linprog で使用）
+
+（全文献の一覧と照合状況は [references.md](references.md) を参照）
