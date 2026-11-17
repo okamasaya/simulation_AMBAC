@@ -1,0 +1,7 @@
+chest,shoulder_girdle,required_internal_rotation_deg,elbow_deg,protraction_deg
+細身 (奥行 0.18 m),False,86.0,87.1,0.0
+細身 (奥行 0.18 m),True,70.9,88.5,12.2
+標準 (0.22 m),False,92.7,87.3,0.0
+標準 (0.22 m),True,73.0,89.5,15.8
+厚い胸板・装甲 (0.26 m),False,109.5,87.4,0.0
+厚い胸板・装甲 (0.26 m),True,75.3,90.8,19.9
