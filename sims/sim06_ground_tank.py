@@ -64,7 +64,7 @@ for T in T_SHOW:
     rowsA.append(np.c_[TAU * T, p, N, Fx])
     print(f"  T = {T:4.2f} s: ZMP [{p.min():+.3f}, {p.max():+.3f}] m（接地範囲 ±{robot.half_track}）,"
           f" 必要摩擦係数 max {np.abs(Fx / N).max():.2f}")
-np.savez(DATA / "sim06_partA_naive.npz", T=T_SHOW, data=np.array(rowsA, dtype=object), allow_pickle=True)
+np.savez(DATA / "sim06_partA_naive.npz", T=np.array(T_SHOW), data=np.array(rowsA))  # data: (T, τ, [t, p, N, Fx])
 
 # スケーリング（相似拡大・重力）
 print("\n--- スケーリング: 安全な最短時間（転倒・滑りの両方）---")
