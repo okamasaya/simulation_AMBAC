@@ -85,7 +85,7 @@ L ≠ 0 なら θ̇ = (L − B·q̇)/A(q)。内部運動では L は変えられ
 ## 参考文献
 
 - [R1] 『機動戦士ガンダム』（テレビアニメ, 1979 年, 日本サンライズ）。AMBAC を備えた人型機動兵器（モビルスーツ）の作品世界。※ AMBAC という用語・概念は劇中ではなく、設定考証 [R42] で示されたものとされる。
-- [R42] 『ガンダムセンチュリー』（ムック, 1981 年）。AMBAC（Active Mass Balance Auto Control）の概念が SF 考証として最初に示された資料とされる。スタジオぬえのメンバーらが考証に関わったとされる。※ 出版社などの書誌の詳細は原本で要確認。
+- [R42] 『ガンダムセンチュリー』（ムック, みのり書房, 1981 年）。AMBAC（Active Mass Balance Auto Control）の概念が SF 考証として最初に示された資料とされる。スタジオぬえのメンバーらが考証に関わったとされる。みのり書房は 1990 年代に活動を終えており、2000 年に樹想社から復刻版『GUNDAM CENTURY RENEWAL VERSION 宇宙翔ける戦士達』（ISBN 4-87777-028-3）が出版されている。
 - [R4] R. Montgomery, "Gauge theory of the falling cat," in M. J. Enos (ed.), *Dynamics and Control of Mechanical Systems: The Falling Cat and Related Problems*, Fields Institute Communications, vol. 1, American Mathematical Society, 1993.
 - [R5] J. E. Marsden, *Lectures on Mechanics*, London Mathematical Society Lecture Note Series 174, Cambridge University Press, 1992.
 - [R6] A. Shapere and F. Wilczek (eds.), *Geometric Phases in Physics*, World Scientific, 1989.

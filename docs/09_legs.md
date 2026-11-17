@@ -135,7 +135,7 @@ Sim04・Sim05 の 18 m 級の数値で比べると、次のようになる。
 - [R2] 『機動戦士ガンダム』第 42 話「宇宙要塞ア・バオア・クー」。整備兵がシャアに、脚のない機体ジオングについて言う台詞「あんなの飾りです。偉い人にはそれがわからんのですよ」。これが広まる過程で「足（脚）なんて飾りです」の形で知られるようになった。
 - [R3] 『アーマード・コア』シリーズ（フロム・ソフトウェア, 1997 年〜）。パーツを組み合わせて機体を構成する「アセンブル」の例として参照。
 - [R8] T. R. Kane and M. P. Scher, "Human self-rotation by means of limb movements," *Journal of Biomechanics*, 3(1), 39–49, 1970. doi:10.1016/0021-9290(70)90049-7 ✓
-- [R43] オリコンニュース「（宇宙飛行士 大西卓哉さんと AMBAC に関する記事）」. https://www.oricon.co.jp/news/2385521/full/ ※ 本リポジトリの作業環境からは閲覧できず、記事名・内容は未照合。
+- [R43] オリコンニュースの記事. https://www.oricon.co.jp/news/2385521/full/ 大西卓哉さんの X への投稿 [R44] を紹介し、宇宙での姿勢制御を「ガンダムの AMBAC」と表現したことがガンダムファンの間で話題になったことを伝える記事（角運動量保存則などの物理の解説記事ではない）。※ 記事名は未照合。
 - [R44] 大西卓哉（@Astro_Onishi）の X への投稿, 2025 年 5 月 18 日. https://x.com/Astro_Onishi/status/1924053663238046048 （国際宇宙ステーションで脚を使って姿勢を制御し、AMBAC に言及したもの）※ 本リポジトリの作業環境からは閲覧できず、本文は未照合。
 - [R16] B. Wie, *Space Vehicle Dynamics and Control*, 2nd ed., AIAA, 2008.（リアクションホイール・CMG・スラスタによる姿勢制御）
 - [R28] M. Vukobratović and B. Borovac, "Zero-moment point — thirty five years of its life," *International Journal of Humanoid Robotics*, 1(1), 157–173, 2004.
