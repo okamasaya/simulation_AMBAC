@@ -74,6 +74,10 @@ ph = np.linspace(0, 2 * np.pi, 2001)
 Gl = np.array([amb.connection(loop(p)) for p in ph])
 dth_c = -np.trapezoid(np.einsum("ik,ki->i", Gl, np.array([loop_d(p) for p in ph]).T), ph)
 inv_A_mean = np.mean([1.0 / amb.coupling(loop(p))[0] for p in ph[:-1]])
+import json
+json.dump({"center_arm_rad": float(c1), "center_leg_rad": float(c2), "radius_rad": float(R),
+           "dtheta_per_cycle_rad": float(dth_c), "inv_A_mean": float(inv_A_mean)},
+          open(DATA / "sim03_optimal_loop.json", "w"), indent=2)
 print("=== Part A ===")
 print(f"Sim02 の長方形ループ: +2.98°/周")
 print(f"最適円ループ: 中心(腕 {D(c1):.0f}°, 脚 {D(c2):.0f}°), 半径 {D(R):.0f}° → {D(dth_c):+.2f}°/周")

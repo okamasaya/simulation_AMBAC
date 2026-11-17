@@ -150,3 +150,94 @@ class PlanarRobot:
         dG2_dq1 = (self.connection(q + e1)[1] - self.connection(q - e1)[1]) / (2 * h)
         dG1_dq2 = (self.connection(q + e2)[0] - self.connection(q - e2)[0]) / (2 * h)
         return dG2_dq1 - dG1_dq2
+
+
+# =============================================================================
+# 動力学（ラグランジュ方程式）
+# =============================================================================
+#   一般化速度 u = (θ', q')。外力ゼロ・全運動量ゼロなら系重心は静止し、
+#   重心系での運動エネルギーは T = ½ uᵀ M(q) u（θ に依存しない）。
+#   ラグランジュ方程式:
+#       M(q) u' + M'(q) u - ½ [0 ; uᵀ ∂M/∂q_k u] = [0 ; τ]
+#   第 1 行は dL/dt = 0（角運動量保存）そのもので、L = M[0,:] u。
+#   τ: 関節トルク（胴体とリンクの間の内力トルク）。
+
+def _jacobians(robot: "PlanarRobot", q):
+    q = np.asarray(q, float)
+    n = robot.n
+    Jv = [np.zeros((2, 1 + n))]
+    Jw = [np.eye(1 + n)[0]]
+    for k, lb in enumerate(robot.limbs):
+        a = np.asarray(lb.attach, float)
+        d = np.array([lb.r_com, 0.0])
+        jd = _J @ _rot(q[k]) @ d
+        J = np.zeros((2, 1 + n))
+        J[:, 0] = _J @ a + jd
+        J[:, 1 + k] = jd
+        Jv.append(J)
+        w = np.zeros(1 + n); w[0] = 1.0; w[1 + k] = 1.0
+        Jw.append(w)
+    return Jv, Jw
+
+
+def mass_matrix(robot: "PlanarRobot", q) -> np.ndarray:
+    """重心系での質量行列 M(q)  ((1+n)×(1+n)). M[0,0]=A, M[0,1:]=B."""
+    Jv, Jw = _jacobians(robot, q)
+    m = np.array([robot.base_mass] + [l.mass for l in robot.limbs])
+    I = np.array([robot.base_inertia] + [l.inertia for l in robot.limbs])
+    Jc = sum(mi * J for mi, J in zip(m, Jv)) / m.sum()
+    M = np.zeros((1 + robot.n, 1 + robot.n))
+    for mi, Ii, J, w in zip(m, I, Jv, Jw):
+        Jr = J - Jc
+        M += mi * Jr.T @ Jr + Ii * np.outer(w, w)
+    return M
+
+
+def mass_matrix_grad(robot: "PlanarRobot", q, h: float = 1e-6) -> np.ndarray:
+    """∂M/∂q_k  (n × (1+n) × (1+n))、中心差分."""
+    q = np.asarray(q, float)
+    out = []
+    for k in range(robot.n):
+        e = np.zeros(robot.n); e[k] = h
+        out.append((mass_matrix(robot, q + e) - mass_matrix(robot, q - e)) / (2 * h))
+    return np.array(out)
+
+
+def _bias(robot, q, u):
+    """ M'(q)u - ½[0; uᵀ∂M/∂q_k u]  (コリオリ・遠心項)."""
+    dM = mass_matrix_grad(robot, q)
+    qd = u[1:]
+    Mdot = np.tensordot(qd, dM, axes=1)
+    c = Mdot @ u
+    c[1:] -= 0.5 * np.einsum("i,kij,j->k", u, dM, u)
+    return c
+
+
+def forward_dynamics(robot: "PlanarRobot", q, u, tau) -> np.ndarray:
+    """関節トルク τ から加速度 u' = (θ'', q'') を求める."""
+    M = mass_matrix(robot, q)
+    rhs = np.concatenate([[0.0], np.asarray(tau, float)]) - _bias(robot, q, np.asarray(u, float))
+    return np.linalg.solve(M, rhs)
+
+
+def inverse_dynamics(robot: "PlanarRobot", q, qd, qdd, L: float = 0.0):
+    """関節軌道 (q, q', q'') を実現する θ', θ'', 関節トルク τ を求める."""
+    q, qd, qdd = (np.asarray(x, float) for x in (q, qd, qdd))
+    M = mass_matrix(robot, q)
+    thd = (L - M[0, 1:] @ qd) / M[0, 0]
+    u = np.concatenate([[thd], qd])
+    c = _bias(robot, q, u)
+    thdd = -(M[0, 1:] @ qdd + c[0]) / M[0, 0]
+    tau = M[1:, 0] * thdd + M[1:, 1:] @ qdd + c[1:]
+    return thd, thdd, tau
+
+
+def kinetic_energy(robot: "PlanarRobot", q, u) -> float:
+    u = np.asarray(u, float)
+    return 0.5 * u @ mass_matrix(robot, q) @ u
+
+
+PlanarRobot.mass_matrix = mass_matrix
+PlanarRobot.forward_dynamics = forward_dynamics
+PlanarRobot.inverse_dynamics = inverse_dynamics
+PlanarRobot.kinetic_energy = kinetic_energy
