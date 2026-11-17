@@ -2,8 +2,8 @@
 
 ## 1.1 AMBAC とは何か（物理的に言い直す）
 
-AMBAC（Active Mass Balance Auto Control）は、作中では「四肢を動かした反作用で姿勢を制御する」と
-説明される。物理学の言葉にすると次の 1 文に尽きる。
+AMBAC（Active Mass Balance Auto Control）は、『機動戦士ガンダム』[R1] の SF 考証として示された概念で [R42]、
+「四肢を動かした反作用で姿勢を制御する」と説明される。物理学の言葉にすると次の 1 文に尽きる。
 
 > **外トルクのない系で、内部の質量配置（形状）を変えることにより、全角運動量 L を保存したまま
 > 胴体の向きを変える制御。**
@@ -84,6 +84,8 @@ L ≠ 0 なら θ̇ = (L − B·q̇)/A(q)。内部運動では L は変えられ
 
 ## 参考文献
 
+- [R1] 『機動戦士ガンダム』（テレビアニメ, 1979 年, 日本サンライズ）。AMBAC を備えた人型機動兵器（モビルスーツ）の作品世界。※ AMBAC という用語・概念は劇中ではなく、設定考証 [R42] で示されたものとされる。
+- [R42] 『ガンダムセンチュリー』（ムック, 1981 年）。AMBAC（Active Mass Balance Auto Control）の概念が SF 考証として最初に示された資料とされる。スタジオぬえのメンバーらが考証に関わったとされる。※ 出版社などの書誌の詳細は原本で要確認。
 - [R4] R. Montgomery, "Gauge theory of the falling cat," in M. J. Enos (ed.), *Dynamics and Control of Mechanical Systems: The Falling Cat and Related Problems*, Fields Institute Communications, vol. 1, American Mathematical Society, 1993.
 - [R5] J. E. Marsden, *Lectures on Mechanics*, London Mathematical Society Lecture Note Series 174, Cambridge University Press, 1992.
 - [R6] A. Shapere and F. Wilczek (eds.), *Geometric Phases in Physics*, World Scientific, 1989.

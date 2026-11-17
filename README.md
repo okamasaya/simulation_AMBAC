@@ -93,6 +93,7 @@ sims/      シミュレーションスクリプト（実行すると data/ と f
 data/      シミュレーション出力（CSV / NPZ / 数値まとめ）
 figures/   図
 notebooks/ （予定）対話的に試すノートブック
+tools/     補助スクリプト（references.py: 参考文献一覧と各章の参考文献節を生成）
 ```
 
 ## 実行方法
