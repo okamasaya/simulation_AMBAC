@@ -1,0 +1,9 @@
+config,bound_deg_per_cycle
+arm + leg (human),9.570
+arm + arm (no legs),5.711
+arm only (no legs),0.000
+arm + heavy leg (x2),12.868
+3D 腕（肩）: 前方軸, 半頂角 45°,14.983
+3D 腕（肩）: 前下方 30° 軸, 半頂角 30°,24.784
+3D 脚（股関節）: 前下方 30° 軸, 半頂角 30°,48.231
+3D 脚（股関節）: 前下方 30° 軸, 半頂角 45°,96.779

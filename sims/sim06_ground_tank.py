@@ -87,7 +87,7 @@ np.savetxt(DATA / "sim06_scaling.csv", scal, delimiter=",", comments="",
 NB = 4                                       # 関節ごとの基底関数の数
 BASIS = np.array([(TAU * (1 - TAU))**3 * np.sin((k + 1) * np.pi * TAU) for k in range(NB)]).T * 64
 QD_MAX, QDD_MAX = 6.0, 60.0                  # 関節速度・加速度の上限（アクチュエータ制限の目安）
-CK = np.arange(0, K, 4)                      # 制約を課すサンプル
+CK = np.arange(0, K, 2)                      # 制約を課すサンプル
 
 
 def path(c):
@@ -102,7 +102,7 @@ def cons(x, r=robot, margin=MARGIN):
     qd = np.gradient(qp, h, axis=0) / T; qdd = np.gradient(np.gradient(qp, h, axis=0), h, axis=0) / T**2
     a = r.half_track - margin
     return np.concatenate([(a - p)[CK], (a + p)[CK], (MU * N - Fx)[CK] / 100, (MU * N + Fx)[CK] / 100,
-                           (QD_MAX - np.abs(qd)).ravel()[::4], (QDD_MAX - np.abs(qdd)).ravel()[::4] / 10])
+                           (QD_MAX - np.abs(qd))[::2].ravel(), (QDD_MAX - np.abs(qdd))[::2].ravel() / 10])
 
 
 T_naive = t_min(robot, Q_NAIVE, MARGIN)
