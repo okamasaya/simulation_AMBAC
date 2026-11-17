@@ -36,15 +36,35 @@ def _cross2(a: np.ndarray, b: np.ndarray) -> float:
 
 @dataclass
 class Limb:
-    """胴体に回転関節で取り付けられた一様な棒状リンク."""
+    """胴体に回転関節で取り付けられた剛体リンク.
 
-    attach: tuple[float, float]  # 胴体座標系での関節位置 [m]
-    mass: float                  # [kg]
-    length: float                # [m]
+    既定では一様な棒（重心は関節から length/2、慣性 m l^2/12）。
+    com_dist / inertia_c を与えると任意の剛体を表せる。
+    例: リアクションホイール = 重心が回転軸上 (com_dist=0) の円盤
+        → 回転しても質量配置が変わらない「連続回転できる関節」。
+    """
+
+    attach: tuple[float, float]       # 胴体座標系での関節位置 [m]
+    mass: float                       # [kg]
+    length: float                     # [m]
+    com_dist: float | None = None     # 関節から重心までの距離 [m]
+    inertia_c: float | None = None    # 重心まわり慣性モーメント [kg m^2]
 
     @property
-    def inertia(self) -> float:  # 重心まわり慣性モーメント（一様棒）
+    def r_com(self) -> float:
+        return self.length / 2.0 if self.com_dist is None else self.com_dist
+
+    @property
+    def inertia(self) -> float:
+        if self.inertia_c is not None:
+            return self.inertia_c
         return self.mass * self.length**2 / 12.0
+
+
+def reaction_wheel(mass: float, radius: float, attach=(0.0, 0.0)) -> Limb:
+    """一様円盤のリアクションホイール."""
+    return Limb(attach=attach, mass=mass, length=0.0, com_dist=0.0,
+                inertia_c=0.5 * mass * radius**2)
 
 
 @dataclass
@@ -67,7 +87,7 @@ class PlanarRobot:
         p = [np.zeros(2)]
         for k, lb in enumerate(self.limbs):
             a = np.asarray(lb.attach, float)
-            d = np.array([lb.length / 2.0, 0.0])
+            d = np.array([lb.r_com, 0.0])
             p.append(_rot(theta) @ a + _rot(theta + q[k]) @ d)
         return np.array(p)
 
@@ -75,7 +95,7 @@ class PlanarRobot:
         v = [np.zeros(2)]
         for k, lb in enumerate(self.limbs):
             a = np.asarray(lb.attach, float)
-            d = np.array([lb.length / 2.0, 0.0])
+            d = np.array([lb.r_com, 0.0])
             v.append(theta_dot * (_J @ _rot(theta) @ a)
                      + (theta_dot + q_dot[k]) * (_J @ _rot(theta + q[k]) @ d))
         return np.array(v)
