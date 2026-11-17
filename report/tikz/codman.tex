@@ -1,0 +1,13 @@
+% コッドマンのパラドックス：球面三角形
+\tdplotsetmaincoords{70}{125}
+\begin{tikzpicture}[>=Stealth,font=\small,tdplot_main_coords,scale=1.9]
+\shade[ball color=gray!10,opacity=0.4,tdplot_screen_coords] (0,0) circle (1);
+\draw[->,gray] (0,0,0)--(1.3,0,0) node[anchor=north east]{前};
+\draw[->,gray] (0,0,0)--(0,-1.3,0) node[anchor=north]{横（右）};
+\draw[->,gray] (0,0,0)--(0,0,-1.3) node[anchor=north]{下};
+\draw[very thick,red,->] plot[domain=0:90,samples=30,variable=\t] ({sin(\t)},0,{-cos(\t)});
+\draw[very thick,red,->] plot[domain=0:90,samples=30,variable=\t] ({cos(\t)},{-sin(\t)},0);
+\draw[very thick,red,->] plot[domain=0:90,samples=30,variable=\t] (0,{-cos(\t)},{-sin(\t)});
+\node[red,font=\footnotesize,align=center] at (0.9,-0.9,-0.8) {囲んだ立体角\\$\Omega=\pi/2$};
+\node[font=\footnotesize,align=left,tdplot_screen_coords] at (2.3,0.2) {下 → 前 → 横 → 下\\ひねらずに動かすと\\上腕が 90° ひねられる};
+\end{tikzpicture}

@@ -1,0 +1,20 @@
+% 球面座標の肩と円錐運動
+\tdplotsetmaincoords{65}{120}
+\begin{tikzpicture}[>=Stealth,font=\small,tdplot_main_coords,scale=2.4]
+\draw[->] (0,0,0)--(1.3,0,0) node[anchor=north east]{$x$（前）};
+\draw[->] (0,0,0)--(0,1.2,0) node[anchor=north west]{$y$（左）};
+\draw[->] (0,0,0)--(0,0,1.2) node[anchor=south]{$z$（上）};
+\pgfmathsetmacro{\psA}{40}\pgfmathsetmacro{\alA}{30}
+\coordinate (U) at ({cos(\alA)*cos(\psA)},{cos(\alA)*sin(\psA)},{sin(\alA)});
+\coordinate (P) at ({cos(\alA)*cos(\psA)},{cos(\alA)*sin(\psA)},0);
+\draw[line width=2.5pt,blue!60] (0,0,0)--(U);
+\draw[dashed] (0,0,0)--(P)--(U);
+\tdplotdrawarc[->]{(0,0,0)}{0.45}{0}{\psA}{anchor=north}{$\psi$}
+\node at (0.62,0.55,0.25) {$\alpha$};
+\draw[red,thick] plot[domain=0:360,samples=72,variable=\t] ({cos(30)},{sin(30)*cos(\t)},{sin(30)*sin(\t)});
+\draw[red,->,thick] (0,0,0)--(1.25,0,0);
+\node[red,font=\footnotesize,anchor=east] at (0.9,-0.6,0.5) {円錐（軸：前方）};
+\fill (0,0,0) circle (0.8pt) node[anchor=north east,font=\footnotesize]{肩};
+\node[blue!70!black,font=\footnotesize,anchor=south west] at (U) {腕 $\bm u(\psi,\alpha)$};
+\fill[gray] (0,0,1) circle (0.6pt) node[anchor=west,font=\footnotesize]{極（特異点）};
+\end{tikzpicture}

@@ -1,0 +1,157 @@
+\chapter{結論と第 2 段階の構想}\label{ch:conclusion}
+
+\section{問いへの答え}
+
+「二足歩行は本当にバランスが良いのか？　なぜ人は二本脚なのか？」という問いに対し、第 1 段階の結果は次のように答える。
+
+\begin{enumerate}
+\item \textbf{静的には悪い。} 二本脚は支持範囲が狭く重心が高いため、荷物を持つだけで転倒しうる（第~\ref{ch:legs}章）。
+\item \textbf{能動的には良い。} 動かせる重い上体（腰の関節）が、腕の反作用を打ち消し、段差を上る力を分担する。
+  これは手足の代わりに上体を使う地上版の AMBAC である（第~\ref{ch:legs}章、第~\ref{ch:steps}章）。
+\item \textbf{人間の大きさで最も活きる。} 段差では人間大の脚が戦車型の 2 倍以上を越えるが、大型化すると逆転する（第~\ref{ch:steps}章）。
+\item \textbf{宇宙では、脚は姿勢制御の道具になる。} 脚は AMBAC で最も効く重い手足で、外すと姿勢変更の能力がほぼ半減する（第~\ref{ch:legs}章）。
+  ただし推進剤を惜しまなければ、機動力はスラスタが圧倒的に上である（第~\ref{ch:dyn}章、第~\ref{ch:ai}章）。
+\end{enumerate}
+
+\section{第 1 段階で分かったこと}
+
+\subsection{1. AMBAC の物理}
+
+\begin{longtable}{p{0.27\linewidth}p{0.56\linewidth}p{0.08\linewidth}}
+\toprule
+問い & 答え & 章 \\ \midrule \endhead
+AMBAC は物理的に成立するか & 成立する。角運動量保存の下で、手足のループ運動（幾何学的位相）により任意角の旋回が可能 & \ref{ch:theory}, \ref{ch:planar} \\
+人工衛星の技術との関係は & リアクションホイールは「曲率ゼロ・連続回転できる関節」で、AMBAC の特殊な場合。運動量飽和も同じ現象 & \ref{ch:rw} \\
+巨大ロボで使えるか & 回転角はスケール不変だが、速さは $1/s$ で落ちる。18 m 級で機敏に動くには、相似則の約 170 倍のトルクが必要 & \ref{ch:dyn} \\
+学習で獲得できるか & 「ループを描く振動子」という構造を与えれば可能で、専門家制御を上回った。構造なしでは失敗する & \ref{ch:ai} \\
+最適制御と学習の分担は & 計画は最適制御、実行時の誤差・外乱・揺れへの対処は学習が得意 & \ref{ch:ai} \\
+\bottomrule
+\end{longtable}
+
+\subsection{2. 下半身の形状}
+
+\begin{longtable}{p{0.27\linewidth}p{0.56\linewidth}p{0.08\linewidth}}
+\toprule
+問い & 答え & 章 \\ \midrule \endhead
+腕を速く動かすと何が起きるか & 腕の反作用で台車が転倒・滑る。安全な最短時間は $\sqrt{\text{大きさ}/\text{重力}}$ に比例（フルード則）。荷物を体に引き寄せる軌道で 36\% 短縮 & \ref{ch:tank} \\
+足は飾りか & 宇宙では飾りではない。推進剤を惜しまなければ飾りになる。地上の平地作業ではほぼ飾り（戦車型＋腰の方が速く安定） & \ref{ch:legs} \\
+二本脚はバランスが良いか & 静的には悪い。腰の戦略（上体の前後傾）で補って初めて荷物を運べる & \ref{ch:legs} \\
+段差ではどうか & 人間大では脚が戦車型の 2 倍以上。大型化すると逆転し、18 m 級の脚は 5 cm しか越えられない & \ref{ch:steps} \\
+\bottomrule
+\end{longtable}
+
+\subsection{3. 上半身（肩と肩甲骨）}
+
+\begin{longtable}{p{0.27\linewidth}p{0.56\linewidth}p{0.08\linewidth}}
+\toprule
+問い & 答え & 章 \\ \midrule \endhead
+3 次元の肩で何ができるか & 2 自由度の肩 1 つの円錐運動で任意の姿勢へ回れる。ただし回転の順序で結果が変わる（非可換） & \ref{ch:3d} \\
+肩の座標の注意点は & 球面座標（2 軸の肩）は極の近くで関節速度が発散する（ジンバルロック） & \ref{ch:3d} \\
+地上で腕を旋回させると & 接地面の狭い横方向が最も弱い。腕を下げて旋回半径と高さを減らすと 52\% 短縮 & \ref{ch:3d} \\
+人の肩との関係は & コッドマンのパラドックスは肩の幾何学的位相（ひねり＝腕の向きが囲んだ立体角） & \ref{ch:shoulder} \\
+腕組みには何が必要か & ひねりを含む 3 自由度の肩と、肩甲骨による肩の付け根の移動。胸が厚いほど肩甲骨の動きが必須 & \ref{ch:shoulder} \\
+\bottomrule
+\end{longtable}
+
+\section{フィジカル AI に必要なスペックとトレードオフ}
+
+\subsection{必要なスペック}
+
+\begin{longtable}{p{0.40\linewidth}p{0.53\linewidth}}
+\toprule
+スペック & 根拠 \\ \midrule \endhead
+肩は 3 自由度（ひねりを含む） & 2 軸では腕組みができず、ひねりを独立に選べない（第~\ref{ch:shoulder}章） \\
+肩甲骨（上肢帯）に当たる、肩の付け根を動かす機構 & 腕組みに必要な内旋が人の範囲に収まる。胸の厚い機体では必須（第~\ref{ch:shoulder}章） \\
+動かせる重い上体（腰の関節） & 二本脚の静的な不安定さを補う。段差の上りにも効く（第~\ref{ch:legs}章、第~\ref{ch:steps}章） \\
+重い下半身（宇宙で使うなら） & 脚は AMBAC で最も効く重い手足（第~\ref{ch:legs}章） \\
+座標の特異点を作業範囲の外に置く設計 & ジンバルロックで関節速度が発散する（第~\ref{ch:3d}章） \\
+大きさに見合ったトルク密度 & 必要トルクは大きさの 4〜5 乗、相似則で使えるトルクは 3 乗（第~\ref{ch:dyn}章、第~\ref{ch:steps}章） \\
+\bottomrule
+\end{longtable}
+
+\subsection{トレードオフしなければならない事象}
+
+\begin{longtable}{p{0.30\linewidth}p{0.63\linewidth}}
+\toprule
+トレードオフ & 内容 \\ \midrule \endhead
+支持範囲 ↔ 段差への強さ & 戦車型は平地で安定だが段差に弱い。二本脚はその逆（第~\ref{ch:legs}章、第~\ref{ch:steps}章） \\
+機体の大きさ ↔ 機敏さ・段差 & 大きいほど遅く、脚は段差を越えられなくなる（第~\ref{ch:dyn}章、第~\ref{ch:tank}章、第~\ref{ch:steps}章） \\
+胸・装甲の厚さ ↔ 腕の可動域 & 胸が厚いほど、腕組みに必要なひねり・肩甲骨の動きが増える（第~\ref{ch:shoulder}章） \\
+肩の自由度 ↔ 制御の複雑さ & 3 自由度にすると、経路によってひねりが勝手に変わる（コッドマンのパラドックス）ので、ひねりの計画・計測が必要（第~\ref{ch:shoulder}章） \\
+推進剤 ↔ 時間 & スラスタは速いが推進剤を使う。AMBAC は推進剤ゼロだが遅く、周回内で大きく揺れる（第~\ref{ch:dyn}章、第~\ref{ch:ai}章） \\
+重心を前に出す ↔ 後ろへの転倒 & 戦車型の段差越えで、重心の位置は必要な摩擦と転倒のしやすさを入れ替える（第~\ref{ch:steps}章） \\
+\bottomrule
+\end{longtable}
+
+\section{用途に応じた形状の選択}
+
+\begin{longtable}{p{0.40\linewidth}p{0.25\linewidth}p{0.25\linewidth}}
+\toprule
+用途 & 有利な下半身 & 根拠 \\ \midrule \endhead
+宇宙・長期運用・推進剤に制約あり & 重い脚（AMBAC 用） & 第~\ref{ch:rw}〜\ref{ch:ai}章、第~\ref{ch:legs}章 \\
+宇宙・短時間の高機動 & 推進剤（脚は飾り） & 第~\ref{ch:dyn}章、第~\ref{ch:ai}章 \\
+地上・平地での作業 & 戦車型＋腰 & 第~\ref{ch:tank}章、第~\ref{ch:legs}章 \\
+地上・平地で旋回が多い & 車輪（全方向移動）など & 第~\ref{ch:legs}章 \\
+地上・段差（人間大） & 脚 & 第~\ref{ch:steps}章 \\
+地上・段差（巨大機） & 戦車型 & 第~\ref{ch:steps}章 \\
+\bottomrule
+\end{longtable}
+
+\section{人間らしい動きの「基準値」をどこに置くか}
+
+人間らしい動きの実現には、モーションキャプチャー（人体運動の計測データ）を手本にする方法と、制御理論で動作を設計する方法がある。
+第 1 段階の結果からは、次のように整理できる。
+
+\begin{itemize}
+\item \textbf{人体運動は「形（スタイル）」の手本として強い。} 自然さ・予測しやすさ・人間との協調に向く。
+\item \textbf{ただし、物理的に正しい手本とは限らない。} モーションキャプチャーが測るのは動きの形で、力は測らない。
+  AMBAC の効き方は手足の質量比で決まるため（第~\ref{ch:planar}章、第~\ref{ch:rw}章）、質量配分の違うロボットに人の動きをそのまま移すと、同じ動きでも胴体の回り方が変わる。
+  肩のひねりは測り方で値が変わる（第~\ref{ch:shoulder}章）。
+\item \textbf{性能の上限ではない。} 学習方策は、人手で設計したループを上回った（第~\ref{ch:ai}章）。
+\item \textbf{一方で、人の動きの合理性は物理から説明できる場合がある。}
+  荷物を体に引き寄せる（第~\ref{ch:tank}章）、腕を下げて旋回する（第~\ref{ch:3d}章）、重い物を持つときに体を反らせる（第~\ref{ch:legs}章）、
+  段差で前かがみになる（第~\ref{ch:steps}章）は、いずれも最適化が再発見した人間らしい動きである。
+\end{itemize}
+
+したがって有力なのは組み合わせである。人体運動を「目指す形」として与え、物理モデル・制御理論で「実現可能性（力・運動量・制約）」を保証し、
+学習でその間を埋める（モーションキャプチャーを手本に物理シミュレーション上で強化学習する手法 \cite{R24} がこれに近い）。
+
+\section{第 2 段階：校正値を使った実現性の検証}
+
+第 2 段階では、組み合わせた形状（アセンブル）について最適な動作の校正値を定義し、要求した動きや性能を実現できるかを検証する。
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[box/.style={draw,rounded corners,align=left,font=\footnotesize,text width=3.2cm,minimum height=3.6cm,fill=gray!6},
+  head/.style={font=\small\bfseries},>=Stealth]
+\node[box] (a) at (0,0) {下半身：脚／戦車／車輪\\肩の自由度・肩甲骨\\腰・上体の可動域\\質量配分\\アクチュエータ\\大きさ・重力環境};
+\node[box] (b) at (3.9,0) {姿勢変更能力（第~\ref{ch:rw}, \ref{ch:ai}, \ref{ch:3d}章）\\転倒・滑り（第~\ref{ch:tank}, \ref{ch:legs}章）\\段差（第~\ref{ch:steps}章）\\定格荷重（第~\ref{ch:3d}章）\\人らしい姿勢（第~\ref{ch:shoulder}章）};
+\node[box] (c) at (7.8,0) {慣性パラメータ（AMBAC ループで自己同定）\\摩擦・接触\\可動域・アクチュエータ特性\\人の動きのデータ};
+\node[box] (d) at (11.7,0) {要求した動き・性能を満たすか\\制御ゲイン\\軌道最適化\\学習方策の制約\\形状の選び直し};
+\node[head,above=2pt of a] {形状の組み合わせ};
+\node[head,above=2pt of b] {シミュレーション評価};
+\node[head,above=2pt of c] {校正値};
+\node[head,above=2pt of d] {実現性の検証};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\draw[->,thick,dashed] (d.south) -- ++(0,-0.5) -| node[pos=0.25,below,font=\footnotesize]{満たさなければ形状・制御を見直す} (a.south);
+\end{tikzpicture}
+\caption{第 2 段階の枠組み：アセンブル型の設計・評価・校正・検証。}\label{fig:phase2}
+\end{figure}
+
+\begin{enumerate}
+\item \textbf{形状の組み合わせ}：下半身の形式、肩の自由度、肩甲骨、腰、質量配分、アクチュエータ、大きさ、重力環境を部品として組み合わせる。
+\item \textbf{シミュレーションによる評価}：第 1 段階で作った評価を、組み合わせた機体ごとにまとめて実行し、性能表を作る。
+\item \textbf{校正値の定義}：シミュレーションと実機の差を埋める値を定義する。慣性パラメータ（AMBAC ループによる自己同定）、
+  摩擦・接触、可動域、アクチュエータ特性（油圧・電動）、人の動きのデータなど。
+\item \textbf{実現性の検証とチューニング}：校正値を使って、要求した動き・性能（例：腕組み、段差、旋回時間、荷物運び）を実現できるかを検証する。
+  満たさなければ、制御・軌道・学習方策の制約を調整し、必要なら形状を選び直す。
+\end{enumerate}
+
+\section{残された課題}
+
+\begin{itemize}
+\item アクチュエータの動特性（油圧・電動）：油の圧縮性、バルブの非線形性、応答遅れ・帯域制限。油圧はトルク密度の係数を上げるが、相似拡大の指数（$\propto s^3$）は変えない。
+\item 動的な動作：踏み出し（ステップ戦略）、走り込み・蹴り出しによる段差の乗り越え、不整地。
+\item 周回内の揺れを抑える AMBAC ループの最適化、弾性要素によるエネルギー回生。
+\item 最適制御の計画と学習した残差方策のハイブリッド制御、3 次元での目標姿勢への最短到達。
+\item 股関節を含む全身モデル、柔軟体・流体などの非剛体効果。
+\end{itemize}

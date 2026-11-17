@@ -1,0 +1,267 @@
+\chapter{3 次元化：球面座標の肩と SO(3)（Sim07）}\label{ch:3d}
+
+\section{座標の選び方}
+
+3 次元の角運動量と特異点の式は付録~\ref{app:3d} を参照。
+
+\begin{figure}[htbp]\centering
+\resizebox{0.6\linewidth}{!}{\input{tikz/sph}}
+\caption{肩を原点とする球面座標 $(\psi,\alpha)$ と、前方を軸とする円錐運動。真上（極）は座標の特異点になる。}\label{fig:tikz-sph}
+\end{figure}
+
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+対象
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+座標
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+理由
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+腕の向き & \textbf{肩を原点とする球面座標} (ψ: 方位角, α: 仰角)、u = (cos α cos ψ, cos α sin ψ, sin α) & 2 自由度の肩（旋回＋俯仰）の関節角そのもの。旋回動作を自然に書ける \\
+胴体の姿勢 & \textbf{回転行列（SO(3)）} & 3 次元の回転は順序で結果が変わる（非可換）。オイラー角は特異点を持つため、積分には使わない \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{球面座標の弱点}: α = ±90°（真上・真下）で ψ が定まらない（座標の特異点）。 これは座標の都合だけでなく、2 軸の肩（ジンバル）が実際に持つ \textbf{ジンバルロック} と同じ現象である（Part A3）。
+\item
+  \textbf{モデルの検証}: 腕を x-z 平面内（ψ = 0）だけで動かすと、平面モデル（Sim01）と 5 桁一致した。
+\item
+  \textbf{腕のモデル化}: 腕（一様な棒）は 40 個の点質量で表し、角運動量と反力を点質量の和として計算した。
+\end{itemize}
+
+3 次元での AMBAC の基本式は、平面の式（第~\ref{ch:theory}章）がベクトル・行列になったものである。
+
+\[
+\mathbf L = A(q)\,\boldsymbol\omega + B(q)\,\dot q = 0 \quad\Rightarrow\quad
+\boldsymbol\omega = -A(q)^{-1}B(q)\,\dot q,\qquad \dot R = R\,[\boldsymbol\omega]_\times
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  A(q): 3×3 の慣性テンソル（形状 q で固まった系全体）
+\item
+  B(q): 3×2 の結合行列
+\item
+  ω: 胴体座標で表した胴体の角速度
+\end{itemize}
+
+\section{Part A: 宇宙での 3 次元 AMBAC（人間大）}
+
+\FIG{sim07_space.png}
+
+\subsection{A1: 腕で円錐を描く（宇宙飛行士の「腕回し」）}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+半頂角 β
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1 周あたりの胴体回転
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+回転軸
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+10° & 0.65° & ほぼ −x（円錐の軸と逆向き） \\
+30° & 5.7° & 〃 \\
+45° & 12.4° & 〃 \\
+70° & 25.4° & 〃 \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{2 自由度の肩 1 つ（腕 1 本）だけで、任意の角度まで回れる。} 平面では関節 2 つ（腕＋脚）が必要だったが、 3 次元の肩はそれだけで 2 自由度の形状空間を持つ。
+\item
+  小さい円錐では、回転角 ∝ β\^{}2.00（理論どおりの 2 次効果）。Sim05 で議論した「幾何学的位相は振幅の 2 次効果」が、3 次元でも厳密に成り立つ。
+\item
+  円錐を逆回りにすると、回転は正確に符号反転する。
+\end{itemize}
+
+\subsection{A2: 円錐の軸の向き（β = 45°）}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+円錐の軸
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1 周あたり
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+胴体の回転軸と円錐の軸のずれ
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+前方 & 12.4° & 17° \\
+右横 & 11.1° & 20° \\
+真上（方位角を 1 周させる旋回） & 58.0° & 8° \\
+前上方 45° & 39.7° & 31° \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  胴体はおおむね円錐の軸の逆向きに回るが、\textbf{ぴったり逆向きではない}（8〜31° ずれる）。 肩が胴体の中心からずれていること、胴体の慣性テンソルが非等方であることによる。
+\item
+  「真上」軸の円錐は、方位角 ψ を 360° 回し続ける動作で、腕が胴体のまわりを 1 周する。 胴体の主軸（縦軸）まわりの慣性が最も小さいので、回転量が最も大きい。
+\end{itemize}
+
+\subsection{A3: 球面座標の特異点（ジンバルロック）}
+
+円錐が極（真上）の近くを通ると、腕の先端は一定の速さで動いているのに、方位角の関節速度 ψ' が発散する。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ループと極との最小角距離
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+最大 ψ'
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+最大 α'
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+30° & 3.1 rad/s & 1.57 rad/s \\
+3° & 30 rad/s & 1.57 rad/s \\
+0.3° & 300 rad/s & 1.57 rad/s \\
+\end{longtable}
+
+ψ' は極からの距離に反比例する。\textbf{球面座標は旋回動作には便利だが、極の近くでは使えない。} 対策は次のとおり。 - 計画は腕の向きのベクトル u（または四元数）で行い、関節角への変換は極から離れた領域だけで行う。 - 肩の軸の取り付け方向を工夫し、極が作業領域の外に来るようにする（実機のジンバル設計と同じ考え方）。 - 冗長な関節（3 自由度の肩など）を持たせる。
+
+\subsection{A4: 回転の非可換性}
+
+ヨー用の円錐 1 周（約 58°）とピッチ用の円錐 3 周（約 33°）を、順序を入れ替えて実行した。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+順序
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+最終姿勢（回転ベクトル）
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ヨー → ピッチ & (8.2°, 41.4°, −64.1°) \\
+ピッチ → ヨー & (−22.4°, 33.7°, −65.3°) \\
+\textbf{2 つの最終姿勢の差} & \textbf{29.4°} \\
+\end{longtable}
+
+平面ではループの順序を入れ替えても結果は同じだった（回転が 1 軸だけで可換）。 \textbf{3 次元では動作の順序そのものが結果を変えるので、姿勢変更の計画は「どの動作をどの順で行うか」という系列の問題になる。} これは学習・計画（フィジカル AI）にとって、平面より本質的に難しい点である。
+
+\section{Part B: 地上での 3 次元（戦車型台車＋球面座標の腕）}
+
+\FIG{sim07_ground.png}
+
+\subsection{B1: 静的な定格荷重マップ}
+
+腕の向き（ψ, α）ごとに、静止状態で転倒しない最大荷重を求めた（安全余裕 5 cm）。 クレーンや油圧ショベルの \textbf{定格荷重表} に相当する。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+腕の向き（水平）
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+最大荷重
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+前（ψ = 0°） & 41.5 kg \\
+斜め前（45°） & 42.2 kg \\
+\textbf{横（90°）} & \textbf{24.3 kg} \\
+後（180°） & 41.5 kg \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  接地面が前後に長く左右に狭いので、\textbf{横向きが最も弱い}（前後の約 6 割）。
+\item
+  腕を高く上げる（α ≳ 70°）と荷物が接地面の真上に来て、静的には転倒しなくなる（図上部の空白）。
+\end{itemize}
+
+\subsection{B2: 腕を水平に 180° 旋回（前 → 左 → 後、荷物 10 kg）}
+
+すべての方策に同じ制約（転倒・滑り・関節速度 6 rad/s・加速度 40 rad/s²・仰角 ≥ −35°）を課し、最短時間を比べた。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+方策
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+地球
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+月
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+水平のまま旋回 & 1.83 s & 4.48 s \\
+途中で 60° 持ち上げる & 1.24 s & 3.04 s \\
+途中で 35° 下げる & 1.01 s & 2.48 s \\
+\textbf{最適化（仰角の時間変化と旋回のタイミング）} & \textbf{0.88 s（52\% 短縮）} & \textbf{2.07 s（54\% 短縮）} \\
+\end{longtable}
+
+\textbf{考察} - 水平のまま速く旋回すると、遠心力で ZMP が外側に大きく振られ、横方向（最も狭い方向）で転倒する（中央図の破線）。 - 腕を上げても下げても旋回半径（cos α）が小さくなり、慣性と遠心力が減る。ただし \textbf{下げる方が有利} である。 転倒させるモーメントは「高さ × 水平方向の加速度」なので、荷物を低くするとその分だけ効きが弱まる。 - 最適化は、仰角の下限（−35°、地面とのすき間）まで腕を下げ、旋回の中盤（横向き＝最も弱い方向）で最も低くする解を選んだ。 Sim06 の「荷物を体に引き寄せる」と同じく、\textbf{慣性と転倒モーメントを減らす動き} であり、人間やクレーン操作員が経験的に行う動作と一致する。
+
+\section{フィジカル AI への示唆}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{座標の選択はモデル化の一部である。} 球面座標は人間にとって直感的で、旋回動作の指令に向く。 一方で特異点を持ち、学習方策の出力をそのまま関節角にすると、極の近くで関節速度が発散する。 \textbf{方策が何を出力するか（関節角か、手先の向きか）は、学習の安定性と実機の安全性に直結する設計判断} である。
+\item
+  \textbf{3 次元の姿勢は非可換なので、計画は順序の問題になる。} 平面の結果（Sim01〜05）をそのまま 3 次元に拡張するだけでは不十分で、 系列としての計画・学習が必要になる。
+\item
+  \textbf{定格荷重マップのような「安全な作業範囲の地図」は、シミュレーションで安価に作れる。} 方向ごとに異なる限界（前後と左右）を学習方策の制約として与えれば、実機で転倒させずに学習を進められる。
+\end{enumerate}
+
+\section{限界と次の課題}
+
+\begin{itemize}
+\tightlist
+\item
+  腕は 1 リンク（肘なし）。肘を加えると手先位置と腕の向きを独立に選べ、冗長性を姿勢制御に使える。
+\item
+  地上モデルは台車が静止している前提（転倒・滑りの開始条件のみ）。
+\item
+  宇宙での 3 次元の最適ループ（与えた目標姿勢に最短で到達する腕の動作系列）は、まだ求めていない。 非可換性があるため、これは学習・計画の良い課題になる。
+\end{itemize}

@@ -1,0 +1,18 @@
+% 上から見た肩：胸郭、鎖骨、前方突出、腕組み
+\begin{tikzpicture}[>=Stealth,font=\small,scale=11]
+\draw[thick,fill=gray!12] (0,0) ellipse (0.11 and 0.14);
+\node at (0,0) {胸郭};
+\coordinate (SC) at (0.06,-0.02);
+\coordinate (GH0) at (0.0,-0.19);
+\coordinate (GH1) at ($(SC)!1!20:(GH0)$);
+\draw[thick] (SC)--(GH0); \draw[thick,blue!70] (SC)--(GH1);
+\fill (SC) circle (0.004) node[right=3pt,font=\footnotesize,fill=white,inner sep=1pt]{胸鎖関節};
+\fill (GH0) circle (0.006) node[left,font=\footnotesize]{肩関節（基準）};
+\fill[blue!70] (GH1) circle (0.006);
+\draw[->,blue!70] ($(SC)!0.8!(GH0)$) to[bend right=30] ($(SC)!0.8!(GH1)$);
+\node[blue!70!black,font=\footnotesize,align=left] at (0.17,-0.21) {前方突出\\（肩甲骨・鎖骨）};
+\draw[line width=4pt,orange!70,opacity=0.8] (GH1)--(0.15,-0.10)--(0.20,0.15);
+\fill[orange!90!black] (0.20,0.15) circle (0.007) node[right,font=\footnotesize]{手（左上腕へ）};
+\draw[->] (-0.2,-0.33)--(-0.12,-0.33) node[right,font=\footnotesize]{$x$（前）};
+\draw[->] (-0.2,-0.33)--(-0.2,-0.25) node[above,font=\footnotesize]{$y$（左）};
+\end{tikzpicture}

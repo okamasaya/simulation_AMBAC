@@ -1,0 +1,19 @@
+% 戦車型台車と ZMP
+\begin{tikzpicture}[>=Stealth,font=\small,scale=1.2]
+\fill[pattern=north east lines,pattern color=gray] (-2.6,-0.15) rectangle (2.8,0);
+\draw[thick] (-2.6,0)--(2.8,0);
+\draw[thick,fill=gray!20,rounded corners=4pt] (-1.2,0) rectangle (1.2,0.55);
+\draw[thick,fill=gray!10] (-0.35,0.55) rectangle (0.35,1.6);
+\fill (0,0.9) circle (1.5pt) node[left,font=\footnotesize]{重心};
+\coordinate (S) at (0,1.6);
+\draw[line width=3pt,blue!60] (S)--++(30:1.0) coordinate (E) --++(-20:1.0) coordinate (T);
+\fill[orange] (T) circle (4pt) node[right=3pt,font=\footnotesize]{荷物 10 kg};
+\draw[->,thick,orange!80!black] (T)--++(-0.9,0) node[left,font=\footnotesize]{$-m\ddot x$};
+\draw[<->] (-1.2,-0.45)--(1.2,-0.45) node[midway,below,font=\footnotesize,xshift=-18pt]{接地範囲 $[-a,a]$};
+\draw[->,very thick,red] (0.7,-0.0)++(0,-0.9)--(0.7,0) node[pos=0,left,font=\footnotesize]{$N$};
+\draw[->,very thick,red] (0.7,0.05)--++(-0.6,0) node[above,font=\footnotesize]{$F_x$};
+\fill[red] (0.7,0) circle (2pt);
+\node[red,font=\footnotesize] at (2.3,-1.0) {ZMP $p$};
+\draw[red,->] (2.0,-0.95)--(0.78,-0.05);
+\node[align=left,font=\footnotesize] at (4.6,2.6) {転倒しない：$|p|\le a$\\滑らない：$|F_x|\le\mu N$};
+\end{tikzpicture}

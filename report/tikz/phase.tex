@@ -1,0 +1,20 @@
+% 幾何学的位相：形状空間のループと正味の回転
+\begin{tikzpicture}[>=Stealth,font=\small]
+\begin{scope}
+  \draw[->] (-0.2,0)--(3.6,0) node[right]{$q_1$（腕）};
+  \draw[->] (0,-0.2)--(0,3.0) node[above]{$q_2$（脚）};
+  \shade[inner color=blue!35,outer color=white] (1.8,1.4) ellipse (1.5 and 1.15);
+  \draw[thick,red,postaction={decorate},decoration={markings,mark=at position 0.25 with {\arrow{Stealth}},mark=at position 0.75 with {\arrow{Stealth}}}] (1.8,1.4) ellipse (1.0 and 0.75);
+  \node[red] at (2.95,2.15) {$C$};
+  \node at (1.8,1.4) {$S$};
+  \node[font=\footnotesize,align=center] at (1.8,-0.6) {形状空間：色は曲率 $F$ の大きさ};
+\end{scope}
+\draw[->,very thick,gray] (4.0,1.4)--(4.9,1.4);
+\begin{scope}[shift={(6.6,1.4)}]
+  \foreach \a/\c in {0/black!25,25/black!45,50/black!75}{
+    \draw[thick,\c,rotate=\a,fill=white,fill opacity=0.5] (-0.18,-0.7) rectangle (0.18,0.7);}
+  \draw[->,red,thick] (0,1.0) arc (90:150:1.0);
+  \node[red,align=left,font=\footnotesize] at (0.8,1.25) {1 周ごとに\\$\Delta\theta=-\iint_S F$};
+  \node[font=\footnotesize,align=center] at (0,-2.0) {形状が戻っても\\向きだけが進む};
+\end{scope}
+\end{tikzpicture}

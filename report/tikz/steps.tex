@@ -1,0 +1,32 @@
+% 段差の乗り越え
+\begin{tikzpicture}[>=Stealth,font=\small]
+\begin{scope}
+  \fill[pattern=north east lines,pattern color=gray] (-0.5,-0.12) rectangle (2.4,0);
+  \fill[pattern=north east lines,pattern color=gray] (2.4,-0.12) rectangle (4.0,0.8);
+  \draw[thick] (-0.5,0)--(2.4,0)--(2.4,0.8)--(4.0,0.8);
+  \begin{scope}[rotate around={18.4:(0,0)}]
+    \draw[thick,fill=gray!20,rounded corners=3pt] (0,0) rectangle (2.6,0.45);
+    \draw[thick,fill=gray!10] (0.95,0.45) rectangle (1.45,1.2);
+    \fill (1.2,0.7) circle (1.5pt);
+  \end{scope}
+  \fill[red] (0,0) circle (2pt) node[below left,font=\footnotesize]{R};
+  \fill[red] (2.4,0.8) circle (2pt) node[above left,font=\footnotesize]{E};
+  \draw[<->] (4.2,0)--(4.2,0.8) node[midway,right]{$h$};
+  \draw[->,red,thick] (0,0)--(0,0.7) node[left,font=\footnotesize]{$N_1$};
+  \draw[->,red,thick] (2.4,0.8)--++(108.4:0.7) node[left,font=\footnotesize]{$N_2$};
+  \node[align=center,font=\footnotesize] at (1.8,-0.75) {戦車型：後ろの接地点 R と段の角 E で支え、\\摩擦の範囲内で這い上がる};
+\end{scope}
+\begin{scope}[shift={(7.2,0)}]
+  \fill[pattern=north east lines,pattern color=gray] (-1.2,-0.12) rectangle (0.2,0);
+  \fill[pattern=north east lines,pattern color=gray] (0.2,-0.12) rectangle (1.6,0.8);
+  \draw[thick] (-1.2,0)--(0.2,0)--(0.2,0.8)--(1.6,0.8);
+  \coordinate (Ank) at (0.8,0.8); \coordinate (Hip) at (0.8,2.1); \coordinate (Kn) at (1.35,1.45);
+  \draw[line width=3pt,gray] (Ank)--(Kn)--(Hip);
+  \draw[dashed] (Ank)--(Hip);
+  \draw[<->] (0.8,1.45)--(Kn) node[midway,below,font=\footnotesize]{$d$};
+  \draw[thick,fill=gray!10,rotate around={-20:(Hip)}] ($(Hip)+(-0.22,0)$) rectangle ($(Hip)+(0.22,0.9)$);
+  \draw[line width=3pt,gray!50] (Hip)--(-0.3,1.1)--(-0.4,0.05);
+  \draw[<->] (1.85,0)--(1.85,0.8) node[midway,right]{$h$};
+  \node[align=center,font=\footnotesize] at (0.3,-0.75) {二本脚：膝のはみ出し $d$ が\\膝トルク $mg(d-x_c)$ を決める};
+\end{scope}
+\end{tikzpicture}

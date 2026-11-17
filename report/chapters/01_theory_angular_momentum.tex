@@ -1,0 +1,87 @@
+\chapter{理論的準備：角運動量保存と AMBAC}\label{ch:theory}
+
+\section{AMBAC とは何か（物理的に言い直す）}
+
+AMBAC（Active Mass Balance Auto Control）は、『機動戦士ガンダム』\cite{R1} の SF 考証として示された概念で \cite{R42}、 「四肢を動かした反作用で姿勢を制御する」と説明される。物理学の言葉にすると次の 1 文に尽きる。
+
+\begin{quote}
+\textbf{外トルクのない系で、内部の質量配置（形状）を変えることにより、全角運動量 L を保存したまま 胴体の向きを変える制御。}
+\end{quote}
+
+推進剤を消費しないこと、反力を外部に依存しないことが本質的な利点である。 一方で、\textbf{全角運動量そのものは 1 ミリも変えられない}（回転を止める・始めることは単独ではできない） という原理的制約がある。この「できること / できないこと」の境界を明確にするのが本リポジトリの第一目標。
+
+\section{平面自由浮遊マルチボディ系}
+
+胴体（姿勢角 θ）に n 本のリンク（関節角 q = (q\textsubscript{1},\ldots,q\textsubscript{n})）が付いた系を考える。 外力ゼロなので重心は等速直線運動、重心系で見れば静止とみなせる。 系重心まわりの全角運動量は
+
+\[
+L = \sum_i \left[ I_i \dot\phi_i + m_i (\mathbf r_i - \mathbf c) \times (\dot{\mathbf r}_i - \dot{\mathbf c}) \right]
+\]
+
+（φ\textsubscript{i}: 各剛体の絶対角、r\textsubscript{i}: 各剛体重心、c: 系重心）。 回転対称性から L は θ に依存せず、速度について線形なので
+
+\[
+L = A(q)\,\dot\theta + B(q)\cdot\dot q
+\]
+
+と書ける。A(q) \textgreater{} 0 は「形状 q で固まった系全体の慣性モーメント」、B(q) は関節運動と姿勢の結合項。
+
+\section{AMBAC の基本式（L = 0 の場合）}
+
+手足が 1 本の場合には $A(q)$, $B(q)$ を閉じた形で書ける（付録~\ref{app:twobody}）。基本式の導出と幾何学的な意味は付録~\ref{app:connection} にまとめた。
+
+
+静止状態から始めれば L ≡ 0 なので
+
+\[
+\boxed{\ \dot\theta = -\,\Gamma(q)\cdot\dot q,\qquad \Gamma(q) = B(q)/A(q)\ }
+\]
+
+Γ は幾何力学で \textbf{機械的接続（mechanical connection）} と呼ばれる量。重要な性質:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{時間に依存しない。} θ の変化量は関節空間の「経路」だけで決まり、速さには依存しない。 ゆっくり動かしても速く動かしても回転角は同じ（必要トルクとエネルギーが変わるだけ）。
+\item
+  \textbf{スケール不変。} Γ は質量比・長さ比のみの関数。人間大でも 18 m 級でも、 幾何学的に相似で質量分布が相似なら回転角は同じ（Sim01 で数値確認済み）。 大型化で効くのはトルク要求・構造強度・時間スケールの方。
+\end{enumerate}
+
+\section{可逆的 AMBAC と非ホロノミック AMBAC}
+
+図~\ref{fig:tikz-phase} に幾何学的位相の考え方を示す。
+
+\begin{figure}[htbp]\centering
+\resizebox{0.85\linewidth}{!}{\input{tikz/phase}}
+\caption{幾何学的位相：形状空間（関節空間）の閉曲線 $C$ を 1 周すると、形状は元に戻るが、胴体の向きは $C$ が囲む曲率の量だけ進む。}\label{fig:tikz-phase}
+\end{figure}
+
+\textbf{関節 1 つ（n = 1）} の場合、θ = -∫Γ(q)dq は q だけの関数になり、 腕を戻すと姿勢も必ず元に戻る（\textbf{可逆的・ホロノミック}）。 「腕を振った分だけ一時的に向きを変える」ことしかできず、回転可能範囲も上限がある。
+
+\textbf{関節 2 つ以上（n ≥ 2）} で、関節空間の閉ループ C を 1 周すると、形状は元に戻るのに
+
+\[
+\Delta\theta = -\oint_C \Gamma\cdot dq = -\iint_S F\,dq_1 dq_2,\qquad
+F = \frac{\partial \Gamma_2}{\partial q_1} - \frac{\partial \Gamma_1}{\partial q_2}
+\]
+
+だけ姿勢が進む（ストークスの定理）。F は接続の \textbf{曲率}。これは \textbf{幾何学的位相（geometric phase）} の一例で、落下する猫が空中で向きを変えるのと同じ原理である。 ループを繰り返せば \textbf{任意の角度まで回転できる}。これが「AMBAC で姿勢を自在に変える」ことの数学的な正体。
+
+設計上の含意: - 1 周あたりの回転量は「ループが囲む曲率の量」で決まる → \textbf{曲率の大きい形状領域でループを回すべき}。 - 曲率マップは機体設計（四肢の質量・長さ・取付位置）で決まる → \textbf{機体設計そのものが AMBAC 性能を決める}。
+
+\section{L ≠ 0 の場合（回転を止められるか？）}
+
+L ≠ 0 なら θ̇ = (L − B·q̇)/A(q)。内部運動では L は変えられないが、 \textbf{A(q) を大きくする（四肢を伸ばす）ことで回転速度を下げる}ことはできる（フィギュアスケートの逆）。 完全停止には外部トルク（スラスタ、リアクションホイール、環境力）が必要。 → 今後のシミュレーション課題。
+
+\section{フィジカル AI との接点（予告）}
+
+\begin{itemize}
+\tightlist
+\item
+  姿勢制御が \textbf{非ホロノミック拘束下の経路計画問題} になる（Brockett 条件により、 滑らかな時不変フィードバックでは原点を漸近安定化できない → 周期入力・時変制御・学習が必要）。
+\item
+  動作が「経路のみ」に依存するため、\textbf{形状空間での計画}と\textbf{トルク・時間の配分}を分離できる。
+\item
+  曲率マップは学習した方策の解釈手段（なぜその動きを選んだか）としても使える。
+\end{itemize}

@@ -1,0 +1,243 @@
+\chapter{式の導出}\label{app:deriv}
+
+本文で結果だけを示した式を、ここで導出する。記号は本文と同じものを使う。
+平面の外積は $\bm u\times\bm v = u_xv_y-u_yv_x$（スカラー）とし、$J=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$ を 90° 回転、$R(\theta)$ を角度 $\theta$ の回転行列とする。
+平面ベクトルについて $\bm u\times(J\bm v)=\bm u\cdot\bm v$ が成り立つことを繰り返し使う。
+
+\section{胴体＋手足 1 本の角運動量（閉じた形）}\label{app:twobody}
+
+胴体（質量 $m_b$、重心まわりの慣性 $I_b$）に、回転関節で手足（質量 $m_l$、重心まわりの慣性 $I_l$）が付いた平面の系を考える。
+胴体座標で、関節の位置を $\bm a$（胴体重心から）、関節から手足の重心までの距離を $\ell_c$ とする。
+胴体の姿勢角を $\theta$、関節角を $q$ とすると、胴体重心から手足重心へのベクトルは
+\begin{equation}
+\bm r = R(\theta)\,\bm r_b,\qquad \bm r_b(q) = \bm a + \ell_c\,\bm e(q),\qquad \bm e(q)=(\cos q,\ \sin q)^\top .
+\end{equation}
+
+\paragraph{2 体問題への帰着}
+外力がなければ系重心は等速運動し、重心系で見れば静止とみなせる。2 体の重心まわりの角運動量は、各剛体の自転の角運動量と、
+相対運動の角運動量（換算質量 $\mu = m_bm_l/(m_b+m_l)$ を使う）の和になる：
+\begin{equation}
+L = I_b\dot\theta + I_l(\dot\theta+\dot q) + \mu\,\bm r\times\dot{\bm r}.
+\end{equation}
+
+\paragraph{相対運動の項}
+$\dot{\bm r} = R(\theta)\left(\dot\theta J\bm r_b + \dot{\bm r}_b\right)$、$\dot{\bm r}_b = \dot q\,\ell_c J\bm e(q)$ である。
+外積は回転で不変なので、
+\begin{align}
+\bm r\times\dot{\bm r} &= \bm r_b\times\left(\dot\theta J\bm r_b + \dot q\,\ell_c J\bm e\right)
+ = \dot\theta\,|\bm r_b|^2 + \dot q\,\ell_c\,\bm r_b\cdot\bm e \\
+&= \dot\theta\left(|\bm a|^2+\ell_c^2+2\ell_c\,\bm a\cdot\bm e\right) + \dot q\left(\ell_c^2+\ell_c\,\bm a\cdot\bm e\right).
+\end{align}
+$\bm a = |\bm a|(\cos\varphi_a,\sin\varphi_a)$ と書けば $\bm a\cdot\bm e = |\bm a|\cos(q-\varphi_a)$ である。
+
+\paragraph{結果}
+\begin{equation}\boxed{
+\begin{aligned}
+L &= A(q)\dot\theta + B(q)\dot q,\\
+A(q) &= I_b + I_l + \mu\left(|\bm a|^2+\ell_c^2+2\ell_c|\bm a|\cos(q-\varphi_a)\right),\\
+B(q) &= I_l + \mu\left(\ell_c^2+\ell_c|\bm a|\cos(q-\varphi_a)\right).
+\end{aligned}}\label{eq:AB-closed}
+\end{equation}
+$L$ は $\theta$ に依存しない（回転対称性）。$A$ は「形状 $q$ で固まった系全体の慣性モーメント」、$B$ は関節運動と姿勢の結合である。
+
+\paragraph{数値の確認}
+Sim01 の人間大モデル（$m_b=60$ kg、$I_b=60(0.35^2+1.0^2)/12=5.613$ kg\,m$^2$、腕 $m_l=4$ kg、長さ 0.7 m、$\bm a=(0,0.35)$ m、$\ell_c=0.35$ m）で、
+腕を前に水平に向けた $q=0$ では $\cos(q-\varphi_a)=\cos(-90^\circ)=0$ なので、
+$\mu=3.75$ kg、$A = 5.613+0.163+3.75\times0.245 = 6.695$、$B = 0.163+3.75\times0.1225=0.623$、
+$\Gamma=B/A=0.0930$ となる。これは数値計算（平面モデル・3 次元モデル）の値 0.09302 と一致する。
+
+\section{AMBAC の基本式と幾何学的位相}\label{app:connection}
+
+\paragraph{基本式}
+手足が $n$ 本のときも、同じ議論で $L = A(q)\dot\theta + B(q)\cdot\dot q$（$B$ は $n$ 成分）となる。
+静止から始めれば $L\equiv 0$ なので
+\begin{equation}
+\dot\theta = -\Gamma(q)\cdot\dot q,\qquad \Gamma(q) = B(q)/A(q). \label{eq:basic}
+\end{equation}
+$\Gamma$ は幾何力学で機械的接続（mechanical connection）と呼ばれる \cite{R5,R4}。
+式~\eqref{eq:basic} には時間が陽に現れないので、$\theta$ の変化は関節空間の経路だけで決まり、動かす速さに依存しない。
+
+\paragraph{手足 1 本の場合}
+$n=1$ なら $\theta(q) = \theta_0 - \int_{q_0}^{q}\Gamma(q')\,dq'$ は $q$ だけの関数である。関節を元に戻せば姿勢も必ず元に戻る（ホロノミック）。
+
+\paragraph{手足 2 本の場合：ストークスの定理}
+関節空間の閉曲線 $C$ を 1 周すると、
+\begin{equation}
+\Delta\theta = -\oint_C \left(\Gamma_1\,dq_1+\Gamma_2\,dq_2\right)
+ = -\iint_S\left(\frac{\partial\Gamma_2}{\partial q_1}-\frac{\partial\Gamma_1}{\partial q_2}\right)dq_1\,dq_2
+ = -\iint_S F\,dq_1\,dq_2. \label{eq:stokes}
+\end{equation}
+ここで $S$ は $C$ が反時計回りに囲む領域、$F$ は接続の曲率である。$F\neq 0$ なら、形状が戻っても姿勢は $\Delta\theta$ だけ進む（幾何学的位相 \cite{R6}）。
+
+\paragraph{小さなループは 2 次の効果}
+中心 $\bar q$、振幅 $\varepsilon$ の小さなループでは、$\Delta\theta \approx -F(\bar q)\times(\text{面積}) = O(\varepsilon^2)$ である。
+1 次の効果（往復で打ち消す可逆な首振り）は $O(\varepsilon)$ なので、静止に近い方策から学習を始めると、ループを大きくする方向の勾配は小さい（第~\ref{ch:ai}章）。
+制御理論の言葉では、正味の回転は入力ベクトル場のリー括弧から生じる \cite{R10}。
+
+\paragraph{1 周あたりの回転の上界}
+関節の可動域 $Q$ の中で、$\Delta\theta$ を最大にする閉曲線は、$F$ が同じ符号の領域をちょうど囲むものである。したがって
+\begin{equation}
+|\Delta\theta| \le \max\left(\iint_{Q\cap\{F<0\}}|F|\,dq,\ \iint_{Q\cap\{F>0\}}F\,dq\right).
+\end{equation}
+
+\section{リアクションホイールは曲率ゼロの関節}\label{app:rw}
+
+ホイールは重心が回転軸上にある手足とみなせる。式~\eqref{eq:AB-closed} で $\ell_c=0$ とおくと
+\begin{equation}
+A = I_b + I_w + \mu|\bm a|^2,\qquad B = I_w,\qquad \Gamma = \frac{I_w}{I_b+I_w+\mu|\bm a|^2} = \text{一定}.
+\end{equation}
+$\Gamma$ が一定なので $F=0$ で幾何学的位相は生じない。その代わり、ホイールは何回転でも回せるので、$\Delta\theta=-\Gamma\Delta\varphi_w$ は無制限に大きくできる。
+
+\section{角運動量がある場合と「飽和」}\label{app:saturation}
+
+$L\neq0$ のとき、$\dot\theta = L/A(q) - \Gamma(q)\cdot\dot q$ である。
+周波数 $f$ で一定の速さでループを回すと、1 周（時間 $1/f$）あたりの変化は
+\begin{equation}
+\Delta\theta_{\text{周}} = \Delta\theta_c + L\int_0^{1/f}\frac{dt}{A(q(t))} = \Delta\theta_c + \frac{L}{f}\left\langle\frac1A\right\rangle,
+\end{equation}
+したがって周回平均の姿勢 $\bar\theta$ の変化率は
+\begin{equation}
+\dot{\bar\theta} \approx f\,\Delta\theta_c + L\left\langle\frac1A\right\rangle .
+\end{equation}
+外乱で $L$ が増え続けても姿勢を保つには $f = -L\langle 1/A\rangle/\Delta\theta_c$ が必要で、$|f|\le f_{\max}$ から
+\begin{equation}
+|L| \le h_{\mathrm{AMBAC}} = \frac{f_{\max}|\Delta\theta_c|}{\langle 1/A\rangle}.
+\end{equation}
+リアクションホイールでは $\dot\theta = (L-I_w\omega_w)/A$ なので、姿勢を保つには $\omega_w = L/I_w$、$|\omega_w|\le\omega_{\max}$ から $|L|\le h_{\mathrm{RW}} = I_w\omega_{\max}$ となる。
+どちらも「角運動量を内部に溜める容量」であり、超えると飽和する。
+
+\section{運動方程式と時間スケーリング}\label{app:eom}
+
+一般化速度 $\bm u = (\dot\theta,\dot q)$ とすると、重心系の運動エネルギーは $T = \tfrac12\bm u^\top M(q)\bm u$ と書ける（$M$ は $\theta$ に依存しない）。
+$M$ の第 1 行は $(A, B)$ そのものである。ラグランジュ方程式は
+\begin{equation}
+\frac{d}{dt}\left(M\bm u\right) - \frac12\begin{pmatrix}0\\ \bm u^\top\frac{\partial M}{\partial q_k}\bm u\end{pmatrix} = \begin{pmatrix}0\\ \bm\tau\end{pmatrix},
+\end{equation}
+すなわち $M\dot{\bm u} + \dot M\bm u - \tfrac12\bigl(0;\ \bm u^\top\partial_{q_k}M\,\bm u\bigr) = (0;\bm\tau)$ である。
+第 1 行は $dL/dt=0$（$\theta$ が循環座標であることに対応する角運動量保存）そのものである。
+
+\paragraph{時間スケーリング}
+同じ経路を $f$ 倍速で回すと、速度は $f$ 倍、加速度は $f^2$ 倍になる。上式の左辺は加速度の 1 次と速度の 2 次の項からなるので、
+\begin{equation}
+\bm\tau \propto f^2,\qquad \text{パワー } \bm\tau\cdot\dot q \propto f^3 .
+\end{equation}
+
+\paragraph{長さのスケーリング}
+長さを $s$ 倍、密度を同じに保つと、質量は $s^3$ 倍、慣性モーメントは $s^5$ 倍になる。したがって同じ周波数で回すのに必要なトルクは $s^5f^2$ に比例する。
+アクチュエータを相似拡大すると、出せるトルクは（断面積 $s^2$）×（レバー $s$）$=s^3$ に比例する。両者を等しくおくと
+\begin{equation}
+f_{\max}\propto s^{-1},\qquad T_{90^\circ}\propto s,\qquad h_{\mathrm{AMBAC}} \propto f_{\max}\bar A \propto s^{-1}s^5 = s^4 .
+\end{equation}
+回転角 $\Delta\theta_c$ は $\Gamma$ が質量比・長さ比だけの関数なので、スケールに依存しない。
+
+\section{ZMP と転倒・滑りの条件}\label{app:zmp}
+
+地上で静止している台車に、点質量または剛体 $i$（質量 $m_i$、位置 $(x_i,z_i)$、加速度 $(\ddot x_i,\ddot z_i)$、慣性 $I_i$、角加速度 $\ddot\phi_i$）が載っているとする。
+地面からの反力（垂直力の合力 $N$、水平力 $F_x$）は系全体のニュートン・オイラー方程式から決まる：
+\begin{equation}
+N = \sum_i m_i(\ddot z_i+g),\qquad F_x = \sum_i m_i\ddot x_i .
+\end{equation}
+地面上の点 $p$ まわりのモーメントのつり合いは
+\begin{equation}
+\sum_i\left[m_i\left((x_i-p)(\ddot z_i+g) - z_i\ddot x_i\right) + I_i\ddot\phi_i\right] = M_{\text{接触}}(p).
+\end{equation}
+接触力の合力が通る点（ZMP）では $M_{\text{接触}}=0$ なので
+\begin{equation}
+p = \frac{\sum_i m_i\left(x_i(\ddot z_i+g) - z_i\ddot x_i\right) + \sum_i I_i\ddot\phi_i}{\sum_i m_i(\ddot z_i+g)} . \label{eq:zmp}
+\end{equation}
+接地は押すことしかできないので、ZMP は接地範囲 $[-a,a]$ の中にしか来られない。外に出ようとすれば転倒が始まる \cite{R28}。
+水平力は摩擦で出すので $|F_x|\le\mu N$ が必要で、超えると滑る。3 次元で点質量だけからなる場合は
+\begin{equation}
+p_x = \frac{\sum m_i\left(x_i(\ddot z_i+g)-z_i\ddot x_i\right)}{\sum m_i(\ddot z_i+g)},\qquad
+p_y = \frac{\sum m_i\left(y_i(\ddot z_i+g)-z_i\ddot y_i\right)}{\sum m_i(\ddot z_i+g)} .
+\end{equation}
+
+\paragraph{フルード則}
+長さを $s$ 倍、動作時間を $T$ とすると、位置は $s$ 倍、加速度は $s/T^2$ 倍になる。式~\eqref{eq:zmp} の分子・分母を $g$ で割ると、
+$p/s$ は無次元量 $s/(gT^2)$ だけの関数になる。したがって転倒限界 $p/s=a/s$（一定）を与える時間は
+\begin{equation}
+T_{\min}\propto\sqrt{s/g}
+\end{equation}
+となる（フルード数 $v^2/(g\ell)$ を一定に保つ相似則 \cite{R29}）。Sim06 では比 $T_{\min}/\sqrt{s\,g_{\text{地球}}/g}$ が 12 通りの条件で 1.616 に一致した。
+
+\section{履帯のヨーとスティックスリップ}\label{app:stickslip}
+
+台車中心のターレットで腕を水平に振る。台車の並進は止まっているとし、台車中心まわりの角運動量を $L_o = A\dot\theta + B\dot q$（$A=I_b+I_a$、$B=I_a$ は一定）とする。
+摩擦トルクの上限は、接地面（面積 $S$）に一様に圧力がかかるとして
+\begin{equation}
+\tau_f = \mu N\bar r,\qquad \bar r = \frac{1}{S}\iint_S|\bm r|\,dS .
+\end{equation}
+クーロン摩擦（静止・動摩擦）のモデル \cite{R30} では、
+\begin{itemize}
+\item 台車が止まっていて（$\dot\theta=0$）、必要な摩擦トルク $|B\ddot q|\le\tau_f$ なら止まったまま。
+\item そうでなければ $A\ddot\theta = -B\ddot q - \tau_f\,\mathrm{sgn}(\dot\theta)$（止まっていた場合は滑り出す向きの符号）。
+\end{itemize}
+最小躍度軌道で角度 $\Delta q$ を時間 $T$ で振ると最大角加速度は $5.77\Delta q/T^2$ なので、滑り始める条件は $T<\sqrt{5.77B\Delta q/\tau_f}$ である。
+「速く振ってゆっくり戻す」往復では、速い振りの間だけ滑るので、正味の回転が残る。
+
+\section{3 次元の AMBAC}\label{app:3d}
+
+胴体の姿勢を回転行列 $R$、胴体座標での角速度を $\bm\omega$ とする。重心系の角運動量（胴体座標）は
+\begin{equation}
+\bm L = A(q)\bm\omega + B(q)\dot q,\qquad
+A = I_b + \sum_i m_i\left(|\bm r_i|^2E - \bm r_i\bm r_i^\top\right),\qquad
+B = \sum_i m_i\,\bm r_i\times\frac{\partial(\bm r_i-\bm c)}{\partial q},
+\end{equation}
+（$\bm r_i$ は系重心から各点質量への位置、$E$ は単位行列）。$\bm L=0$ から
+\begin{equation}
+\bm\omega = -A^{-1}B\,\dot q,\qquad \dot R = R\,[\bm\omega]_\times .
+\end{equation}
+平面と違い、$\bm\omega$ は 3 成分のベクトルで、回転の合成は順序に依存する。小さなループ（振幅 $\beta$）での正味の回転ベクトルは、
+接続の曲率（非可換なので $d\Gamma$ に加えて交換子の項を含む）とループの面積の積で与えられ、$O(\beta^2)$ である。Sim07 では指数 2.00 を得た。
+
+\paragraph{球面座標の特異点}
+肩の向きを $\bm u(\psi,\alpha) = (\cos\alpha\cos\psi,\ \cos\alpha\sin\psi,\ \sin\alpha)$ で表すと、
+$|\partial\bm u/\partial\psi| = \cos\alpha$ なので、腕先の角速度 $\omega_{\text{tip}}$ を保つには $\dot\psi\approx\omega_{\text{tip}}/\cos\alpha$ が必要である。
+極（$\alpha\to\pm90^\circ$）で、極からの角距離を $\delta$ とすると $\cos\alpha\approx\delta$ なので $\dot\psi\propto1/\delta$ で発散する（ジンバルロック \cite{R18}）。
+
+\section{コッドマンのパラドックスとガウス・ボンネの定理}\label{app:codman}
+
+上腕を「ひねらずに」動かすとは、上腕の角速度 $\bm\omega$ が常に腕の軸 $\bm u$ に垂直であること（$\bm\omega\cdot\bm u=0$）を言う。
+このとき上腕に固定した、腕に垂直な方向ベクトルは、単位球面上で $\bm u$ が描く曲線に沿って平行移動される。
+閉曲線 $C$ を 1 周したとき、平行移動されたベクトルの回転角は、$C$ が囲む領域 $S$ のガウス曲率の積分に等しい（ガウス・ボンネの定理 \cite{R11}）。
+単位球面のガウス曲率は 1 なので
+\begin{equation}
+\text{上腕のひねり} = \iint_S K\,dA = \Omega\quad(\text{立体角},\ \bmod 2\pi).
+\end{equation}
+
+\paragraph{例}
+\begin{itemize}
+\item 下 → 前 → 横 → 下：3 つの直角を持つ球面三角形で、全球（$4\pi$）の 1/8。$\Omega=\pi/2$、すなわち 90°（古典的なコッドマンのパラドックス \cite{R34,R35}）。
+\item 半頂角 $\beta$ の円錐：$\Omega = 2\pi(1-\cos\beta)$。$\beta=20^\circ$ で 21.71°、$45^\circ$ で 105.44°。
+\end{itemize}
+これは AMBAC の式~\eqref{eq:stokes} で、形状空間を単位球面、曲率を $K=1$ とした場合にあたる。
+
+\section{スラスタ・RW・AMBAC の配分の線形計画}\label{app:lp}
+
+旋回時間 $T$ を $N$ 区間（幅 $\Delta t$）に分け、各区間で一定のスラスタトルク $\tau_k=\tau_k^+-\tau_k^-$、AMBAC の周回周波数 $f_k$、RW のトルク $w_k$ を選ぶ。
+平均化モデル $\dot{\bar\theta} = (L-h)/\bar A + f\Delta\theta_c$、$\dot L=\tau$、$\dot h = w$ を厳密に離散化すると、
+終端の姿勢 $\bar\theta_N$、角運動量 $L_N$、ホイールの角運動量 $h_N$ はすべて決定変数の 1 次式になる。問題は
+\begin{align}
+\min\ &\sum_k \frac{\Delta t}{r\,I_{sp}\,g_0}\left(\tau_k^++\tau_k^-\right) \quad(\text{推進剤の質量})\\
+\text{s.t. }& \bar\theta_N = 90^\circ,\quad L_N=0,\quad h_N=0,\quad |h_k|\le h_{\max},\\
+& 0\le\tau_k^\pm\le\tau_{\max},\quad |f_k|\le f_{\max},\quad |w_k|\le w_{\max}
+\end{align}
+の線形計画で、HiGHS \cite{R25} で厳密に解ける（$r$：スラスタのモーメントアーム、$I_{sp}$：比推力、$g_0$：標準重力）。
+MPC では、現在の状態から残り時間について同じ問題を 2 秒ごとに解き直す。
+
+\section{段差の乗り越えの静力学}\label{app:steps}
+
+\paragraph{戦車型}
+車体が後ろの接地点 R と段の角 E の 2 点で支えられ、傾き $\vartheta$（$\sin\vartheta = h/s_e$、$s_e$ は R から E までの車体底面に沿った距離）にあるとする。
+未知数は R の垂直力 $N_1$・水平力 $T_1$、E の車体底面に垂直な力 $N_2$・沿う力 $T_2$ である。
+水平・垂直方向の力と R まわりのモーメントの 3 つのつり合い式に、摩擦の条件 $|T_i|\le\mu N_i$、$N_i\ge0$ を課し、
+実行可能な最小の $\mu$（必要摩擦係数）を線形計画と二分法で求める。重心が R より後ろに来ると $N_2<0$ が必要になり、後ろに転倒する。
+
+\paragraph{二本脚}
+大腿と下腿の長さが等しく $\ell$、段の上の足首の真上に股関節があり、両者の距離を $H-h$（$H$ は直立時の股関節の高さ、$h$ は段差）とすると、
+膝は前方に $d = \sqrt{\ell^2-(H-h)^2/4}$ はみ出す。足首から見た重心の前方位置を $x_c$ とすると、膝より上の質量 $m$ を支える膝トルクは
+\begin{equation}
+\tau_{\text{膝}} = m g\,(d - x_c),
+\end{equation}
+上体を前に傾けて $x_c$ を足裏の範囲内で前に移すと膝の負担が減り、その分を股関節が担う（$\tau_{\text{股}}\approx m g\,x_c$）。
+相似拡大では $\tau\propto s^3\cdot s = s^4$、使えるトルクは $s^3$ なので、大きいほど上れる段差（大きさとの比）が小さくなる。

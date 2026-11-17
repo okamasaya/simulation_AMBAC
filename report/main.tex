@@ -1,0 +1,76 @@
+% AMBAC 技術報告書（LuaLaTeX + jlreq）
+% ビルド: report/ で latexmk -lualatex main.tex
+\documentclass[paper=a4paper,fontsize=10.5pt,report,openany]{jlreq}
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{graphicx,xcolor}
+\usepackage{longtable,booktabs,array,calc,multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,decorations.markings,patterns,angles,quotes,3d,positioning}
+\usepackage{tikz-3dplot}
+\usepackage{fancyvrb}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\usepackage{url}
+\graphicspath{{../figures/}}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{tocdepth}{1}
+\newcommand{\repo}{https://github.com/okamasaya/simulation_AMBAC}
+\newcommand{\Sim}[1]{Sim#1}
+
+% 図: \FIG{ファイル名} → 図環境（キャプションは \cap@ファイル名）
+\makeatletter
+\newcommand{\defcap}[2]{\expandafter\def\csname cap@#1\endcsname{#2}}
+\newcommand{\FIG}[1]{%
+  \begin{figure}[htbp]\centering
+  \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{#1}%
+  \caption{\csname cap@#1\endcsname}\label{fig:#1}
+  \end{figure}}
+\makeatother
+\input{captions}
+
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[chapter]
+\newtheorem{proposition}{命題}[chapter]
+
+\title{\textbf{AMBAC から考える\\二足歩行・形状・フィジカル AI}\\[0.5em]
+\large ガンダムから生まれた空想科学は、どこまで真実に迫れるか\\
+--- 第 1 段階 技術報告書 ---}
+\author{simulation\_AMBAC プロジェクト}
+\date{2026 年 11 月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{chapters/abstract}
+\end{abstract}
+
+\tableofcontents
+
+\input{chapters/00_intro}
+
+\part{AMBAC の物理（宇宙）}
+\input{chapters/01_theory_angular_momentum}
+\input{chapters/02_sim_results_planar}
+\input{chapters/03_rw_vs_ambac}
+\input{chapters/04_dynamics_scaling}
+\input{chapters/05_physical_ai}
+
+\part{下半身の形状（地上）}
+\input{chapters/06_ground_tank}
+\input{chapters/09_legs}
+\input{chapters/10_steps}
+
+\part{上半身：肩と肩甲骨}
+\input{chapters/07_spatial_3d}
+\input{chapters/08_shoulder_human}
+
+\part{結論}
+\input{chapters/99_conclusion}
+
+\appendix
+\input{chapters/app_derivations}
+\input{chapters/app_numerics}
+\input{chapters/app_parameters}
+
+\input{references}
+\end{document}

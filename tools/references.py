@@ -140,5 +140,33 @@ def main():
         p.write_text(s)
 
 
+def to_latex(text):
+    """参考文献の文字列を LaTeX に変換する（斜体・URL・特殊文字）"""
+    urls = []
+    def keep(m):
+        urls.append(m.group(0)); return f"@@URL{len(urls) - 1}@@"
+    t = re.sub(r"https?://\S+", keep, text)
+    for a, b in (("\\", r"\textbackslash{}"), ("&", r"\&"), ("%", r"\%"), ("#", r"\#"), ("_", r"\_")):
+        t = t.replace(a, b)
+    t = re.sub(r"\*([^*]+)\*", r"\\textit{\1}", t)
+    t = re.sub(r"\[(R\d+)\]", r"\\cite{\1}", t)
+    t = t.replace("✓", r"$\\checkmark$")
+    for i, u in enumerate(urls):
+        t = t.replace(f"@@URL{i}@@", r"\url{" + u + "}")
+    return t
+
+
+def write_latex(path=ROOT / "report" / "references.tex"):
+    """報告書用の thebibliography（分野の順に並べる）"""
+    lines = [r"\begin{thebibliography}{R44}", r"\small"]
+    for g, ids in GROUPS:
+        lines.append(r"\item[] \textbf{" + g + "}")
+        lines += [r"\bibitem[" + i + "]{" + i + "} " + to_latex(R[i]) for i in ids]
+    lines.append(r"\end{thebibliography}")
+    path.parent.mkdir(exist_ok=True)
+    path.write_text("\n".join(lines) + "\n")
+
+
 if __name__ == "__main__":
     main()
+    write_latex()

@@ -1,0 +1,62 @@
+\chapter{パラメータと再現手順}\label{app:param}
+
+\section{機体モデルのパラメータ}
+
+\begin{longtable}{p{0.20\linewidth}p{0.73\linewidth}}
+\toprule
+モデル & パラメータ \\ \midrule \endhead
+人間大・平面（Sim01〜05） & 胴体 60 kg（0.35×1.0 m の一様な長方形）。腕 4 kg・0.7 m、肩 (0, 0.35) m。脚 12 kg・0.9 m、股関節 (0, $-0.15$) m。可動域：腕 $-150$°〜150°、脚 $-120$°〜30°（$-90$° が真下、0° が前方）。 \\
+リアクションホイール（Sim03） & 2 kg、半径 0.12 m の一様な円盤、最大回転数 600 rad/s。外乱 0.01 N\,m、姿勢ゲイン 0.5 s$^{-1}$、手足の周回周波数の上限 1 Hz。 \\
+関節トルク（Sim04） & 持続トルクの目安：肩 40 N\,m、股関節 120 N\,m。相似拡大ではトルク上限 $\propto s^3$。 \\
+スラスタ（Sim04・05） & モーメントアーム $0.5s$ m（18 m 級で 5 m）、比推力 300 s、最大トルク $2.5\times10^5$ N\,m（Sim05B）。 \\
+18 m 級の配分（Sim05B） & $s=10$、$f_{\max}=0.102$ Hz、RW：$h_{\max}=8.64\times10^4$ kg\,m$^2$/s、トルク上限 200 N\,m。旋回時間 60 s、再計画 2 s ごと、終盤 10 s は AMBAC 停止（揺れ補償 MPC）。プラントの誤差：$\kappa\in[0.7,1.3]$、$\alpha\in[0.9,1.1]$、$\tau_d\in[-500,500]$ N\,m。 \\
+学習（Sim05A） & 刻み 40 ms、25 s、目標 8 通り。ES：対称ペア 40、ノイズ 0.08（tg は 0.1）、学習率 0.02（tg は 0.03）、250 回。関節速度の上限 $2\pi\times1.02\times R$。 \\
+学習（Sim05B） & ネットワーク 6-32-32-2、対称ペア 32、ノイズ 0.05、学習率 0.02、800 回、プラント 24 例/回。 \\
+戦車型・平面（Sim06） & 台車＋胴体 80 kg（重心高さ 0.35 m）、履帯接地長 0.8 m。肩の高さ 0.75 m、上腕 4 kg・0.5 m、前腕 3 kg・0.5 m、荷物 10 kg。摩擦係数 0.6、ZMP の安全余裕 5 cm、関節速度 6 rad/s・加速度 60 rad/s$^2$。ヨー：接地面 0.8×0.6 m、腕 7 kg・1.0 m＋荷物 10 kg、振り 90°、戻り 3 s。 \\
+人間大・3 次元（Sim07） & 胴体 60 kg（奥行 0.25×幅 0.4×高さ 1.0 m）、右肩 (0, $-0.2$, 0.35) m、腕 4 kg・0.7 m。 \\
+戦車型・3 次元（Sim07） & 台車 80 kg（重心 (0, 0, 0.35) m）、接地面 0.8×0.6 m、肩 (0, 0, 0.75) m、腕 7 kg・1.0 m、荷物 10 kg。関節速度 6 rad/s・加速度 40 rad/s$^2$、仰角 $\ge -35$°。 \\
+肩（Sim08） & 胸郭（楕円柱）の半奥行 0.09 / 0.11 / 0.13 m・半幅 0.14 m。胸鎖関節 (0.06, $-0.02$, 0.17) m、肩関節 (0, $-0.19$, 0.15) m。上腕 0.30 m（半径 5 cm）、前腕＋手 0.27 m（半径 4 cm）。可動域：水平内転 45°、内旋 70°、外旋 90°、肘 145°、前方突出 25°。目標 (0.20, 0.15, 0.00) m、許容誤差 1.5 cm。 \\
+脚の比較（Sim09） & 戦車型：下部 50 kg（重心 0.2 m）、上体 30 kg（腰 0.4 m）、接地 $\pm0.4$ m。二本脚：脚 24 kg（重心 0.5 m）、上体 56 kg（股関節 0.95 m、重心は股関節から 0.25 m）、足裏 $\pm0.125$ m。上体の傾き $\pm40$°、速度 3 rad/s、加速度 15 rad/s$^2$、垂直反力 $\ge$ 自重の 30\%。3 次元：胴体 46 kg、腕 4 kg・0.7 m、脚 12 kg・0.9 m。 \\
+段差（Sim10） & 戦車型：履帯接地長 0.8 m、前端の高さ 0.25 m、摩擦係数 0.6。二本脚：大腿・下腿 各 0.45 m、股関節の高さ 0.9 m、総質量 97 kg、膝・股関節トルク上限 各 250 N\,m、重心を前に移せる範囲 0.15 m、足を置く位置 前方 0.30 m・すき間 5 cm、股関節屈曲 120°、膝屈曲 140°。 \\
+\bottomrule
+\end{longtable}
+
+\section{再現手順}
+
+ソースコード・データ・図はすべて次のリポジトリにある。
+
+\begin{center}\url{\repo}\end{center}
+
+\begin{longtable}{p{0.30\linewidth}p{0.63\linewidth}}
+\toprule
+場所 & 内容 \\ \midrule \endhead
+\texttt{src/ambac/} & モデル（平面・3 次元・地上・肩、動力学、学習器） \\
+\texttt{sims/} & シミュレーション Sim01〜Sim10 \\
+\texttt{data/}, \texttt{figures/} & 出力（数値・図）。\texttt{data/sim*\_summary.txt} に本文の数値がある \\
+\texttt{docs/} & 各章のノート（Markdown）と参考文献一覧 \\
+\texttt{report/} & 本報告書の \LaTeX{} ソース \\
+\bottomrule
+\end{longtable}
+
+\noindent 実行手順（Python 3、NumPy・SciPy・Matplotlib \cite{R39,R40,R41}）：
+\begin{Verbatim}[fontsize=\small,frame=single]
+pip install -r requirements.txt
+cd sims
+python sim01_single_arm.py
+python sim02_cyclic_gait.py
+python sim03_rw_vs_ambac.py        # 約 30 秒（Sim04, 05 が使う最適ループを保存）
+python sim04_dynamics_scaling.py
+python sim05a_learn_ambac.py       # 学習あり、約 5 分
+python sim05b_allocation.py        # 学習済み方策を再利用（再学習は RETRAIN=1、約 12 分）
+python sim06_ground_tank.py
+python sim07_spatial.py
+python sim08_shoulder.py
+python sim09_legs.py
+python sim10_steps.py              # 約 3 分
+\end{Verbatim}
+
+\noindent 報告書の組版（TeX Live の LuaLaTeX、jlreq クラス）：
+\begin{Verbatim}[fontsize=\small,frame=single]
+cd report
+latexmk -lualatex main.tex
+\end{Verbatim}
