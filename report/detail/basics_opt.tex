@@ -1,0 +1,125 @@
+\chapter{最適化・制御・学習の基礎}\label{ch:basics-opt}
+
+本報告書では、軌道の最適化（第~\ref{ch:tank}章、第~\ref{ch:3d}章、第~\ref{ch:legs}章）、
+推進剤の配分（第~\ref{ch:ai}章）、方策の学習（第~\ref{ch:ai}章）に、最適化・制御・学習の手法を使った。本章ではその基礎をまとめる。
+
+\section{最適化問題}
+
+最適化問題は、変数 $\bm x$、目的関数 $f(\bm x)$、制約 $g_i(\bm x)\ge0$、$h_j(\bm x)=0$ から成る：
+\begin{equation}
+\min_{\bm x}\ f(\bm x)\quad\text{s.t.}\quad g_i(\bm x)\ge0,\quad h_j(\bm x)=0 .
+\end{equation}
+
+\subsection{線形計画（LP）}
+
+目的関数と制約がすべて 1 次式のとき、線形計画という：
+\begin{equation}
+\min_{\bm x}\ \bm c^\top\bm x\quad\text{s.t.}\quad A_{ub}\bm x\le\bm b_{ub},\quad A_{eq}\bm x=\bm b_{eq},\quad \bm l\le\bm x\le\bm u .
+\end{equation}
+線形計画は凸最適化の一種で、局所解が大域解になり、大規模な問題でも単体法や内点法で確実に解ける。
+本報告書では、推進剤最小の配分（付録~\ref{app:lp}）と、段差を這い上がるのに必要な摩擦係数（付録~\ref{app:steps}）を線形計画で解いた（ソルバは HiGHS \cite{R25}）。
+
+\paragraph{絶対値の扱い}
+推進剤は $|\tau|$ に比例するが、絶対値は 1 次式ではない。$\tau = \tau^+ - \tau^-$、$\tau^\pm\ge0$ と分けて $\tau^++\tau^-$ を最小化すると、
+最適解では $\tau^+$ と $\tau^-$ の少なくとも一方が 0 になり、$\tau^++\tau^- = |\tau|$ となる。
+
+\subsection{非線形計画と SQP}
+
+目的関数や制約が非線形のとき、逐次二次計画法（SQP）がよく使われる。各反復で、目的関数を二次式、制約を 1 次式で近似した部分問題を解き、解を更新する。
+本報告書の軌道最適化では、SQP の一種である SLSQP \cite{R26} を使い、動作時間 $T$ と軌道の補正係数を同時に最適化した。
+非線形計画は局所解に陥りうるので、複数の初期値から解き、制約を満たす最良解を採用した。
+
+\paragraph{最適性の条件（KKT 条件）}
+制約付き最適化の解では、目的関数の勾配が、有効な（等号で効いている）制約の勾配の 1 次結合で書ける。
+直観的には「これ以上どの方向に動いても、目的関数を減らすか制約を破るかのどちらか」という状態である。
+第~\ref{ch:tank}章の最適軌道で ZMP が許容範囲の端に張り付いたのは、転倒の制約が有効になっていることを示す。
+
+\section{最適制御とモデル予測制御}
+
+\subsection{直接法}
+
+時間とともに変わる入力 $u(t)$ を決める問題（最適制御）は、時間を区切って各区間の入力を変数とすれば、有限次元の最適化問題になる（直接法）。
+第~\ref{ch:ai}章の推進剤配分は、平均化モデルが線形なので、直接法で線形計画になった。
+
+\subsection{モデル予測制御（MPC）}
+
+最適制御で一度だけ計画して実行する（開ループ）と、モデルの誤差や外乱で結果がずれる。
+\textbf{モデル予測制御}は、一定時間ごとに現在の状態を測り、そこから残り時間（または一定の先読み時間）について最適制御問題を解き直し、
+最初の部分だけを実行する。計画の最適性と、フィードバックによる誤差の修正を両立できる。
+
+\begin{algorithm}[htbp]
+\caption{モデル予測制御（第~\ref{ch:ai}章の推進剤配分）}
+\begin{algorithmic}[1]
+\Require 目標姿勢、旋回時間 $T$、再計画の間隔 $\Delta T$
+\For{$t = 0, \Delta T, 2\Delta T, \dots < T$}
+  \State 現在の状態（周回平均の姿勢 $\bar\theta$、角運動量 $L$、位相 $\varphi$）を測る
+  \State 残り時間 $T-t$ について、推進剤最小の線形計画を解く
+  \State 計画の最初の $\Delta T$ 秒分のスラスタトルクと周回周波数を実行する
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\section{強化学習と進化戦略}
+
+\subsection{強化学習の枠組み}
+
+強化学習では、エージェントが状態（観測）$\bm o$ を見て行動 $\bm a = \pi_{\bm w}(\bm o)$ を選び、環境から報酬を受け取る。
+方策 $\pi_{\bm w}$ のパラメータ $\bm w$（ニューラルネットワークの重み）を、報酬の期待値 $J(\bm w)$ が大きくなるように調整する。
+物理の式を明示的には使わず、試行錯誤から方策を得る点が、最適制御（モデルを使う）との違いである。
+
+\subsection{進化戦略（ES）}
+
+進化戦略は、方策のパラメータそのものにノイズを加えて試し、報酬の良かった方向へパラメータを動かす方法である \cite{R19}。
+パラメータ $\bm w$ のまわりで、正規分布のノイズ $\bm\varepsilon_k$ を加えた $\bm w+\sigma\bm\varepsilon_k$ を $n$ 通り試すと、
+報酬の勾配は
+\begin{equation}
+\nabla_{\bm w}J \approx \frac{1}{n\sigma}\sum_{k=1}^n F(\bm w+\sigma\bm\varepsilon_k)\,\bm\varepsilon_k
+\end{equation}
+で推定できる。本報告書では、次の工夫を加えた OpenAI-ES を使った。
+\begin{itemize}
+\item \textbf{対称サンプリング}：$+\bm\varepsilon_k$ と $-\bm\varepsilon_k$ を対で試し、推定のばらつきを減らす。
+\item \textbf{順位変換}：報酬の値そのものではなく順位を使い、外れ値の影響を抑える。
+\item \textbf{Adam} \cite{R20}：勾配の移動平均と大きさで歩幅を調整する。
+\end{itemize}
+
+\begin{algorithm}[htbp]
+\caption{OpenAI-ES（本報告書の実装）}
+\begin{algorithmic}[1]
+\Require 初期パラメータ $\bm w$、ノイズの大きさ $\sigma$、対の数 $n$、学習率 $\eta$
+\For{各反復}
+  \State $\bm\varepsilon_1,\dots,\bm\varepsilon_n\sim\mathcal N(0,E)$ を生成する
+  \State $2n$ 個の方策 $\bm w\pm\sigma\bm\varepsilon_k$ を、まとめてシミュレーションで評価し、報酬 $F_k^\pm$ を得る
+  \State 全 $2n$ 個の報酬を順位に変換し、$[-0.5, 0.5]$ に正規化する（$r_k^\pm$）
+  \State 勾配の推定 $\bm g = \frac{1}{n\sigma}\sum_k (r_k^+-r_k^-)\bm\varepsilon_k$
+  \State Adam で $\bm w$ を更新する
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+勾配を使わない（シミュレーションを微分しない）ので、報酬が最後にしか決まらない問題や、長い試行（数百ステップ）に強い。
+一方、パラメータが多いと必要な試行数が増える。本報告書の方策は数百〜数千パラメータの小さなネットワークで、ES に向いた規模である。
+
+\subsection{帰納バイアス：方策にどんな構造を持たせるか}
+
+学習の成否は、方策にどんな構造（帰納バイアス）を持たせるかで大きく変わる。
+\begin{itemize}
+\item \textbf{中枢パターン生成器（CPG）} \cite{R22}：動物の歩行のリズムを生む神経回路にならい、周期的な信号を方策に与える。
+\item \textbf{軌道生成器の調整（PMTG）} \cite{R21}：あらかじめ周期軌道を生成する仕組みを持たせ、学習ではその形や速さを調整する。
+\end{itemize}
+第~\ref{ch:ai}章では、周期信号を観測に加えるだけ（CPG 的）では不十分で、ループを描く振動子を持たせる（PMTG 的）と学習が成功した。
+幾何学的位相が振幅の 2 次の効果であるため（第~\ref{ch:basics-geom}章）、最初から有限の大きさのループを描ける構造が必要だったと解釈できる。
+
+\subsection{シミュレーションから実機へ}
+
+シミュレーションで学習した方策を実機で使うと、モデルの誤差で性能が落ちる（sim-to-real の問題）。
+対策の 1 つが\textbf{ドメインランダム化} \cite{R23} で、学習時にシミュレーションのパラメータ（質量、摩擦、外乱など）を乱数で変え、どれでもうまくいく方策を学ぶ。
+第~\ref{ch:ai}章の学習方策は、ループの効き方 $\kappa$、慣性 $\alpha$、外乱 $\tau_d$ をランダムにして学習し、MPC より誤差・外乱に強くなった。
+第 2 段階では、校正値（実機の測定値）でランダム化の範囲を決めることを想定している。
+
+\section*{考察課題}
+\begin{exercise}
+推進剤最小の配分で、AMBAC の周回周波数 $f$ に小さな正の費用（$10^{-6}$）を付けた理由を、線形計画の解が一意でない場合を考えて説明せよ（第~\ref{ch:ai}章の考察 C-2 も参照）。
+\end{exercise}
+\begin{exercise}
+進化戦略で、ノイズの大きさ $\sigma$ を大きくしすぎた場合と小さくしすぎた場合に、それぞれ何が起きるか考えよ。
+\end{exercise}

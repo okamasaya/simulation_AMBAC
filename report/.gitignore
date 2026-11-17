@@ -1,8 +1,9 @@
 *.aux
-*.log
-*.toc
-*.out
-*.fls
 *.fdb_latexmk
+*.fls
+*.log
+*.out
 *.synctex.gz
+*.toc
 main.pdf
+main_detailed.pdf

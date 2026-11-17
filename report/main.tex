@@ -1,5 +1,8 @@
 % AMBAC 技術報告書（LuaLaTeX + jlreq）
-% ビルド: report/ で latexmk -lualatex main.tex
+% ビルド: report/ で latexmk -lualatex main.tex（技術報告書）
+%        report/ で latexmk -lualatex main_detailed.tex（詳細版: \DETAILED を定義して本ファイルを読む）
+\newif\ifdetailed
+\ifdefined\DETAILED \detailedtrue \fi
 \documentclass[paper=a4paper,fontsize=10.5pt,report,openany]{jlreq}
 \usepackage{amsmath,amssymb,amsthm,bm,mathtools}
 \usepackage{graphicx,xcolor}
@@ -8,6 +11,8 @@
 \usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,decorations.markings,patterns,angles,quotes,3d,positioning}
 \usepackage{tikz-3dplot}
 \usepackage{fancyvrb}
+\usepackage{algorithm,algpseudocode}
+\usepackage[most]{tcolorbox}
 \usepackage[hidelinks,bookmarksnumbered]{hyperref}
 \usepackage{url}
 \graphicspath{{../figures/}}
@@ -30,10 +35,18 @@
 \theoremstyle{definition}
 \newtheorem{definition}{定義}[chapter]
 \newtheorem{proposition}{命題}[chapter]
+\newtheorem{example}{例題}[chapter]
+\newtheorem{exercise}{考察課題}[chapter]
+\renewcommand{\algorithmicrequire}{\textbf{入力:}}
+\renewcommand{\algorithmicensure}{\textbf{出力:}}
+\floatname{algorithm}{アルゴリズム}
+% 詳細版だけに入れる内容
+\newcommand{\Detail}[1]{\ifdetailed\input{detail/#1}\fi}
+\newtcolorbox{keypoint}{colback=gray!6,colframe=gray!60,boxrule=0.5pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
 
 \title{\textbf{AMBAC から考える\\二足歩行・形状・フィジカル AI}\\[0.5em]
 \large ガンダムから生まれた空想科学は、どこまで真実に迫れるか\\
---- 第 1 段階 技術報告書 ---}
+--- 第 1 段階 \ifdetailed 技術報告書（詳細版）\else 技術報告書\fi ---}
 \author{simulation\_AMBAC プロジェクト}
 \date{2026 年 11 月}
 
@@ -45,24 +58,43 @@
 \end{abstract}
 
 \tableofcontents
+\Detail{notation}
 
 \input{chapters/00_intro}
+\Detail{intro_detail}
+
+\ifdetailed
+\part{基礎編}
+\input{detail/basics_rigid}
+\input{detail/basics_geom}
+\input{detail/basics_opt}
+\fi
 
 \part{AMBAC の物理（宇宙）}
 \input{chapters/01_theory_angular_momentum}
+\Detail{ch01}
 \input{chapters/02_sim_results_planar}
+\Detail{ch02}
 \input{chapters/03_rw_vs_ambac}
+\Detail{ch03}
 \input{chapters/04_dynamics_scaling}
+\Detail{ch04}
 \input{chapters/05_physical_ai}
+\Detail{ch05}
 
 \part{下半身の形状（地上）}
 \input{chapters/06_ground_tank}
+\Detail{ch06}
 \input{chapters/09_legs}
+\Detail{ch09}
 \input{chapters/10_steps}
+\Detail{ch10}
 
 \part{上半身：肩と肩甲骨}
 \input{chapters/07_spatial_3d}
+\Detail{ch07}
 \input{chapters/08_shoulder_human}
+\Detail{ch08}
 
 \part{結論}
 \input{chapters/99_conclusion}
@@ -71,6 +103,7 @@
 \input{chapters/app_derivations}
 \input{chapters/app_numerics}
 \input{chapters/app_parameters}
+\Detail{glossary}
 
 \input{references}
 \end{document}

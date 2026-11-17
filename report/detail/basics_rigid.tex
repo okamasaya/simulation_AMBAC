@@ -1,0 +1,167 @@
+\chapter{剛体力学の基礎}\label{ch:basics-rigid}
+
+本章では、本報告書全体で使う剛体力学の道具を、必要な範囲に絞ってまとめる。
+すでに力学に慣れている読者は飛ばしてよい。
+
+\section{ベクトル・座標系・回転}
+
+\subsection{慣性系と胴体座標系}
+
+運動を記述する基準となる座標系として、空間に固定された\textbf{慣性系}と、機体の胴体に固定された\textbf{胴体座標系}の 2 つを使う。
+同じベクトルでも、どちらの座標系で成分を書くかで数値が変わる。本報告書では、関節の位置や手足の重心位置は胴体座標系で与え、
+胴体の向き（姿勢）は慣性系に対する回転として表す。
+
+\subsection{平面の回転}
+
+平面では、向きは 1 つの角度 $\theta$ で表せる。角度 $\theta$ の回転行列は
+\begin{equation}
+R(\theta) = \begin{pmatrix}\cos\theta & -\sin\theta\\ \sin\theta & \cos\theta\end{pmatrix}
+\end{equation}
+であり、次の性質を持つ。
+\begin{itemize}
+\item $R(\theta_1)R(\theta_2) = R(\theta_1+\theta_2)$：回転の合成は角度の足し算で、順序によらない（\textbf{可換}）。
+\item $R(\theta)^\top = R(\theta)^{-1} = R(-\theta)$。
+\item $\dfrac{d}{d\theta}R(\theta) = J R(\theta)$、ただし $J = R(\pi/2) = \begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$。
+\end{itemize}
+平面のベクトル $\bm u,\bm v$ の外積はスカラー $\bm u\times\bm v = u_xv_y - u_yv_x$ とする。$\bm u\times(J\bm v) = \bm u\cdot\bm v$、
+$(R\bm u)\times(R\bm v) = \bm u\times\bm v$（回転で不変）が成り立つ。
+
+\subsection{3 次元の回転と SO(3)}
+
+3 次元の向きは、$3\times3$ の回転行列 $R$（$R^\top R = E$、$\det R = 1$）で表す。このような行列全体を $\mathrm{SO}(3)$ と書く。
+平面と違い、3 次元の回転の合成は\textbf{非可換}である：一般に $R_1R_2 \neq R_2R_1$。
+
+\begin{example}[回転の順序]
+本を机に置き、(a) 縦軸まわりに 90° 回してから横軸まわりに 90° 回す場合と、
+(b) 横軸まわりに 90° 回してから縦軸まわりに 90° 回す場合を比べると、最終的な本の向きは異なる。
+第~\ref{ch:3d}章では、腕の円錐運動による「ヨー → ピッチ」と「ピッチ → ヨー」で、最終姿勢が 29° 違うことを確かめた。
+\end{example}
+
+回転を数値で表す方法には次のものがある \cite{R18}。
+\begin{longtable}{p{0.20\linewidth}p{0.36\linewidth}p{0.36\linewidth}}
+\toprule
+表現 & 長所 & 短所 \\ \midrule \endhead
+回転行列（9 成分） & 合成が行列積で簡単、特異点がない & 冗長（拘束 6 個）、数値誤差で直交性が崩れる \\
+オイラー角（3 成分） & 直観的、人が読みやすい & 特異点（ジンバルロック）がある \\
+回転ベクトル（3 成分） & 「軸 × 角度」で直観的 & 180° 付近で不連続 \\
+四元数（4 成分） & 特異点がない、補間が滑らか & 直観的でない、$q$ と $-q$ が同じ回転 \\
+\bottomrule
+\end{longtable}
+本報告書の 3 次元計算では、姿勢の積分に回転ベクトル（指数写像）と回転行列を使い、オイラー角は使わない。
+
+\subsection{角速度}
+
+姿勢 $R(t)$ が時間とともに変わるとき、$R^\top\dot R$ は歪対称行列になり、ベクトル $\bm\omega$ を使って
+\begin{equation}
+R^\top\dot R = [\bm\omega]_\times = \begin{pmatrix}0&-\omega_3&\omega_2\\ \omega_3&0&-\omega_1\\ -\omega_2&\omega_1&0\end{pmatrix}
+\end{equation}
+と書ける。この $\bm\omega$ を\textbf{胴体座標で表した角速度}という（$\dot RR^\top$ から得られる角速度は慣性系の成分で、両者は $\bm\omega_{\text{慣性}} = R\bm\omega$ の関係にある）。
+本報告書の 3 次元モデルでは、胴体座標の角速度 $\bm\omega$ を求めて $\dot R = R[\bm\omega]_\times$ を積分する。
+短い時間 $\Delta t$ の間 $\bm\omega$ が一定なら、$R(t+\Delta t) = R(t)\exp([\bm\omega\Delta t]_\times)$ である（指数写像、ロドリゲスの公式で計算できる）。
+
+\section{質点系の運動量と角運動量}
+
+\subsection{重心と運動量}
+
+質量 $m_i$ の質点が位置 $\bm r_i$ にあるとき、系の重心と全運動量は
+\begin{equation}
+\bm c = \frac{\sum_i m_i\bm r_i}{M},\quad M=\sum_i m_i,\qquad \bm P = \sum_i m_i\dot{\bm r}_i = M\dot{\bm c}.
+\end{equation}
+外力の合力を $\bm F$ とすると $\dot{\bm P} = \bm F$。内力（質点どうしが及ぼし合う力）は作用・反作用の法則で打ち消し合うので、
+\textbf{内力では重心の運動を変えられない}。宇宙空間で手足をどう動かしても、重心は等速直線運動を続ける。
+
+\subsection{角運動量と重心まわりの分解}
+
+点 $\bm o$ まわりの角運動量は $\bm L_o = \sum_i (\bm r_i-\bm o)\times m_i\dot{\bm r}_i$ である。
+重心を基準にとると、次のように分解できる（ケーニッヒの定理）：
+\begin{equation}
+\bm L_o = (\bm c-\bm o)\times M\dot{\bm c} + \underbrace{\sum_i (\bm r_i-\bm c)\times m_i(\dot{\bm r}_i-\dot{\bm c})}_{\text{重心まわりの角運動量 }\bm L}.
+\end{equation}
+外力のモーメントを $\bm N$ とすると $\dot{\bm L} = \bm N$（重心まわり）。内力のモーメントは（中心力なら）打ち消し合うので、
+\begin{keypoint}
+\textbf{外力のモーメントがなければ、重心まわりの角運動量 $\bm L$ は保存される。内部の運動（手足の動き）では $\bm L$ を変えられない。}
+\end{keypoint}
+これが AMBAC の出発点である。AMBAC は $\bm L$ を変えるのではなく、$\bm L$ を一定に保ったまま、胴体と手足の間で回転を「やりとり」する。
+
+\subsection{剛体の角運動量と慣性}
+
+剛体の重心まわりの角運動量は、平面では $L = I\omega$、3 次元では $\bm L = I\bm\omega$（$I$ は慣性テンソル）である。
+平面での代表的な慣性モーメントを挙げる。
+\begin{longtable}{p{0.40\linewidth}p{0.50\linewidth}}
+\toprule
+物体 & 重心まわりの慣性モーメント \\ \midrule \endhead
+長さ $\ell$ の一様な棒（棒に垂直な軸） & $m\ell^2/12$ \\
+幅 $a$、高さ $b$ の一様な長方形（面に垂直な軸） & $m(a^2+b^2)/12$ \\
+半径 $r$ の一様な円盤（面に垂直な軸） & $mr^2/2$ \\
+\bottomrule
+\end{longtable}
+回転軸が重心から距離 $d$ だけ離れている場合は、\textbf{平行軸の定理} $I_{\text{軸}} = I_{\text{重心}} + md^2$ を使う。
+3 次元の慣性テンソルについても同様に $I_{\text{点}} = I_{\text{重心}} + m(|\bm d|^2E - \bm d\bm d^\top)$ が成り立つ。
+
+\begin{example}[本報告書の人間大モデルの胴体]
+胴体 60 kg を幅 0.35 m・高さ 1.0 m の一様な長方形とみなすと、$I_b = 60(0.35^2+1.0^2)/12 = 5.61$ kg\,m$^2$。
+腕（4 kg、0.7 m の棒）の重心まわりの慣性は $4\times0.7^2/12 = 0.163$ kg\,m$^2$ で、胴体の 3\% にすぎない。
+ところが腕の重心は肩から 0.35 m、肩は胴体重心から 0.35 m 離れているので、平行軸の項が加わり、腕が胴体の回転に与える影響はずっと大きくなる。
+\end{example}
+
+\subsection{2 体の重心まわりの角運動量}
+
+質量 $m_1, m_2$ の 2 つの剛体が相対位置 $\bm r = \bm c_2-\bm c_1$ にあるとき、系全体の重心まわりの角運動量は
+\begin{equation}
+L = I_1\omega_1 + I_2\omega_2 + \mu\,\bm r\times\dot{\bm r},\qquad \mu = \frac{m_1m_2}{m_1+m_2}
+\end{equation}
+と書ける（$\mu$ は換算質量）。付録~\ref{app:twobody} では、これを使って胴体＋手足 1 本の $A(q)$, $B(q)$ を閉じた形で求めた。
+
+\section{運動方程式}
+
+\subsection{ニュートン・オイラー方程式}
+
+各剛体について、重心の並進運動 $m\ddot{\bm c} = \bm F$ と、重心まわりの回転運動
+\begin{equation}
+I\dot{\bm\omega} + \bm\omega\times I\bm\omega = \bm N\quad(\text{胴体座標、オイラーの運動方程式})
+\end{equation}
+を連立させる方法をニュートン・オイラー法という。ZMP の式（付録~\ref{app:zmp}）は、地面に置かれた系全体にこれを適用したものである。
+
+\subsection{ラグランジュ方程式}
+
+一般化座標 $\bm x$（ここでは $(\theta, q)$）と運動エネルギー $T(\bm x,\dot{\bm x})$ を使うと、外力のない系の運動方程式は
+\begin{equation}
+\frac{d}{dt}\frac{\partial T}{\partial\dot x_k} - \frac{\partial T}{\partial x_k} = Q_k
+\end{equation}
+で与えられる（$Q_k$ は一般化力、関節トルクなど）。本報告書の系では、$T = \tfrac12\bm u^\top M(q)\bm u$（$\bm u = (\dot\theta,\dot q)$）であり、
+$M$ が $\theta$ に依存しない。このような座標を\textbf{循環座標}という。
+
+\subsection{循環座標とネーターの定理}
+
+$\partial T/\partial\theta = 0$ かつ $\theta$ に対応する一般化力がゼロなら、ラグランジュ方程式から
+\begin{equation}
+\frac{d}{dt}\frac{\partial T}{\partial\dot\theta} = 0\quad\Longrightarrow\quad p_\theta = \frac{\partial T}{\partial\dot\theta} = A(q)\dot\theta + B(q)\cdot\dot q = L = \text{一定}.
+\end{equation}
+「系全体を回転させても運動エネルギーが変わらない」という対称性から、角運動量の保存が導かれる。これがネーターの定理の一例である。
+保存量 $L$ を使って $\dot\theta$ を消去し、形状 $q$ だけの運動方程式に縮約する手続きを\textbf{ラウスの簡約}という \cite{R5}。
+
+\section{例題：回転椅子の上で腕を振る}
+
+\begin{example}
+回転椅子に座った人（胴体と椅子をまとめて慣性モーメント $I_b = 3$ kg\,m$^2$、縦軸まわり）が、
+水平に伸ばした腕（質量 4 kg、長さ 0.7 m、肩は回転軸から 0.2 m）を前から横へ 90° 振る。椅子の摩擦は無視する。
+
+縦軸まわりの角運動量は保存されるので、腕の角度 $q$ について付録~\ref{app:twobody} と同じ形の式が成り立つ。
+回転軸を胴体重心とみなし（椅子は固定軸なので、換算質量の代わりに腕の質量そのものを使う）、
+$\bm a$ を肩の位置、$\ell_c=0.35$ m とすると
+\[
+A(q) = I_b + I_l + m_l\left(|\bm a|^2+\ell_c^2+2\ell_c|\bm a|\cos(q-\varphi_a)\right),\quad
+B(q) = I_l + m_l\left(\ell_c^2+\ell_c|\bm a|\cos(q-\varphi_a)\right).
+\]
+$|\bm a| = 0.2$、肩が真横（$\varphi_a=90^\circ$）にあり、腕を前方（$q=0$）から横（$q=90^\circ$）へ振るとすると、
+$\Gamma = B/A$ はおよそ 0.18〜0.21 の範囲で変わり、胴体は逆向きにおよそ $-\int_0^{\pi/2}\Gamma\,dq \approx -17^\circ$ 回る。
+実際に回転椅子で試すと、腕を振った向きと逆に体が回るのを感じられる。
+\end{example}
+
+\section*{考察課題}
+\begin{exercise}
+胴体の慣性モーメントを 2 倍にすると、腕を 180° 振ったときの胴体の回転角はおよそ何倍になるか。式~\eqref{eq:AB-closed} を使って見積もれ。
+\end{exercise}
+\begin{exercise}
+3 次元で、縦軸まわりに 90°、横軸まわりに 90° の回転を順序を変えて合成し、結果の回転行列が異なることを確かめよ。
+\end{exercise}

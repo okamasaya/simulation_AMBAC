@@ -1,0 +1,42 @@
+\chapter*{記号表}\addcontentsline{toc}{chapter}{記号表}
+
+\begin{longtable}{p{0.16\linewidth}p{0.55\linewidth}p{0.20\linewidth}}
+\toprule
+記号 & 意味 & 主な章 \\ \midrule \endhead
+$\theta$ & 胴体の姿勢角（平面） & 全般 \\
+$\bar\theta$ & 周回平均の姿勢角（周回内の揺れを除いたもの） & \ref{ch:rw}, \ref{ch:ai} \\
+$R$ & 胴体の姿勢を表す回転行列（3 次元） & \ref{ch:3d} \\
+$\bm\omega$ & 胴体座標で表した胴体の角速度 & \ref{ch:3d} \\
+$q,\ \bm q$ & 関節角（形状）。$q_1$：腕、$q_2$：脚 & 全般 \\
+$L,\ \bm L$ & 系の重心まわりの全角運動量 & 全般 \\
+$A(q)$ & 形状 $q$ で固まった系全体の慣性（3 次元では $3\times3$ 行列） & \ref{ch:theory} \\
+$B(q)$ & 関節運動と姿勢の結合 & \ref{ch:theory} \\
+$\Gamma(q)$ & 機械的接続 $B/A$。$\dot\theta=-\Gamma\cdot\dot q$ & \ref{ch:theory} \\
+$F(q)$ & 接続の曲率 $\partial_1\Gamma_2-\partial_2\Gamma_1$ & \ref{ch:theory}, \ref{ch:planar} \\
+$\Delta\theta_c$ & ループ 1 周あたりの正味の回転 & \ref{ch:rw}〜\ref{ch:ai} \\
+$f,\ f_{\max}$ & ループの周回周波数とその上限 & \ref{ch:rw}〜\ref{ch:ai} \\
+$\langle1/A\rangle$ & 周回中の $1/A$ の平均 & \ref{ch:rw}, \ref{ch:ai} \\
+$h_{\mathrm{RW}},\ h_{\mathrm{AMBAC}}$ & 角運動量の容量（溜められる上限） & \ref{ch:rw} \\
+$I_w,\ \omega_w$ & リアクションホイールの慣性と回転速度 & \ref{ch:rw} \\
+$M(q)$ & 重心系の質量行列 & \ref{ch:dyn} \\
+$\bm\tau$ & 関節トルク & \ref{ch:dyn} \\
+$s$ & 長さの倍率（相似拡大）。$s=1$ が人間大、$s=10$ が 18 m 級 & \ref{ch:dyn}, \ref{ch:tank}, \ref{ch:steps} \\
+$\tau_{th},\ \tau_{rw}$ & スラスタ・RW のトルク & \ref{ch:ai} \\
+$\kappa,\ \alpha,\ \tau_d$ & プラントの誤差（ループの効き、慣性）と一定外乱 & \ref{ch:ai} \\
+$p,\ (p_x,p_y)$ & ZMP（地面反力の合力の作用点） & \ref{ch:tank}, \ref{ch:3d}, \ref{ch:legs} \\
+$a,\ b$ & 接地範囲の半分（前後、左右） & \ref{ch:tank}, \ref{ch:3d} \\
+$N,\ F_x$ & 地面の垂直反力と水平反力 & \ref{ch:tank} \\
+$\mu$ & 摩擦係数 & \ref{ch:tank}, \ref{ch:steps} \\
+$g$ & 重力加速度（地球 9.81、火星 3.72、月 1.63 m/s$^2$） & \ref{ch:tank} \\
+$T,\ T_{\min}$ & 動作時間と、転倒・滑りを起こさない最短時間 & \ref{ch:tank}, \ref{ch:legs} \\
+$\tau_f,\ \bar r$ & 旋回の摩擦トルクの上限と、接地面の平均半径 & \ref{ch:tank} \\
+$\psi,\ \alpha$ & 肩の球面座標：方位角と仰角（第~\ref{ch:3d}章の $\alpha$ は仰角） & \ref{ch:3d} \\
+$\bm u$ & 腕の向きの単位ベクトル & \ref{ch:3d}, \ref{ch:shoulder} \\
+$\beta$ & 円錐運動の半頂角 & \ref{ch:3d}, \ref{ch:shoulder} \\
+$\Omega$ & 立体角 & \ref{ch:shoulder} \\
+$h$ & 段差の高さ（第~\ref{ch:steps}章） & \ref{ch:steps} \\
+$d,\ x_c$ & 膝の前方へのはみ出しと、足首から見た重心の前方位置 & \ref{ch:steps} \\
+\bottomrule
+\end{longtable}
+
+\noindent 注：$\alpha$ は第~\ref{ch:ai}章では慣性の誤差の倍率、第~\ref{ch:3d}章では肩の仰角を表す。$h$ は第~\ref{ch:rw}章では RW の角運動量、第~\ref{ch:steps}章では段差の高さを表す。
