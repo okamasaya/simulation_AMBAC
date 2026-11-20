@@ -5,3 +5,5 @@
 mujoco>=4.0
 # 画面のない Linux で画像を描画する場合は OSMesa を使う:
 #   apt-get install -y libosmesa6 libgl1  /  環境変数 MUJOCO_GL=osmesa PYOPENGL_PLATFORM=osmesa
+# Excel のサマリー（sims/field05_export.py）
+openpyxl>=3.1
