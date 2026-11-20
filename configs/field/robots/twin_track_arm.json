@@ -1,0 +1,7 @@
+{"name": "twin_track_arm", "note": "左右 2 本の履帯（板をつないだベルト、各幅 0.15 m、中心の間隔 0.45 m、接地長 0.8 m）＋2 軸の肩（旋回＋俯仰）の腕＋荷物",
+ "base": {"type": "linked_track", "mass": 80.0, "size": [0.8, 0.6, 0.35], "com": [0, 0, 0.3],
+          "track": {"n_tracks": 2, "width": 0.15, "gauge": 0.45, "front_height": 0.25, "approach_deg": 40, "pitch": 0.04, "plate_mass": 0.3,
+                    "sprocket_radius": 0.10, "wheel_radius": 0.08, "n_road": 5, "drive_force": 1000, "kv": 200}},
+ "arms": [{"name": "arm", "mount": [0, 0, 0.75], "shoulder": "yaw_pitch",
+           "links": [{"length": 0.5, "mass": 4.0}, {"length": 0.5, "mass": 3.0}], "payload": 10.0}],
+ "actuator": {"kp": 30000, "kv": 1500}}

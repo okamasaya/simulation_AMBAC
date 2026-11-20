@@ -7,7 +7,8 @@
              tracked の追加項目 "track": {"wheel_radius", "front_height"（前端の高さ）, "approach_deg"（進入角）, "drive_force"（N、全体）, "kv", "wheel_mass", "spacing"}
              tracked の車体（箱）は接触しない（スカート扱い）。接地・段差との接触は転輪だけが受け持つ。
              linked_track=板をつないだ履帯（ambac.field.track）。"track": {"front_height", "approach_deg", "pitch", "plate_mass",
-             "sprocket_radius", "wheel_radius", "n_road", "drive_force"（N）, "kv", "width"}。駆動は起動輪（後ろ）の摩擦で伝える。
+             "sprocket_radius", "wheel_radius", "n_road", "drive_force"（N、1 本あたり）, "kv", "width", "n_tracks"（1 または 2）, "gauge"（左右の中心の間隔）}。
+             駆動は起動輪（後ろ）の摩擦で伝える。2 本のとき、駆動は drive_L_sprocket（左、+y）と drive_R_sprocket（右、−y）。
   waist    : 省略可。{"height", "torso_mass", "torso_size", "torso_com", "range": [deg, deg]}（y 軸まわりに前後に傾く上体）
   arms     : [{"name", "mount": [x, y, z], "shoulder": "pitch" | "yaw_pitch" | "ball3",
                "links": [{"length", "mass"}, ...], "payload"}]
@@ -144,8 +145,13 @@ def build(robot, stage, timestep=5e-4):
     if b["type"] == "linked_track":
         from .track import linked_track
         tr = b.get("track", {})
-        wx, track_world, eq_t, act_t, _info = linked_track(tr, sx, tr.get("width", sy * 0.8), mu, z0=0.002)
-        parts.append(wx)
+        if tr.get("n_tracks", 1) == 2:   # 左右 2 本（中心の間隔 gauge、それぞれの幅 width）
+            g2 = tr.get("gauge", sy - tr.get("width", 0.15)) / 2
+            outs = [linked_track(tr, sx, tr.get("width", 0.15), mu, z0=0.002, y=yy, prefix=pf) for yy, pf in [(g2, "L_"), (-g2, "R_")]]
+        else:
+            outs = [linked_track(tr, sx, tr.get("width", sy * 0.8), mu, z0=0.002)]
+        parts.append("".join(o[0] for o in outs)); track_world = "".join(o[1] for o in outs)
+        eq_t = "".join(o[2] for o in outs); act_t = "".join(o[3] for o in outs)
         equality = "<equality>" + eq_t + "</equality>"
     arm_parent_close = ""
     w = robot.get("waist")
