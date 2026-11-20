@@ -1,0 +1,5 @@
+# シミュレーション場（docs/11_simulation_field_plan.md）の検討・試作用
+# MuJoCo 4.0.1 は Python 3.13 / Linux で、画面なしの計算（mj_step）が動くことを確認済み。
+# ビューア（python -m mujoco.viewer）は画面のあるデスクトップで使う。
+-r requirements.txt
+mujoco>=4.0

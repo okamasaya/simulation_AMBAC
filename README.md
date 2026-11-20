@@ -106,6 +106,8 @@ report/    技術報告書（LaTeX ソースと PDF）
 
 ## 実行方法
 
+デスクトップ（ローカル）で準備する場合は [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md)（必要なソフト・ライブラリの一覧と手順）を参照。
+
 ```bash
 pip install -r requirements.txt
 ```

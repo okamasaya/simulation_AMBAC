@@ -13,6 +13,8 @@
 
 ## 環境の準備
 
+デスクトップで準備する場合（シミュレーション場など画面が必要な作業）は [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md) を参照。以下はクラウド（Linux）向け。
+
 ### Python（シミュレーション）
 
 ```bash
