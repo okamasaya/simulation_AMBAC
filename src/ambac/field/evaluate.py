@@ -21,7 +21,7 @@ from .menu import run_menu
 # 荷物運びの標準動作（前方の地面 → 頭上 → 後部）。腕の俯仰（pitch）と肘を使う
 PICK_PLACE = ({"pitch": np.radians(-20.0), "elbow1": np.radians(-50.0)},
               {"pitch": np.radians(130.0), "elbow1": np.radians(60.0)})
-TILT_LIMIT_DEG, SLIDE_LIMIT_MM = 1.0, 5.0
+TILT_LIMIT_DEG, SLIDE_LIMIT_MM, TRACK_LIMIT_DEG = 1.0, 5.0, 1.0
 
 
 def _min_jerk(t):
@@ -35,28 +35,33 @@ def _targets(joints, arm_name):
     return a, b
 
 
-def safe_time(robot, stage, t_lo=0.3, t_hi=12.0, iters=8):
-    """荷物運びを、傾き 1° 未満・ずれ 5 mm 未満で実行できる最短時間（二分法）。土台が固定なら None"""
+def safe_time(robot, stage, t_lo=0.3, t_hi=12.0, iters=10):
+    """荷物運びを、傾き 1° 未満・ずれ 5 mm 未満で、腕が目標に 1° 以内で届く最短時間（指令する動作時間 T を二分法で探す）。
+    戻り値: (T, そのときの指標)。指標の done_time_s は、腕が目標の 1° 以内に入って以後とどまる実際の時刻（完了時間）。
+    土台が固定なら (None, None)、どの T でも不可なら (inf, 指標)"""
     if robot["base"]["type"] == "fixed" or not robot.get("arms"):
         return None, None
     xml, joints = build(robot, stage)
     a, b = _targets(joints, robot["arms"][0]["name"])
 
     def ok(T):
-        _, s = run_menu(xml, joints, a, b, T, _min_jerk)
-        return s["max_tilt_deg"] < TILT_LIMIT_DEG and s["slide_mm"] < SLIDE_LIMIT_MM, s
+        _, s = run_menu(xml, joints, a, b, T, _min_jerk, hold=max(1.0, 0.5 * T))
+        return (s["max_tilt_deg"] < TILT_LIMIT_DEG and s["slide_mm"] < SLIDE_LIMIT_MM
+                and s["track_err_deg"] < TRACK_LIMIT_DEG), s
     good, s_hi = ok(t_hi)
     if not good:
         return np.inf, s_hi
-    s_best = s_hi
+    best = (t_hi, s_hi)
     for _ in range(iters):
         mid = (t_lo + t_hi) / 2
         g, s = ok(mid)
         if g:
-            t_hi, s_best = mid, s
+            t_hi = mid
+            if s["done_time_s"] < best[1]["done_time_s"]:
+                best = (mid, s)
         else:
             t_lo = mid
-    return t_hi, s_best
+    return best
 
 
 def evaluate(robot, stage):
@@ -68,6 +73,7 @@ def evaluate(robot, stage):
         return out
     T, s = safe_time(robot, stage)
     out["safe_pick_place_time_s"] = None if T is None else (None if np.isinf(T) else round(float(T), 3))
+    out["completion_time_s"] = None if not s or not out["safe_pick_place_time_s"] else round(s["done_time_s"], 3)
     out["pick_place_feasible"] = T is not None and not np.isinf(T)
     if s:
         out["at_safe_time"] = {k: round(v, 3) for k, v in s.items()}

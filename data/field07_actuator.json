@@ -1,0 +1,606 @@
+{
+  "practice": {
+    "None_None": {
+      "torque": null,
+      "speed": null,
+      "T": 1.292,
+      "peak_torque": 325.9
+    },
+    "None_180": {
+      "torque": null,
+      "speed": 180,
+      "T": 0.948,
+      "peak_torque": 770.1
+    },
+    "None_120": {
+      "torque": null,
+      "speed": 120,
+      "T": 1.346,
+      "peak_torque": 543.8
+    },
+    "None_90": {
+      "torque": null,
+      "speed": 90,
+      "T": 1.802,
+      "peak_torque": 358.7
+    },
+    "None_60": {
+      "torque": null,
+      "speed": 60,
+      "T": 2.748,
+      "peak_torque": 274.8
+    },
+    "400_None": {
+      "torque": 400,
+      "speed": null,
+      "T": 1.292,
+      "peak_torque": 325.9
+    },
+    "400_180": {
+      "torque": 400,
+      "speed": 180,
+      "T": 0.932,
+      "peak_torque": 400.0
+    },
+    "400_120": {
+      "torque": 400,
+      "speed": 120,
+      "T": 1.346,
+      "peak_torque": 400.0
+    },
+    "400_90": {
+      "torque": 400,
+      "speed": 90,
+      "T": 1.802,
+      "peak_torque": 358.7
+    },
+    "400_60": {
+      "torque": 400,
+      "speed": 60,
+      "T": 2.748,
+      "peak_torque": 274.8
+    },
+    "250_None": {
+      "torque": 250,
+      "speed": null,
+      "T": 1.292,
+      "peak_torque": 250.0
+    },
+    "250_180": {
+      "torque": 250,
+      "speed": 180,
+      "T": 1.47,
+      "peak_torque": 250.0
+    },
+    "250_120": {
+      "torque": 250,
+      "speed": 120,
+      "T": 1.484,
+      "peak_torque": 250.0
+    },
+    "250_90": {
+      "torque": 250,
+      "speed": 90,
+      "T": 1.792,
+      "peak_torque": 250.0
+    },
+    "250_60": {
+      "torque": 250,
+      "speed": 60,
+      "T": 2.748,
+      "peak_torque": 250.0
+    },
+    "180_None": {
+      "torque": 180,
+      "speed": null,
+      "T": 1.576,
+      "peak_torque": 180.0
+    },
+    "180_180": {
+      "torque": 180,
+      "speed": 180,
+      "T": 1.576,
+      "peak_torque": 180.0
+    },
+    "180_120": {
+      "torque": 180,
+      "speed": 120,
+      "T": 1.828,
+      "peak_torque": 180.0
+    },
+    "180_90": {
+      "torque": 180,
+      "speed": 90,
+      "T": 2.122,
+      "peak_torque": 180.0
+    },
+    "180_60": {
+      "torque": 180,
+      "speed": 60,
+      "T": 2.742,
+      "peak_torque": 180.0
+    },
+    "140_None": {
+      "torque": 140,
+      "speed": null,
+      "T": 2.814,
+      "peak_torque": 140.0
+    },
+    "140_180": {
+      "torque": 140,
+      "speed": 180,
+      "T": 2.814,
+      "peak_torque": 140.0
+    },
+    "140_120": {
+      "torque": 140,
+      "speed": 120,
+      "T": 2.814,
+      "peak_torque": 140.0
+    },
+    "140_90": {
+      "torque": 140,
+      "speed": 90,
+      "T": 2.776,
+      "peak_torque": 140.0
+    },
+    "140_60": {
+      "torque": 140,
+      "speed": 60,
+      "T": 3.282,
+      "peak_torque": 140.0
+    },
+    "110_None": {
+      "torque": 110,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "110_180": {
+      "torque": 110,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "110_120": {
+      "torque": 110,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "110_90": {
+      "torque": 110,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "110_60": {
+      "torque": 110,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    },
+    "80_None": {
+      "torque": 80,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "80_180": {
+      "torque": 80,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "80_120": {
+      "torque": 80,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "80_90": {
+      "torque": 80,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "80_60": {
+      "torque": 80,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    },
+    "50_None": {
+      "torque": 50,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "50_180": {
+      "torque": 50,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "50_120": {
+      "torque": 50,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "50_90": {
+      "torque": 50,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "50_60": {
+      "torque": 50,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    },
+    "30_None": {
+      "torque": 30,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "30_180": {
+      "torque": 30,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "30_120": {
+      "torque": 30,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "30_90": {
+      "torque": 30,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "30_60": {
+      "torque": 30,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_None": {
+      "torque": 20,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_180": {
+      "torque": 20,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_120": {
+      "torque": 20,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_90": {
+      "torque": 20,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_60": {
+      "torque": 20,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    }
+  },
+  "moon": {
+    "None_None": {
+      "torque": null,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "None_180": {
+      "torque": null,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "None_120": {
+      "torque": null,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "None_90": {
+      "torque": null,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "None_60": {
+      "torque": null,
+      "speed": 60,
+      "T": 2.758,
+      "peak_torque": 168.5
+    },
+    "400_None": {
+      "torque": 400,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "400_180": {
+      "torque": 400,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "400_120": {
+      "torque": 400,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "400_90": {
+      "torque": 400,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "400_60": {
+      "torque": 400,
+      "speed": 60,
+      "T": 2.758,
+      "peak_torque": 168.5
+    },
+    "250_None": {
+      "torque": 250,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "250_180": {
+      "torque": 250,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "250_120": {
+      "torque": 250,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "250_90": {
+      "torque": 250,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "250_60": {
+      "torque": 250,
+      "speed": 60,
+      "T": 2.758,
+      "peak_torque": 168.5
+    },
+    "180_None": {
+      "torque": 180,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "180_180": {
+      "torque": 180,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "180_120": {
+      "torque": 180,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "180_90": {
+      "torque": 180,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "180_60": {
+      "torque": 180,
+      "speed": 60,
+      "T": 2.758,
+      "peak_torque": 168.5
+    },
+    "140_None": {
+      "torque": 140,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "140_180": {
+      "torque": 140,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "140_120": {
+      "torque": 140,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "140_90": {
+      "torque": 140,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 134.5
+    },
+    "140_60": {
+      "torque": 140,
+      "speed": 60,
+      "T": 2.756,
+      "peak_torque": 140.0
+    },
+    "110_None": {
+      "torque": 110,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 110.0
+    },
+    "110_180": {
+      "torque": 110,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 110.0
+    },
+    "110_120": {
+      "torque": 110,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 110.0
+    },
+    "110_90": {
+      "torque": 110,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 110.0
+    },
+    "110_60": {
+      "torque": 110,
+      "speed": 60,
+      "T": 2.748,
+      "peak_torque": 110.0
+    },
+    "80_None": {
+      "torque": 80,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 80.0
+    },
+    "80_180": {
+      "torque": 80,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 80.0
+    },
+    "80_120": {
+      "torque": 80,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 80.0
+    },
+    "80_90": {
+      "torque": 80,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 80.0
+    },
+    "80_60": {
+      "torque": 80,
+      "speed": 60,
+      "T": 2.934,
+      "peak_torque": 80.0
+    },
+    "50_None": {
+      "torque": 50,
+      "speed": null,
+      "T": 3.09,
+      "peak_torque": 50.0
+    },
+    "50_180": {
+      "torque": 50,
+      "speed": 180,
+      "T": 3.09,
+      "peak_torque": 50.0
+    },
+    "50_120": {
+      "torque": 50,
+      "speed": 120,
+      "T": 3.09,
+      "peak_torque": 50.0
+    },
+    "50_90": {
+      "torque": 50,
+      "speed": 90,
+      "T": 3.09,
+      "peak_torque": 50.0
+    },
+    "50_60": {
+      "torque": 50,
+      "speed": 60,
+      "T": 3.328,
+      "peak_torque": 50.0
+    },
+    "30_None": {
+      "torque": 30,
+      "speed": null,
+      "T": 3.858,
+      "peak_torque": 30.0
+    },
+    "30_180": {
+      "torque": 30,
+      "speed": 180,
+      "T": 3.858,
+      "peak_torque": 30.0
+    },
+    "30_120": {
+      "torque": 30,
+      "speed": 120,
+      "T": 3.858,
+      "peak_torque": 30.0
+    },
+    "30_90": {
+      "torque": 30,
+      "speed": 90,
+      "T": 3.858,
+      "peak_torque": 30.0
+    },
+    "30_60": {
+      "torque": 30,
+      "speed": 60,
+      "T": 5.472,
+      "peak_torque": 30.0
+    },
+    "20_None": {
+      "torque": 20,
+      "speed": null,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_180": {
+      "torque": 20,
+      "speed": 180,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_120": {
+      "torque": 20,
+      "speed": 120,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_90": {
+      "torque": 20,
+      "speed": 90,
+      "T": null,
+      "peak_torque": null
+    },
+    "20_60": {
+      "torque": 20,
+      "speed": 60,
+      "T": null,
+      "peak_torque": null
+    }
+  }
+}
