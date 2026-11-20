@@ -1,0 +1,6 @@
+{"name": "biped_waist", "note": "二本脚で立つ機体（Sim09 Part B と同じ寸法）：脚 24 kg・足裏 0.25 m、股関節 0.95 m で前後に傾く上体 56 kg、肩 1.45 m。脚は固定（足首は十分に強いと仮定）",
+ "base": {"type": "tank", "mass": 24.0, "size": [0.25, 0.3, 0.95], "com": [0, 0, 0.5]},
+ "waist": {"height": 0.95, "torso_mass": 56.0, "torso_size": [0.25, 0.4, 0.6], "torso_com": [0, 0, 0.25], "range": [-45, 45]},
+ "arms": [{"name": "arm", "mount": [0, -0.2, 0.5], "shoulder": "ball3",
+           "links": [{"length": 0.5, "mass": 4.0}, {"length": 0.5, "mass": 3.0}], "payload": 10.0}],
+ "actuator": {"kp": 30000, "kv": 1500}}
