@@ -1,0 +1,298 @@
+{
+  "results": {
+    "step_0.05_down": {
+      "progress_m": 4.763431712469538,
+      "max_pitch_deg": 8.730112326631948,
+      "final_z_m": -0.0015235149412148527,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.1_down": {
+      "progress_m": 4.73822005463339,
+      "max_pitch_deg": 22.332733879954965,
+      "final_z_m": -0.0016348411452239107,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.15_down": {
+      "progress_m": 1.0010740599235117,
+      "max_pitch_deg": 46.351492777410854,
+      "final_z_m": 0.20542885556467816,
+      "tipped": false,
+      "result": "引っかかり"
+    },
+    "step_0.2_down": {
+      "progress_m": 0.9518890568331665,
+      "max_pitch_deg": 76.81199176191865,
+      "final_z_m": 0.383740487476941,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.25_down": {
+      "progress_m": 0.9391453565384499,
+      "max_pitch_deg": 77.52007747432681,
+      "final_z_m": 0.38669359878612525,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.3_down": {
+      "progress_m": 0.9205870952958637,
+      "max_pitch_deg": 79.93661305664304,
+      "final_z_m": 0.39412439421498263,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.05_forward": {
+      "progress_m": 4.76487721806069,
+      "max_pitch_deg": 13.669042335823727,
+      "final_z_m": -0.0010077499247967928,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.1_forward": {
+      "progress_m": 4.679771022432776,
+      "max_pitch_deg": 40.10591420708339,
+      "final_z_m": -0.0008330586058397274,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.15_forward": {
+      "progress_m": 4.279683454587224,
+      "max_pitch_deg": 46.658825635542335,
+      "final_z_m": -0.0009055286793269326,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.2_forward": {
+      "progress_m": 0.9575514609429393,
+      "max_pitch_deg": 74.43388235556948,
+      "final_z_m": 0.3757646126599723,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.25_forward": {
+      "progress_m": 0.928668637903005,
+      "max_pitch_deg": 77.07051960785404,
+      "final_z_m": 0.38558127711943874,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.3_forward": {
+      "progress_m": 0.3011304916796232,
+      "max_pitch_deg": 0.24413301237418106,
+      "final_z_m": -0.0011556708682283973,
+      "tipped": false,
+      "result": "引っかかり"
+    },
+    "step_0.05_back": {
+      "progress_m": 4.757080671565454,
+      "max_pitch_deg": 10.693441887365886,
+      "final_z_m": -0.00076043352195031,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.1_back": {
+      "progress_m": 1.0025866313352712,
+      "max_pitch_deg": 70.91779219739162,
+      "final_z_m": 0.36427615090993776,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.15_back": {
+      "progress_m": 0.9422253656503465,
+      "max_pitch_deg": 78.82879870963608,
+      "final_z_m": 0.39067335155925287,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.2_back": {
+      "progress_m": 0.9362729145576101,
+      "max_pitch_deg": 73.88568903456436,
+      "final_z_m": 0.3742893566975333,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.25_back": {
+      "progress_m": 0.8940235223507067,
+      "max_pitch_deg": 73.33622733621297,
+      "final_z_m": 0.3726228544266247,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.3_back": {
+      "progress_m": 0.8723447343457755,
+      "max_pitch_deg": 74.87860590989797,
+      "final_z_m": 0.3782314646203628,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.05_active": {
+      "progress_m": 4.759022222238893,
+      "max_pitch_deg": 8.152096593591054,
+      "final_z_m": -0.0016422655344760708,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.1_active": {
+      "progress_m": 4.727976632577773,
+      "max_pitch_deg": 16.322319921666807,
+      "final_z_m": -0.001572906761584345,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.15_active": {
+      "progress_m": 4.626706730492642,
+      "max_pitch_deg": 27.792030341464148,
+      "final_z_m": -0.0017820296048039015,
+      "tipped": false,
+      "result": "OK"
+    },
+    "step_0.2_active": {
+      "progress_m": 0.9469228952731908,
+      "max_pitch_deg": 78.23219241652782,
+      "final_z_m": 0.38907878440531973,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.25_active": {
+      "progress_m": 0.9396752389197707,
+      "max_pitch_deg": 76.895309364509,
+      "final_z_m": 0.384356125434253,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "step_0.3_active": {
+      "progress_m": 0.9239016769427811,
+      "max_pitch_deg": 78.65146817407656,
+      "final_z_m": 0.3905023706398199,
+      "tipped": true,
+      "result": "転倒"
+    },
+    "slope_15_down": {
+      "progress_m": 4.153422960039658,
+      "max_pitch_deg": 15.163023252868037,
+      "final_z_m": 0.9278320265305064,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_20_down": {
+      "progress_m": 3.9081092948785465,
+      "max_pitch_deg": 20.171080564965198,
+      "final_z_m": 1.1727598694090988,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_25_down": {
+      "progress_m": 3.648173260039888,
+      "max_pitch_deg": 25.174099253207967,
+      "final_z_m": 1.382533558533789,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_28_down": {
+      "progress_m": 3.4579145310797363,
+      "max_pitch_deg": 28.180323363196504,
+      "final_z_m": 1.4772791949699944,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_31_down": {
+      "progress_m": 0.9721818346708484,
+      "max_pitch_deg": 31.185944781318575,
+      "final_z_m": 0.17663540172202385,
+      "tipped": false,
+      "result": "滑落/停止"
+    },
+    "slope_34_down": {
+      "progress_m": 0.9543903455565195,
+      "max_pitch_deg": 34.180211956553826,
+      "final_z_m": 0.18892546772305546,
+      "tipped": false,
+      "result": "滑落/停止"
+    },
+    "slope_15_forward": {
+      "progress_m": 4.139560094588719,
+      "max_pitch_deg": 15.153810292248716,
+      "final_z_m": 0.9232951273148329,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_20_forward": {
+      "progress_m": 3.89341499924427,
+      "max_pitch_deg": 20.163812061899332,
+      "final_z_m": 1.1666443354748945,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_25_forward": {
+      "progress_m": 3.6339507323953075,
+      "max_pitch_deg": 25.168463941690423,
+      "final_z_m": 1.376923617389956,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_28_forward": {
+      "progress_m": 3.4210012884579584,
+      "max_pitch_deg": 28.177102419552305,
+      "final_z_m": 1.4573563315760927,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_31_forward": {
+      "progress_m": 0.9699139845387063,
+      "max_pitch_deg": 31.17126277574421,
+      "final_z_m": 0.17624105201061585,
+      "tipped": false,
+      "result": "滑落/停止"
+    },
+    "slope_34_forward": {
+      "progress_m": 0.9525008515396439,
+      "max_pitch_deg": 34.180706373057646,
+      "final_z_m": 0.18685204981772544,
+      "tipped": false,
+      "result": "滑落/停止"
+    },
+    "slope_15_back": {
+      "progress_m": 4.150846937144218,
+      "max_pitch_deg": 15.18771901431957,
+      "final_z_m": 0.9269527975031882,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_20_back": {
+      "progress_m": 3.904885212459121,
+      "max_pitch_deg": 20.199784048770077,
+      "final_z_m": 1.1715483300426501,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_25_back": {
+      "progress_m": 3.643117173697488,
+      "max_pitch_deg": 25.1998212994798,
+      "final_z_m": 1.3804743907917747,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_28_back": {
+      "progress_m": 3.4590405155646704,
+      "max_pitch_deg": 28.204612328986105,
+      "final_z_m": 1.477968377987054,
+      "tipped": false,
+      "result": "OK"
+    },
+    "slope_31_back": {
+      "progress_m": 0.971677392610029,
+      "max_pitch_deg": 31.27262130729345,
+      "final_z_m": 0.1761243149252285,
+      "tipped": false,
+      "result": "滑落/停止"
+    },
+    "slope_34_back": {
+      "progress_m": 0.9534289548672674,
+      "max_pitch_deg": 34.3335627415722,
+      "final_z_m": 0.18834333749427343,
+      "tipped": false,
+      "result": "滑落/停止"
+    }
+  }
+}
