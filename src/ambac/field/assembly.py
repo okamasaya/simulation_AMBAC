@@ -6,6 +6,8 @@
              tracked=走行できる履帯の台車（履帯を、駆動する転輪の列と、前端の持ち上がった部分の小さな転輪で近似）。
              tracked の追加項目 "track": {"wheel_radius", "front_height"（前端の高さ）, "approach_deg"（進入角）, "drive_force"（N、全体）, "kv", "wheel_mass", "spacing"}
              tracked の車体（箱）は接触しない（スカート扱い）。接地・段差との接触は転輪だけが受け持つ。
+             linked_track=板をつないだ履帯（ambac.field.track）。"track": {"front_height", "approach_deg", "pitch", "plate_mass",
+             "sprocket_radius", "wheel_radius", "n_road", "drive_force"（N）, "kv", "width"}。駆動は起動輪（後ろ）の摩擦で伝える。
   waist    : 省略可。{"height", "torso_mass", "torso_size", "torso_com", "range": [deg, deg]}（y 軸まわりに前後に傾く上体）
   arms     : [{"name", "mount": [x, y, z], "shoulder": "pitch" | "yaw_pitch" | "ball3",
                "links": [{"length", "mass"}, ...], "payload"}]
@@ -108,6 +110,9 @@ def build(robot, stage, timestep=5e-4):
         geom_z = 0.0; com = b.get("com", [0, 0, 0]); contype = 'contype="0" conaffinity="0"'
     elif b["type"] == "tank":
         base_open = '<body name="base" pos="0 0 0.0005"><freejoint name="base"/>'; geom_z = sz / 2; contype = ""
+    elif b["type"] == "linked_track":
+        base_open = '<body name="base" pos="0 0 0.002"><freejoint name="base"/>'; contype = 'contype="0" conaffinity="0"'
+        geom_z = b.get("track", {}).get("front_height", 0.25) + sz / 2 - 0.1
     elif b["type"] == "tracked":
         base_open = '<body name="base" pos="0 0 0.002"><freejoint name="base"/>'; contype = 'contype="0" conaffinity="0"'
         tr = b.get("track", {}); R = tr.get("wheel_radius", 0.08); H = tr.get("front_height", 0.25)
@@ -135,6 +140,13 @@ def build(robot, stage, timestep=5e-4):
                          f'<inertial pos="0 0 0" mass="{wm}" diaginertia="{wi:.5f} {wi:.5f} {wi:.5f}"/>'
                          f'<geom type="capsule" fromto="0 {-(sy/2 - R)} 0 0 {sy/2 - R} 0" size="{R}" contype="1" conaffinity="0" friction="{mu_w} 0.005 0.0001" rgba="0.2 0.2 0.2 1"/></body>')
             wheels.append(f"wheel{i}")
+    track_world = ""
+    if b["type"] == "linked_track":
+        from .track import linked_track
+        tr = b.get("track", {})
+        wx, track_world, eq_t, act_t, _info = linked_track(tr, sx, tr.get("width", sy * 0.8), mu, z0=0.002)
+        parts.append(wx)
+        equality = "<equality>" + eq_t + "</equality>"
     arm_parent_close = ""
     w = robot.get("waist")
     if w:
@@ -172,6 +184,8 @@ def build(robot, stage, timestep=5e-4):
             acts += f'<velocity name="drive_{wn}" joint="{wn}" kv="{tr.get("kv", 30.0)}" forcelimited="true" forcerange="{-fw} {fw}"/>'
         # 履帯のベルト: すべての転輪を同じ回転にそろえる（駆動力が、接触しているどの転輪にも伝わる）
         equality = "<equality>" + "".join(f'<joint joint1="{wn}" joint2="{wheels[0]}" polycoef="0 1 0 0 0"/>' for wn in wheels[1:]) + "</equality>"
+    if b["type"] == "linked_track":
+        acts += act_t
     sl = [per_joint(a.get("speed_limit_deg_s"), j) for j in joints]
     custom = ""
     if any(sl):
@@ -186,6 +200,7 @@ def build(robot, stage, timestep=5e-4):
     {floor}
     {_obstacles_xml(stage)}
     {"".join(parts)}
+    {track_world}
   </worldbody>
   <actuator>{acts}</actuator>
   {equality}

@@ -1,0 +1,7 @@
+{"name": "linked_track_arm", "note": "板をつないだ履帯の台車（接地長 0.8 m、前端の高さ 0.25 m、進入角 40°）＋2 関節の腕＋荷物。Sim06・10 の戦車型と同じ大きさ",
+ "base": {"type": "linked_track", "mass": 80.0, "size": [0.8, 0.6, 0.35], "com": [0, 0, 0.3],
+          "track": {"front_height": 0.25, "approach_deg": 40, "pitch": 0.04, "plate_mass": 0.3, "width": 0.5,
+                    "sprocket_radius": 0.10, "wheel_radius": 0.08, "n_road": 5, "drive_force": 2000, "kv": 200}},
+ "arms": [{"name": "arm", "mount": [0, 0, 0.75], "shoulder": "pitch",
+           "links": [{"length": 0.5, "mass": 4.0}, {"length": 0.5, "mass": 3.0}], "payload": 10.0}],
+ "actuator": {"kp": 30000, "kv": 1500}}
