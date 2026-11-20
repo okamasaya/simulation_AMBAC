@@ -1,7 +1,7 @@
 """Field08: 履帯の台車で段差・坂を走る — 腕の姿勢と、腕を能動的に動かす重心移動（地上版 AMBAC）の効果（段階 8）.
 
 機体: tracked_arm（Sim06・10 の戦車型と同じ大きさ：接地長 0.8 m、前端の高さ 0.25 m、腕＋荷物 10 kg）。
-履帯は、駆動する転輪を密に並べ、すべて同じ回転にそろえて近似する（ベルト）。駆動力の上限 2000 N（重量の約 2 倍）、周速 0.15 m/s、μ = 0.6、転輪 3 kg。
+履帯は、駆動する転輪を密に並べ、すべて同じ回転にそろえて近似する（ベルト）。駆動力の上限 2000 N（重量の約 1.1 倍）、周速 0.15 m/s、μ = 0.6、転輪 3 kg。
 Part A: 段差（高さ 0.05〜0.25 m）を越えられるか。腕の姿勢: 下ろす / 前に伸ばす / 後ろ上方にたたむ / 能動（機首が上がったら腕を前へ）
 Part B: 上り坂（10〜35°）を 1.5 m 上れるか。腕: 下ろす / 前 / 後ろ
 第 1 段階の Sim10（準静的な見積もり）: 越えられる段差 0.25 m（形の限界）、腕を前に伸ばすと力の限界が上がる。
@@ -21,7 +21,7 @@ from ambac.field.drive import run_drive
 
 FIGF = FIG / "field"
 R = np.radians
-ROBOT = load("robots", "tracked_arm"); ROBOT["base"]["track"]["drive_force"] = 2000.0   # 重量の約 2 倍
+ROBOT = load("robots", "tracked_arm"); ROBOT["base"]["track"]["drive_force"] = 2000.0   # 重量（187 kg）の約 1.1 倍
 WR = ROBOT["base"]["track"]["wheel_radius"]; SPEED = 0.15
 
 POSES = {"down": {"arm_pitch": R(-90)}, "forward": {"arm_pitch": R(0)},

@@ -359,7 +359,7 @@ PYTHONPATH=src MUJOCO_GL=osmesa python -m ambac.field.evaluate configs/field/rob
 台車の種類に、走行できる履帯（`base.type = "tracked"`）を加えた（`src/ambac/field/assembly.py`、走行の試験メニューは `src/ambac/field/drive.py`）。
 履帯は、駆動する転輪を密に並べ（間隔は半径の 0.4 倍）、すべての転輪の回転を拘束でそろえて 1 本のベルトとして近似した。
 前端は進入角 40° で高さ 0.25 m まで持ち上げた。車体（箱）は接触しない（スカート扱い）。
-機体 `tracked_arm`：Sim06・10 の戦車型と同じ大きさ（接地長 0.8 m）、腕＋荷物 10 kg、総質量 約 170 kg、駆動力の上限 2000 N、周速 0.15 m/s、μ = 0.6。
+機体 `tracked_arm`：Sim06・10 の戦車型と同じ大きさ（接地長 0.8 m）、腕＋荷物 10 kg、転輪 3 kg × 30 個、総質量 187 kg、駆動力の上限 2000 N（重量の約 1.1 倍）、周速 0.15 m/s、μ = 0.6。
 
 スクリプト: `sims/field08_steps.py` / 数値まとめ: `data/field08_summary.txt`
 
