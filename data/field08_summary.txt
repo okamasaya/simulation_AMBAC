@@ -9,3 +9,4 @@
   forward  10°:OK 20°:OK 25°:OK 28°:OK 31°:滑落/停止 34°:滑落/停止
   back     10°:OK 20°:OK 25°:OK 28°:OK 31°:滑落/停止 34°:滑落/停止
   参考: 摩擦の限界 atan(μ) = 31.0°
+図 → figures/field/field08_steps.png
