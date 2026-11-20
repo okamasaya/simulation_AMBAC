@@ -1,7 +1,7 @@
 """アセンブル: 機体の部品表（JSON）とステージの定義（JSON）から MuJoCo のモデル（MJCF）を組み立てる.
 
 機体の部品表（例は configs/field/robots/）
-  base     : {"type": "fixed" | "tank" | "floating", "mass", "size": [x, y, z], "com": [x, y, z]}
+  base     : {"type": "fixed" | "tank" | "floating", "mass", "size": [x, y, z], "com": [x, y, z], "inertia_scale"（省略時 1）}
              fixed=地面に固定（アームだけの試験）、tank=床に置いた箱形の台車、floating=宇宙に浮かぶ胴体
   waist    : 省略可。{"height", "torso_mass", "torso_size", "torso_com", "range": [deg, deg]}（y 軸まわりに前後に傾く上体）
   arms     : [{"name", "mount": [x, y, z], "shoulder": "pitch" | "yaw_pitch" | "ball3",
@@ -93,7 +93,7 @@ def build(robot, stage, timestep=5e-4):
     """機体の部品表とステージの定義から MJCF の文字列と、関節名のリストを返す"""
     g = stage.get("gravity", 9.80665); mu = stage.get("friction", 0.6)
     b = robot["base"]; sx, sy, sz = b["size"]; com = b.get("com", [0, 0, sz / 2])
-    Ib = _box_inertia(b["mass"], sx, sy, sz)
+    Ib = [x * b.get("inertia_scale", 1.0) for x in _box_inertia(b["mass"], sx, sy, sz)]
     color = "0.55 0.6 0.55 1"
     if b["type"] == "floating":
         base_open = f'<body name="base" pos="0 0 {stage.get("float_height", 1.5)}"><freejoint name="base"/>'

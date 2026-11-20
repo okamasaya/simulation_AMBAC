@@ -52,13 +52,13 @@ def base_angle(qpos):
 
 def run(model_xml, q_init, q_ref_fun, T, record_every=10):
     """関節の目標角 q_ref_fun(t) を位置サーボで追従させて T 秒動かす.
-    戻り値: dict(t, q（実際の関節角）, theta（胴体の角度）, L（重心まわりの角運動量の y 成分）, gyro)"""
+    戻り値: dict(t, q（実際の関節角）, theta（胴体の角度）, L（重心まわりの角運動量の y 成分）, gyro, tau（関節トルク）)"""
     m = mujoco.MjModel.from_xml_string(model_xml)
     d = mujoco.MjData(m)
     nq = len(q_init)
     d.qpos[7:7 + nq] = q_init
     mujoco.mj_forward(m, d)
-    out = {k: [] for k in ("t", "q", "theta", "L", "gyro")}
+    out = {k: [] for k in ("t", "q", "theta", "L", "gyro", "tau")}
     n = int(round(T / m.opt.timestep))
     for k in range(n + 1):
         if k % record_every == 0:
@@ -68,6 +68,7 @@ def run(model_xml, q_init, q_ref_fun, T, record_every=10):
             out["theta"].append(base_angle(d.qpos))
             out["L"].append(-d.subtree_angmom[1][1])          # −y 成分 = 平面の角運動量
             out["gyro"].append(-d.qvel[4])                     # 胴体の角速度（−y 成分、ワールド座標）
+            out["tau"].append(d.actuator_force.copy())          # 関節トルク（位置サーボの出力）
         d.ctrl[:] = q_ref_fun(d.time)
         mujoco.mj_step(m, d)
     return {k: np.array(v) for k, v in out.items()}
