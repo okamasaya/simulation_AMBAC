@@ -9,6 +9,7 @@
   06_turning.gif           その場旋回と、腕を速く振ると車体が回る（段階 11）
   07_ground_ambac_ratchet.gif  腕の非対称な往復で車体を回す / その場旋回できない長い履帯を、腕の往復で回す（段階 12）
   08_arm_reaction_countermeasures.gif  腕の反作用への対策：硬い肩 / しなり / 逆回転するおもり（1 s・0.6 s）（段階 13）
+  09_arm3d_power_off.gif   3 軸の肩＋肘：位置サーボ（速い） / トルク制御のモーター / モーター＋MR、最後に電源を切る（段階 17）
 実行: cd sims && MUJOCO_GL=osmesa python field_gifs.py [番号 ...]（約 15 分）
 """
 import os
@@ -310,7 +311,26 @@ def gif_reaction():
     record("08_arm_reaction_countermeasures", sc, T=4.0, fps=12, speed=0.5, size=(270, 250))
 
 
-ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet, "8": gif_reaction}
+# ---- 9. 3 軸の肩＋肘の腕全体の動作と、電源を切ったとき（段階 17）----------------------------------
+def gif_arm3d():
+    import field17_arm3d as f17
+    from ambac.field.ground import roll as roll_of
+
+    def make(scheme, title):
+        xml, joints, ctrl, st, T_total = f17.setup(scheme)
+
+        def info(m, d):
+            txt = "POWER OFF" if st["power_off_t"] is not None else ""
+            _, y = pitch_yaw(d.qpos)
+            return f"heading {np.degrees(y):+4.1f}  roll {np.degrees(abs(roll_of(d.qpos))):4.1f} deg  {txt}"
+        sc = Scene(xml, title, init=lambda m, d: set_pose(m, d, dict(zip(f17.J, f17.P0))),
+                   control=lambda m, d: ctrl(m, d, d.time - 0.5), cam=dict(distance=3.4, azimuth=140, elevation=-18, lookat=(0, 0, 0.7)), info=info)
+        return sc, T_total
+    sc = [make("servo_fast", "Position servo, fast (1 s / segment)"), make("motor", "Torque motor"), make("mr", "Motor + MR brake/hold")]
+    record("09_arm3d_power_off", [x[0] for x in sc], T=max(x[1] for x in sc) + 0.5, fps=10, speed=1.0, size=(300, 260))
+
+
+ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet, "8": gif_reaction, "9": gif_arm3d}
 if __name__ == "__main__":
     for k in (sys.argv[1:] or ALL):
         print(f"GIF {k}", flush=True); ALL[k]()
