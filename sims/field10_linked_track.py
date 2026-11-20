@@ -1,7 +1,7 @@
 """Field10: 板をつないだ履帯（正確なモデル）で、段差・坂の走行をやり直す（段階 10）.
 
 段階 8 は、履帯を「転輪の列」で近似したため、段の角が転輪の間に挟まって止まる場合があった。
-ここでは、履板（ピッチ 4 cm、厚さ 2 cm、0.3 kg）57 枚をヒンジでつないだ輪を、起動輪（後ろ、駆動）・転輪 5 個・誘導輪（前、高さ 0.25 m、進入角 40°）に巻き付ける。
+ここでは、履板（ピッチ 4 cm、厚さ 2 cm、0.3 kg）をヒンジでつないだ輪を、起動輪（後ろ、駆動、地面から 1 cm 浮かせる）・転輪 5 個（サスペンション付き）・誘導輪（前、高さ 0.25 m、進入角 40°、張り装置付き）に巻き付ける。
 地面・段に触れるのは履板だけで、駆動は起動輪と履板の摩擦で伝える。
 機体: linked_track_arm（車体 80 kg、接地長 0.8 m、腕＋荷物 10 kg）。駆動力の上限 2000 N、周速 0.15 m/s、μ = 0.6。
 Part A: 段差 0.05〜0.30 m × 腕の姿勢（下ろす / 前 / 後ろ上方 / 能動：機首が上がるほど腕を前へ）
@@ -23,7 +23,7 @@ from ambac.field.assembly import build, load, mass_properties
 from ambac.field.drive import run_drive
 
 FIGF = FIG / "field"
-EN = {"OK": "climbed", "転倒": "tipped over", "引っかかり": "stuck", "滑落/停止": "slid back"}
+EN = {"OK": "climbed", "転倒": "tipped over", "引っかかり": "stuck", "滑落/停止": "slid back", "発散": "diverged"}
 R = np.radians
 ROBOT = load("robots", "linked_track_arm")
 RS = ROBOT["base"]["track"]["sprocket_radius"]; SPEED = 0.15; T_RUN = 30.0
@@ -62,7 +62,7 @@ def trial(args):
         ok = s["progress_m"] > 1.7 and not s["tipped"]
     else:
         ok = s["final_z_m"] > 1.5 * np.sin(R(v)) * 0.9 and not s["tipped"]
-    tag = "OK" if ok else ("転倒" if s["tipped"] else ("引っかかり" if kind == "step" else "滑落/停止"))
+    tag = "発散" if s["diverged"] else ("OK" if ok else ("転倒" if s["tipped"] else ("引っかかり" if kind == "step" else "滑落/停止")))
     return tuple(args), dict(s, result=tag), {k: rec[k].tolist() for k in ("t", "x", "z", "pitch")}
 
 

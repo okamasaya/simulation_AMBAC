@@ -15,7 +15,7 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
     """腕・腰を pose（{関節名: 角度}）に保ち、転輪の周速を speed [m/s] にして T 秒走る。
     pose_fun(t, state) を渡すと、走行中に姿勢を変えられる（state: {"x", "z", "pitch"}）。
     speed_fun(t) を渡すと、左右の履帯の周速 (v_left, v_right) [m/s] を時刻ごとに決められる（旋回）。名前に "_L_" / "_R_" を含む駆動に与える。
-    戻り値: 時系列（t, 車体の位置 x・z, pitch）と要約（進んだ距離、最大の pitch、最終の高さ、転倒したか）"""
+    戻り値: 時系列（t, 車体の位置 x・z, pitch）と要約（進んだ距離、最大の pitch、最終の高さ、転倒したか、計算が発散したか）"""
     m = mujoco.MjModel.from_xml_string(xml); d = mujoco.MjData(m)
     adr = [m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, j)] for j in joints]
     act = [mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, j) for j in joints]
@@ -27,6 +27,7 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
     mujoco.mj_forward(m, d)
     rec = {k: [] for k in ("t", "x", "y", "z", "pitch", "roll", "yaw", "com_z")}
     n = int(round((settle + T) / m.opt.timestep))
+    diverged = False; t_prev = d.time
     for k in range(n + 1):
         t = d.time - settle
         d.ctrl[drv] = (speed / wheel_radius) if t > 0 else 0.0
@@ -43,6 +44,9 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
             rec["roll"].append(roll(d.qpos)); rec["yaw"].append(yw)
             rec["com_z"].append(d.subtree_com[1][2])
         mujoco.mj_step(m, d)
+        if d.time < t_prev or not np.isfinite(d.qpos).all():   # 発散すると MuJoCo は状態を初期化する（時刻が戻る）
+            diverged = True; break
+        t_prev = d.time
         if tip_stop and (abs(pitch_yaw(d.qpos)[0]) > np.radians(80) or abs(roll(d.qpos)) > np.radians(80)):
             break
     rec = {k: np.array(v) for k, v in rec.items()}
@@ -50,6 +54,6 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
     yaw = np.unwrap(rec["yaw"])
     s = dict(progress_m=float(rec["x"][-1] - rec["x"][mv][0]), max_pitch_deg=float(np.degrees(np.abs(rec["pitch"][mv]).max())),
              max_roll_deg=float(np.degrees(np.abs(rec["roll"][mv]).max())), net_yaw_deg=float(np.degrees(yaw[-1] - yaw[mv][0])),
-             final_z_m=float(rec["z"][-1]), tipped=bool(max(np.degrees(np.abs(rec["pitch"][-1])), np.degrees(np.abs(rec["roll"][-1]))) > 60))
+             final_z_m=float(rec["z"][-1]), diverged=diverged, tipped=bool(max(np.degrees(np.abs(rec["pitch"][-1])), np.degrees(np.abs(rec["roll"][-1]))) > 60))
     rec["yaw"] = yaw
     return rec, s
