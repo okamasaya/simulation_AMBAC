@@ -108,7 +108,10 @@ def trial(case):
     after = t > T0 + T
     settle = next((float(t[i] - (T0 + T)) for i in range(len(t)) if after[i] and np.all(np.abs(err[i:]) < 2.0)), np.nan)
     out = dict(name=name, T=T, base_yaw=float(yaw_b[-1]), base_yaw_max=float(np.abs(yaw_b).max()), max_roll=s["max_roll_deg"],
-               base_torque_peak=float(np.abs(lg[:, 0]).max()), arm_overshoot=float(max(0.0, err[after].max())) if after.any() else np.nan,
+               base_torque_peak=float(np.abs(np.convolve(lg[:, 0], np.ones(5) / 5, mode="same")).max()),   # 0.05 s の移動平均（一瞬の衝撃の山を除く）
+               base_torque_spike=float(np.abs(lg[:, 0]).max()),
+               arm_lag_max=float(np.abs(np.degrees(R(180) * np.array([minjerk((tt - T0) / T) if prof == "minjerk" else trap((tt - T0) / T) for tt in t])) - arm).max()),
+               arm_overshoot=float(max(0.0, err[after].max())) if after.any() else np.nan,
                settle_s=settle, flywheel_rpm_peak=float(np.abs(lg[:, 2]).max() * 60 / (2 * np.pi)), diverged=s["diverged"])
     return case, out, {"t": t.tolist(), "yaw": yaw_b.tolist(), "torque": lg[:, 0].tolist(), "arm": arm.tolist()}
 
@@ -126,12 +129,13 @@ if __name__ == "__main__":
         out = pool.map(trial, cases)
     print(f"（{len(cases)} 試行、{time.time() - t0:.0f} s）  参考: 車体を回し始めるトルク M_s ≈ {M_S:.0f} N·m、腕の慣性 {I_ARM} kg·m²")
     print(f"軌道の形の加速度の山: 最小ジャーク 5.77 θ/T²、加速度を平らにした軌道 {TRAP_PEAK:.2f} θ/T²")
-    print(f"{'仕組み':38s} {'時間':>5s} {'車体の向き':>9s} {'反作用の最大':>11s} {'横の傾き':>7s} {'腕の行き過ぎ':>9s} {'止まるまで':>8s} {'円盤の回転':>9s}")
+    print("反作用の最大は 0.05 s の移動平均の最大値（括弧内は一瞬の衝撃を含む最大値）。腕の遅れは、計画した軌道からの最大の遅れ")
+    print(f"{'仕組み':38s} {'時間':>5s} {'車体の向き':>9s} {'反作用の最大':>18s} {'横の傾き':>7s} {'腕の遅れ':>7s} {'腕の行き過ぎ':>9s} {'止まるまで':>8s} {'円盤の回転':>9s}")
     res = []
     for case, o, _ in out:
         res.append(o)
         st = "-" if np.isnan(o["settle_s"]) else f"{o['settle_s']:.2f} s"
-        print(f"{o['name']:38s} {o['T']:4.1f}s {o['base_yaw']:+8.2f}° {o['base_torque_peak']:9.0f} N·m {o['max_roll']:6.1f}° {o['arm_overshoot']:8.1f}° {st:>8s} "
+        print(f"{o['name']:38s} {o['T']:4.1f}s {o['base_yaw']:+8.2f}° {o['base_torque_peak']:6.0f}（{o['base_torque_spike']:5.0f}）N·m {o['max_roll']:6.1f}° {o['arm_lag_max']:6.1f}° {o['arm_overshoot']:8.1f}° {st:>8s} "
               f"{o['flywheel_rpm_peak']:7.0f} rpm" + ("  発散" if o["diverged"] else ""))
     json.dump(res, open(DATA / "field13_reaction.json", "w"), indent=2, ensure_ascii=False)
 

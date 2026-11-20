@@ -8,6 +8,7 @@
   05_track_length.gif      短い履帯で 0.20 m（転倒） vs 長い履帯で 0.30 m（段階 10）
   06_turning.gif           その場旋回と、腕を速く振ると車体が回る（段階 11）
   07_ground_ambac_ratchet.gif  腕の非対称な往復で車体を回す / その場旋回できない長い履帯を、腕の往復で回す（段階 12）
+  08_arm_reaction_countermeasures.gif  腕の反作用への対策：硬い肩 / しなり / 逆回転するおもり（1 s・0.6 s）（段階 13）
 実行: cd sims && MUJOCO_GL=osmesa python field_gifs.py [番号 ...]（約 15 分）
 """
 import os
@@ -281,7 +282,35 @@ def gif_ratchet():
     record("07_ground_ambac_ratchet", [s1, s2], T=20.5, fps=10, speed=2.0)
 
 
-ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet}
+# ---- 8. 腕の反作用への対策の比較（段階 13）------------------------------------------------------
+def gif_reaction():
+    import field13_reaction as f13
+    yaw0 = {}
+
+    def make(name, title, T, sea, gain):
+        r = f13.robot(sea, gain > 0); xml, _ = build(r, load("stages", "practice"))
+
+        def ctl(m, d):
+            a = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_yaw")
+            d.ctrl[a] = R(180) * f13.minjerk((d.time - 0.5 - f13.T0) / T)
+            fw = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "flywheel")
+            if fw >= 0:
+                d.ctrl[fw] = -gain * d.actuator_force[a]
+
+        def info(m, d):
+            _, y = pitch_yaw(d.qpos); yaw0.setdefault(name, y)
+            rl = np.degrees(abs(__import__("ambac.field.ground", fromlist=["roll"]).roll(d.qpos)))
+            return f"heading {np.degrees((y - yaw0[name] + np.pi) % (2 * np.pi) - np.pi):+5.1f}  roll {rl:4.1f} deg"
+        return Scene(xml, title, init=lambda m, d: set_pose(m, d, {"arm_pitch": 0.0}), control=ctl,
+                     cam=dict(distance=3.6, azimuth=120, elevation=-40, lookat=(0, 0, 0.4)), info=info)
+    sc = [make("a", "Rigid shoulder, 1.0 s", 1.0, None, 0.0),
+          make("b", "Compliant 1.5 Hz, 1.0 s", 1.0, (1.5, 0.7), 0.0),
+          make("c", "Counter-rotating disc, 1.0 s", 1.0, None, 1.0),
+          make("d", "Counter-rotating disc, 0.6 s", 0.6, None, 1.0)]
+    record("08_arm_reaction_countermeasures", sc, T=4.0, fps=12, speed=0.5, size=(270, 250))
+
+
+ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet, "8": gif_reaction}
 if __name__ == "__main__":
     for k in (sys.argv[1:] or ALL):
         print(f"GIF {k}", flush=True); ALL[k]()
