@@ -66,3 +66,10 @@ def steady_turn_dist(uL, uR, xs, share, B=0.45, b=0.15, mu=0.6, W=1500.0, ny=4):
         return out / W
     w0 = (uR - uL) / B
     return fsolve(F, [(uL + uR) / 2, 0.0, 0.5 * w0], xtol=1e-10)
+
+
+def breakaway_torque(xs, share, B=0.45, b=0.15, mu=0.6, W=1500.0, ny=4):
+    """履帯を止めたまま、車体をその場で回し始めるのに必要なトルク（静止摩擦の最大値の見積もり）: μ Σ p_i |r_i|"""
+    share = np.asarray(share, float) / np.sum(share)
+    ys = (np.arange(ny) + 0.5) / ny * b - b / 2
+    return float(sum(mu * w * W / 2 / ny * np.hypot(x, s * B / 2 + y) for x, w in zip(xs, share) for s in (1, -1) for y in ys))

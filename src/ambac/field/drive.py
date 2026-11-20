@@ -13,8 +13,9 @@ from .ground import pitch_yaw, roll
 
 def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_every=20, pose_fun=None, speed_fun=None, tip_stop=True):
     """腕・腰を pose（{関節名: 角度}）に保ち、転輪の周速を speed [m/s] にして T 秒走る。
-    pose_fun(t, state) を渡すと、走行中に姿勢を変えられる（state: {"x", "z", "pitch"}）。
-    speed_fun(t) を渡すと、左右の履帯の周速 (v_left, v_right) [m/s] を時刻ごとに決められる（旋回）。名前に "_L_" / "_R_" を含む駆動に与える。
+    pose_fun(t, state) を渡すと、走行中に姿勢を変えられる（state は下の speed_fun と同じ）。
+    speed_fun(t, state) を渡すと、左右の履帯の周速 (v_left, v_right) [m/s] を時刻と状態ごとに決められる（旋回・向きの制御）。
+    名前に "_L_" / "_R_" を含む駆動に与える。state: {"x", "z", "pitch", "yaw"（連続化した向き）, "yaw_rate"}
     戻り値: 時系列（t, 車体の位置 x・z, pitch）と要約（進んだ距離、最大の pitch、最終の高さ、転倒したか、計算が発散したか）"""
     m = mujoco.MjModel.from_xml_string(xml); d = mujoco.MjData(m)
     adr = [m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, j)] for j in joints]
@@ -27,16 +28,19 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
     mujoco.mj_forward(m, d)
     rec = {k: [] for k in ("t", "x", "y", "z", "pitch", "roll", "yaw", "com_z")}
     n = int(round((settle + T) / m.opt.timestep))
-    diverged = False; t_prev = d.time
+    diverged = False; t_prev = d.time; yaw_prev = [pitch_yaw(d.qpos)[1]]
     for k in range(n + 1):
         t = d.time - settle
         d.ctrl[drv] = (speed / wheel_radius) if t > 0 else 0.0
+        if speed_fun is not None or pose_fun is not None:
+            p_, y_ = pitch_yaw(d.qpos)
+            yaw_c = yaw_prev[0] + ((y_ - yaw_prev[0] + np.pi) % (2 * np.pi) - np.pi); yaw_prev[0] = yaw_c
+            state = {"x": d.qpos[0], "z": d.qpos[2], "pitch": p_, "yaw": yaw_c, "yaw_rate": d.qvel[5]}
         if speed_fun is not None:
-            vl, vr = speed_fun(max(t, 0.0)) if t > 0 else (0.0, 0.0)
+            vl, vr = speed_fun(max(t, 0.0), state) if t > 0 else (0.0, 0.0)
             d.ctrl[drvL] = vl / wheel_radius; d.ctrl[drvR] = vr / wheel_radius
         if pose_fun is not None and t > 0:
-            p, _ = pitch_yaw(d.qpos)
-            newpose = pose_fun(t, {"x": d.qpos[0], "z": d.qpos[2], "pitch": p})
+            newpose = pose_fun(t, state)
             d.ctrl[act] = [newpose.get(j, pose.get(j, 0.0)) for j in joints]
         if k % record_every == 0:
             p, yw = pitch_yaw(d.qpos)

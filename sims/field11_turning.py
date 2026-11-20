@@ -62,7 +62,7 @@ def load_distribution(r, bins=16):
 def turn_trial(args):
     L, vl, vr, force = args
     r = robot(L, force); xml, joints = build(r, STAGE)
-    rec, s = run_drive(xml, joints, POSE, 0.0, 8.0, RS, speed_fun=lambda t: (vl, vr), record_every=100)
+    rec, s = run_drive(xml, joints, POSE, 0.0, 8.0, RS, speed_fun=lambda t, st: (vl, vr), record_every=100)
     k = rec["t"] > 3.0
     w = float(np.polyfit(rec["t"][k], rec["yaw"][k], 1)[0]) if not s["diverged"] else float("nan")
     return args, w, s
