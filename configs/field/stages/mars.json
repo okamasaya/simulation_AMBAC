@@ -1,0 +1,1 @@
+{"name": "mars", "note": "火星ステージ（重力 3.721、壁）", "gravity": 3.721, "friction": 0.6, "obstacles": [{"type": "wall", "x": 2.0}]}

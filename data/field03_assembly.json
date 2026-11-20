@@ -1,0 +1,115 @@
+{
+  "builder_check": {
+    "tank_T1.5": {
+      "builder": 0.0013978474288177192,
+      "handmade": 0.0015142283593952536
+    },
+    "tank_T1.3": {
+      "builder": 5.45589488259238,
+      "handmade": 5.696193856981021
+    },
+    "space_loop_deg": 2.9687076447836263
+  },
+  "menu": [
+    {
+      "robot": "tank_arm",
+      "stage": "practice",
+      "track_err_deg": 0.1966184533626752,
+      "max_tilt_deg": 0.00022386179238128936,
+      "net_yaw_deg": -2.272305517948024e-16,
+      "slide_mm": 0.05175087942453075,
+      "airborne_s": 0.0,
+      "final_tilt_deg": 9.309357501354981e-05
+    },
+    {
+      "robot": "tank_arm",
+      "stage": "ice",
+      "track_err_deg": 0.19661845336305686,
+      "max_tilt_deg": 0.001228760874325715,
+      "net_yaw_deg": 3.9233832462281585e-06,
+      "slide_mm": 20.599908985666644,
+      "airborne_s": 0.016000000000000014,
+      "final_tilt_deg": 9.309357452298092e-05
+    },
+    {
+      "robot": "tank_arm",
+      "stage": "slope",
+      "track_err_deg": 0.1966184533626752,
+      "max_tilt_deg": 0.00022386179238128936,
+      "net_yaw_deg": -2.272305517948024e-16,
+      "slide_mm": 0.05175087942453075,
+      "airborne_s": 0.0,
+      "final_tilt_deg": 9.309357501354981e-05
+    },
+    {
+      "robot": "tank_arm",
+      "stage": "mars",
+      "track_err_deg": 0.04898865279883892,
+      "max_tilt_deg": 10.982787340518405,
+      "net_yaw_deg": 1.9116397785095095e-06,
+      "slide_mm": 0.5009501699326288,
+      "airborne_s": 0.06400000000000006,
+      "final_tilt_deg": 0.03081102817446294
+    },
+    {
+      "robot": "tank_arm",
+      "stage": "moon",
+      "track_err_deg": 0.032098695037834954,
+      "max_tilt_deg": 13.684094281586011,
+      "net_yaw_deg": 7.272992384382458e-07,
+      "slide_mm": 182.2616018677058,
+      "airborne_s": 0.7000000000000006,
+      "final_tilt_deg": 1.442255916852913e-05
+    },
+    {
+      "robot": "tank_waist_3axis",
+      "stage": "practice",
+      "track_err_deg": 0.19765202550099298,
+      "max_tilt_deg": 0.00045203738998304783,
+      "net_yaw_deg": 0.014479255821027765,
+      "slide_mm": 0.09826546294102467,
+      "airborne_s": 0.0,
+      "final_tilt_deg": 0.00011679610039195661
+    },
+    {
+      "robot": "tank_waist_3axis",
+      "stage": "ice",
+      "track_err_deg": 0.19765202550097755,
+      "max_tilt_deg": 0.002548694618273117,
+      "net_yaw_deg": 3.1273839042356695,
+      "slide_mm": 35.619083902835015,
+      "airborne_s": 0.02200000000000002,
+      "final_tilt_deg": 0.00011679610043776109
+    },
+    {
+      "robot": "tank_waist_3axis",
+      "stage": "slope",
+      "track_err_deg": 0.19765202550099298,
+      "max_tilt_deg": 0.00045203738998304783,
+      "net_yaw_deg": 0.014479255821027765,
+      "slide_mm": 0.09826546294102467,
+      "airborne_s": 0.0,
+      "final_tilt_deg": 0.00011679610039195661
+    },
+    {
+      "robot": "tank_waist_3axis",
+      "stage": "mars",
+      "track_err_deg": 0.06912679888826474,
+      "max_tilt_deg": 10.193268257214012,
+      "net_yaw_deg": 1.4128148324749337,
+      "slide_mm": 73.26940201880586,
+      "airborne_s": 0.05600000000000005,
+      "final_tilt_deg": 3.8963068352190904e-05
+    },
+    {
+      "robot": "tank_waist_3axis",
+      "stage": "moon",
+      "track_err_deg": 0.05855246848136186,
+      "max_tilt_deg": 14.298969570044287,
+      "net_yaw_deg": 19.792838435079094,
+      "slide_mm": 207.59769984687625,
+      "airborne_s": 0.5060000000000004,
+      "final_tilt_deg": 8.353506960991691
+    }
+  ]
+}

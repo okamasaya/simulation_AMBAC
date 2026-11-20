@@ -1,0 +1,6 @@
+{"name": "tank_waist_3axis", "note": "戦車型台車＋前後に傾く腰＋3 軸の肩の腕（Sim08・09 の要件を満たす構成）",
+ "base": {"type": "tank", "mass": 50.0, "size": [0.8, 0.6, 0.4], "com": [0, 0, 0.2]},
+ "waist": {"height": 0.4, "torso_mass": 30.0, "torso_size": [0.3, 0.4, 0.5], "torso_com": [0, 0, 0.15], "range": [-40, 40]},
+ "arms": [{"name": "arm", "mount": [0, -0.25, 0.4], "shoulder": "ball3",
+           "links": [{"length": 0.5, "mass": 4.0}, {"length": 0.5, "mass": 3.0}], "payload": 10.0}],
+ "actuator": {"kp": 30000, "kv": 1500}}

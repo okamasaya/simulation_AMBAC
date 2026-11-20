@@ -1,0 +1,1 @@
+{"name": "moon", "note": "月面ステージ（重力 1.625、摩擦 0.6、柱）", "gravity": 1.625, "friction": 0.6, "obstacles": [{"type": "pillar", "x": 1.5, "y": 0.8}]}

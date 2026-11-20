@@ -1,0 +1,1 @@
+{"name": "slope", "note": "坂ステージ（地球、10° の上り坂）", "gravity": 9.80665, "friction": 0.6, "obstacles": [{"type": "slope", "x": 0.8, "angle": 10}]}

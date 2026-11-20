@@ -1,0 +1,5 @@
+{"name": "tank_arm", "note": "Sim06 と同じ戦車型台車＋2 関節の腕＋荷物",
+ "base": {"type": "tank", "mass": 80.0, "size": [0.8, 0.6, 0.5], "com": [0, 0, 0.35]},
+ "arms": [{"name": "arm", "mount": [0, 0, 0.75], "shoulder": "pitch",
+           "links": [{"length": 0.5, "mass": 4.0}, {"length": 0.5, "mass": 3.0}], "payload": 10.0}],
+ "actuator": {"kp": 30000, "kv": 1500}}
