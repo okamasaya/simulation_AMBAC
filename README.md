@@ -94,6 +94,10 @@ AMBAC（Active Mass Balance Auto Control）は『機動戦士ガンダム』で�
 
 ![](figures/field/gifs/08_arm_reaction_countermeasures.gif)
 
+3 軸の肩＋肘の腕全体：位置サーボ（速い）/ トルク制御のモーター / モーター＋MR、最後に電源を切る（段階 17）
+
+![](figures/field/gifs/09_arm3d_power_off.gif)
+
 ## 主な知見（第 1 段階）
 
 ### 導入の問いへの答え

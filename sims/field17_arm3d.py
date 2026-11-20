@@ -139,7 +139,8 @@ def setup(scheme):
                 else:
                     tau_mr[k] = -(st["ty"][k] * np.tanh(w[k] / 0.05) + 1.0 * w[k])
         d.ctrl[ids["a"]] = tau_m; d.qfrc_applied[ids["v"]] = tau_mr
-        st["cu"] += ALPHA * np.sum(tau_m**2) * dt; st["heat"] += -np.sum(tau_mr * w) * dt
+        if not off:                                                   # 熱は電源を切るまでで比べる（保持のモデルの小さな振動を熱として数えないため）
+            st["cu"] += ALPHA * np.sum(tau_m**2) * dt; st["heat"] += -np.sum(tau_mr * w) * dt
 
     T_total = T_START + 2 * (4.0 if Tseg is None else Tseg + 1.6) + 2 * DWELL + T_OFF + 1.0
     return xml, joints, ctrl, st, T_total
