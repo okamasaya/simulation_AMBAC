@@ -1,382 +1,382 @@
 {
   "steps": {
     "down_0.05": {
-      "progress_m": 2.1903679975212573,
-      "max_pitch_deg": 8.988158511603462,
-      "final_z_m": 0.049999620217220986,
+      "progress_m": 3.7054726027638027,
+      "max_pitch_deg": 9.613348371212957,
+      "final_z_m": -2.7421939571857813e-07,
       "tipped": false,
       "result": "OK"
     },
     "down_0.075": {
-      "progress_m": 2.069690037136092,
-      "max_pitch_deg": 14.340136509561006,
-      "final_z_m": 0.07499962021722106,
+      "progress_m": 3.6778616883111765,
+      "max_pitch_deg": 14.289311930291754,
+      "final_z_m": -2.5763192041506816e-07,
       "tipped": false,
       "result": "OK"
     },
     "down_0.1": {
-      "progress_m": 1.8463577305003935,
-      "max_pitch_deg": 22.644223848539685,
-      "final_z_m": 0.09999962415839983,
+      "progress_m": 3.626639918405095,
+      "max_pitch_deg": 18.661217053260405,
+      "final_z_m": -2.6413004142887355e-07,
       "tipped": false,
       "result": "OK"
     },
     "down_0.125": {
-      "progress_m": 0.8494806504330618,
-      "max_pitch_deg": 28.43841268653546,
-      "final_z_m": 0.14857242893908457,
+      "progress_m": 3.52831564916652,
+      "max_pitch_deg": 22.656136515550998,
+      "final_z_m": -2.7489864540896134e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "down_0.15": {
-      "progress_m": 0.8670954981671825,
-      "max_pitch_deg": 34.250566745065804,
-      "final_z_m": 0.19361921336993723,
+      "progress_m": 0.8312883000437246,
+      "max_pitch_deg": 26.887740438966382,
+      "final_z_m": 0.15296293590968216,
       "tipped": false,
       "result": "引っかかり"
     },
     "down_0.175": {
-      "progress_m": 0.83213871811408,
-      "max_pitch_deg": 79.76675380625186,
-      "final_z_m": 0.38069290829026436,
-      "tipped": true,
-      "result": "転倒"
+      "progress_m": 0.8287304772865335,
+      "max_pitch_deg": 31.39208298026263,
+      "final_z_m": 0.17798335547303165,
+      "tipped": false,
+      "result": "引っかかり"
     },
     "down_0.2": {
-      "progress_m": 0.8263910415536863,
-      "max_pitch_deg": 79.64952849124168,
-      "final_z_m": 0.38041421389117747,
-      "tipped": true,
-      "result": "転倒"
+      "progress_m": 0.8260132597141946,
+      "max_pitch_deg": 36.0279259087171,
+      "final_z_m": 0.20271284283440272,
+      "tipped": false,
+      "result": "引っかかり"
     },
     "down_0.225": {
-      "progress_m": 0.820103097035914,
-      "max_pitch_deg": 79.75768989691261,
-      "final_z_m": 0.38067039737455816,
+      "progress_m": 0.8326508473334584,
+      "max_pitch_deg": 79.99485400419081,
+      "final_z_m": 0.3812278301299938,
       "tipped": true,
       "result": "転倒"
     },
     "down_0.25": {
-      "progress_m": 0.19735654885235784,
-      "max_pitch_deg": 0.04914318664185866,
-      "final_z_m": -1.177179826135693e-05,
-      "tipped": false,
-      "result": "引っかかり"
+      "progress_m": 0.828180000664255,
+      "max_pitch_deg": 79.74778340537583,
+      "final_z_m": 0.3806450330516812,
+      "tipped": true,
+      "result": "転倒"
     },
     "forward_0.05": {
-      "progress_m": 0.395832835812949,
-      "max_pitch_deg": 0.17129231530238942,
-      "final_z_m": 0.0008529960580761092,
+      "progress_m": 3.6620457900724994,
+      "max_pitch_deg": 14.264088891208868,
+      "final_z_m": -2.764094440600218e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "forward_0.075": {
-      "progress_m": 0.39772403563463943,
-      "max_pitch_deg": 2.2330930634606663,
-      "final_z_m": 0.011915957929705135,
+      "progress_m": 3.600636147301873,
+      "max_pitch_deg": 22.314866719627013,
+      "final_z_m": -2.878667424339388e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "forward_0.1": {
-      "progress_m": 0.4001756972464578,
-      "max_pitch_deg": 4.263750024284277,
-      "final_z_m": 0.023115268026816717,
+      "progress_m": 3.5283359987747818,
+      "max_pitch_deg": 35.84420877591294,
+      "final_z_m": -2.878424663212219e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "forward_0.125": {
-      "progress_m": 0.4030609822760825,
-      "max_pitch_deg": 6.182794846477736,
-      "final_z_m": 0.034352325051855925,
+      "progress_m": 0.432412217325279,
+      "max_pitch_deg": 7.243108780943363,
+      "final_z_m": 0.03987739141007721,
       "tipped": false,
       "result": "引っかかり"
     },
     "forward_0.15": {
-      "progress_m": 0.42880356522816665,
-      "max_pitch_deg": 9.958749265852886,
-      "final_z_m": 0.055926218390143834,
+      "progress_m": 3.2723523245984807,
+      "max_pitch_deg": 43.168659490325815,
+      "final_z_m": -2.893835430363206e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "forward_0.175": {
-      "progress_m": 0.43243817266424167,
-      "max_pitch_deg": 12.012915688606771,
-      "final_z_m": 0.06772095492656348,
+      "progress_m": 0.8021845592805523,
+      "max_pitch_deg": 28.612020386263612,
+      "final_z_m": 0.1626918233846389,
       "tipped": false,
       "result": "引っかかり"
     },
     "forward_0.2": {
-      "progress_m": 0.8679157086855643,
-      "max_pitch_deg": 60.56792087234299,
-      "final_z_m": 0.3193804489224653,
-      "tipped": true,
-      "result": "転倒"
+      "progress_m": 0.8010072460227664,
+      "max_pitch_deg": 32.82043338032602,
+      "final_z_m": 0.18565537927792541,
+      "tipped": false,
+      "result": "引っかかり"
     },
     "forward_0.225": {
-      "progress_m": 0.20149694181311043,
-      "max_pitch_deg": 0.029605443164221496,
-      "final_z_m": 6.49271940197656e-05,
+      "progress_m": 0.7999531307476769,
+      "max_pitch_deg": 37.18983861406839,
+      "final_z_m": 0.2084854169069978,
       "tipped": false,
       "result": "引っかかり"
     },
     "forward_0.25": {
-      "progress_m": 0.1973834693905079,
-      "max_pitch_deg": 0.009719306477309122,
-      "final_z_m": 2.282585561827523e-06,
+      "progress_m": 0.2017043140928741,
+      "max_pitch_deg": 0.11230176958706073,
+      "final_z_m": 9.867168940854633e-05,
       "tipped": false,
       "result": "引っかかり"
     },
     "back_0.05": {
-      "progress_m": 2.1557935502651997,
-      "max_pitch_deg": 10.021835792295287,
-      "final_z_m": 0.04999962565770599,
+      "progress_m": 3.6942950423898226,
+      "max_pitch_deg": 9.826853053529518,
+      "final_z_m": -2.911914304972732e-07,
       "tipped": false,
       "result": "OK"
     },
     "back_0.075": {
-      "progress_m": 0.9559816532878398,
-      "max_pitch_deg": 27.268273716077964,
-      "final_z_m": 0.15174241600290225,
+      "progress_m": 3.6515185447689507,
+      "max_pitch_deg": 15.003876493519673,
+      "final_z_m": -2.968519329368016e-07,
+      "tipped": false,
+      "result": "OK"
+    },
+    "back_0.1": {
+      "progress_m": 3.525214950878985,
+      "max_pitch_deg": 21.006084368601016,
+      "final_z_m": -3.0351837771575406e-07,
+      "tipped": false,
+      "result": "OK"
+    },
+    "back_0.125": {
+      "progress_m": 0.8874774480049064,
+      "max_pitch_deg": 27.728078663528677,
+      "final_z_m": 0.1576624453768896,
       "tipped": false,
       "result": "引っかかり"
     },
-    "back_0.1": {
-      "progress_m": 0.8371049811229492,
-      "max_pitch_deg": 79.95459543231954,
-      "final_z_m": 0.3811381823071958,
-      "tipped": true,
-      "result": "転倒"
-    },
-    "back_0.125": {
-      "progress_m": 0.8246213438613201,
-      "max_pitch_deg": 79.1147550839314,
-      "final_z_m": 0.37913185703215263,
-      "tipped": true,
-      "result": "転倒"
-    },
     "back_0.15": {
-      "progress_m": 0.8041349688802998,
-      "max_pitch_deg": 79.60873122252791,
-      "final_z_m": 0.3803190949234264,
+      "progress_m": 0.8450738713493448,
+      "max_pitch_deg": 79.28205414163706,
+      "final_z_m": 0.37953827090477127,
       "tipped": true,
       "result": "転倒"
     },
     "back_0.175": {
-      "progress_m": 0.7886319470464014,
-      "max_pitch_deg": 79.18739829256592,
-      "final_z_m": 0.3793076188719521,
+      "progress_m": 0.8357224852442847,
+      "max_pitch_deg": 79.55874937762954,
+      "final_z_m": 0.38020107332843733,
       "tipped": true,
       "result": "転倒"
     },
     "back_0.2": {
-      "progress_m": 0.7711278144794026,
-      "max_pitch_deg": 79.29731323572227,
-      "final_z_m": 0.3795762967524535,
+      "progress_m": 0.8254662797978439,
+      "max_pitch_deg": 79.98053277786423,
+      "final_z_m": 0.38119869917449706,
       "tipped": true,
       "result": "転倒"
     },
     "back_0.225": {
-      "progress_m": 0.7453296735271828,
-      "max_pitch_deg": 79.92183043831395,
-      "final_z_m": 0.38106116243281796,
+      "progress_m": 0.8174965936191431,
+      "max_pitch_deg": 79.91849446803869,
+      "final_z_m": 0.381052490752333,
       "tipped": true,
       "result": "転倒"
     },
     "back_0.25": {
-      "progress_m": 0.19744976670466488,
-      "max_pitch_deg": 0.030328095968607416,
-      "final_z_m": 6.912551325573931e-05,
-      "tipped": false,
-      "result": "引っかかり"
+      "progress_m": 0.8092370585919462,
+      "max_pitch_deg": 79.90812233198653,
+      "final_z_m": 0.3810277901473582,
+      "tipped": true,
+      "result": "転倒"
     },
     "active_0.05": {
-      "progress_m": 2.2482437382213782,
-      "max_pitch_deg": 7.481685759077343,
-      "final_z_m": 0.04999962021722094,
+      "progress_m": 3.7070148917586376,
+      "max_pitch_deg": 9.601733954752115,
+      "final_z_m": -2.757234526328286e-07,
       "tipped": false,
       "result": "OK"
     },
     "active_0.075": {
-      "progress_m": 2.0165933911847,
-      "max_pitch_deg": 12.797219894969345,
-      "final_z_m": 0.07499962021722101,
+      "progress_m": 3.666351873498516,
+      "max_pitch_deg": 14.276340806171556,
+      "final_z_m": -2.6230633846071565e-07,
       "tipped": false,
       "result": "OK"
     },
     "active_0.1": {
-      "progress_m": 1.8997533382512368,
-      "max_pitch_deg": 16.451931765924485,
-      "final_z_m": 0.09999962021722095,
+      "progress_m": 3.617410056773147,
+      "max_pitch_deg": 18.67780898015575,
+      "final_z_m": -2.6389342687107884e-07,
       "tipped": false,
       "result": "OK"
     },
     "active_0.125": {
-      "progress_m": 1.6282954444570141,
-      "max_pitch_deg": 20.617759247751994,
-      "final_z_m": 0.1249996230406417,
+      "progress_m": 3.568685096779867,
+      "max_pitch_deg": 22.70250393464713,
+      "final_z_m": -2.726702542072839e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "active_0.15": {
-      "progress_m": 0.7568551752025977,
-      "max_pitch_deg": 22.988967521320724,
-      "final_z_m": 0.1305555526707311,
+      "progress_m": 3.436705276751891,
+      "max_pitch_deg": 28.14376829519083,
+      "final_z_m": -2.5868614894574505e-07,
       "tipped": false,
-      "result": "引っかかり"
+      "result": "OK"
     },
     "active_0.175": {
-      "progress_m": 0.7098448987548182,
-      "max_pitch_deg": 27.723778156277945,
-      "final_z_m": 0.13614700249792516,
+      "progress_m": 0.8021740051078646,
+      "max_pitch_deg": 28.598994067726668,
+      "final_z_m": 0.16268640318032035,
       "tipped": false,
       "result": "引っかかり"
     },
     "active_0.2": {
-      "progress_m": 0.8137799578605248,
-      "max_pitch_deg": 36.98287631151989,
-      "final_z_m": 0.20833640608988332,
+      "progress_m": 0.7740631322927087,
+      "max_pitch_deg": 30.102777065397756,
+      "final_z_m": 0.17096442636946665,
       "tipped": false,
       "result": "引っかかり"
     },
     "active_0.225": {
-      "progress_m": 0.8213818215701119,
-      "max_pitch_deg": 79.93635807009437,
-      "final_z_m": 0.3810914065772117,
-      "tipped": true,
-      "result": "転倒"
-    },
-    "active_0.25": {
-      "progress_m": 0.1974507994915177,
-      "max_pitch_deg": 0.031041532865066317,
-      "final_z_m": 0.00015643327741967893,
+      "progress_m": 0.7999039039302362,
+      "max_pitch_deg": 37.10300673773026,
+      "final_z_m": 0.2084488848372718,
       "tipped": false,
       "result": "引っかかり"
+    },
+    "active_0.25": {
+      "progress_m": 0.8279312708198944,
+      "max_pitch_deg": 79.81350067211126,
+      "final_z_m": 0.3808004315378485,
+      "tipped": true,
+      "result": "転倒"
     }
   },
   "slopes": {
     "down_10": {
-      "progress_m": 2.35079678779414,
-      "max_pitch_deg": 10.001982474245677,
-      "final_z_m": 0.3278759733027158,
+      "progress_m": 2.339110004550988,
+      "max_pitch_deg": 10.00236728924786,
+      "final_z_m": 0.3258153496530177,
       "tipped": false,
       "result": "OK"
     },
     "down_20": {
-      "progress_m": 2.2489438781675783,
-      "max_pitch_deg": 20.00312888111639,
-      "final_z_m": 0.642787406069151,
+      "progress_m": 2.2232379588828812,
+      "max_pitch_deg": 20.005047219152544,
+      "final_z_m": 0.6334312956246885,
       "tipped": false,
       "result": "OK"
     },
     "down_25": {
-      "progress_m": 2.173472656888594,
-      "max_pitch_deg": 25.009340115515037,
-      "final_z_m": 0.790206304839853,
+      "progress_m": 2.1420613011737797,
+      "max_pitch_deg": 25.006649214583177,
+      "final_z_m": 0.7755589792348664,
       "tipped": false,
       "result": "OK"
     },
     "down_28": {
-      "progress_m": 1.4602354386364984,
-      "max_pitch_deg": 28.00557962921782,
-      "final_z_m": 0.5230298867585222,
+      "progress_m": 2.08388575320193,
+      "max_pitch_deg": 28.006709062236023,
+      "final_z_m": 0.8546478182674966,
       "tipped": false,
-      "result": "滑落/停止"
+      "result": "OK"
     },
     "down_31": {
-      "progress_m": 0.7676014487363472,
-      "max_pitch_deg": 31.01722053964287,
-      "final_z_m": 0.17627265051727808,
+      "progress_m": 0.8026244237868281,
+      "max_pitch_deg": 31.016825033927066,
+      "final_z_m": 0.19730909139484,
       "tipped": false,
       "result": "滑落/停止"
     },
     "down_34": {
-      "progress_m": 0.7576113821042795,
-      "max_pitch_deg": 34.03924987980498,
-      "final_z_m": 0.19263591986483738,
+      "progress_m": 0.757991142110006,
+      "max_pitch_deg": 34.01683747750266,
+      "final_z_m": 0.19287863271964886,
       "tipped": false,
       "result": "滑落/停止"
     },
     "forward_10": {
-      "progress_m": 2.3494848092373535,
-      "max_pitch_deg": 10.001408783228966,
-      "final_z_m": 0.3276444908208494,
+      "progress_m": 2.3380591863905162,
+      "max_pitch_deg": 10.002740772988071,
+      "final_z_m": 0.3256300782402709,
       "tipped": false,
       "result": "OK"
     },
     "forward_20": {
-      "progress_m": 2.236329791691451,
-      "max_pitch_deg": 20.0015208143829,
-      "final_z_m": 0.6381959848307206,
+      "progress_m": 2.2174168052563963,
+      "max_pitch_deg": 20.00651485609483,
+      "final_z_m": 0.6313126120962309,
       "tipped": false,
       "result": "OK"
     },
     "forward_25": {
-      "progress_m": 2.1400618720374056,
-      "max_pitch_deg": 25.009314665094944,
-      "final_z_m": 0.7746262072708033,
+      "progress_m": 2.135435617306214,
+      "max_pitch_deg": 25.003659362277503,
+      "final_z_m": 0.7724694192255728,
       "tipped": false,
       "result": "OK"
     },
     "forward_28": {
-      "progress_m": 1.5025234701824632,
-      "max_pitch_deg": 28.008778254668954,
-      "final_z_m": 0.545531974705553,
+      "progress_m": 2.07866547636707,
+      "max_pitch_deg": 28.004337540265414,
+      "final_z_m": 0.851872187579697,
       "tipped": false,
-      "result": "滑落/停止"
+      "result": "OK"
     },
     "forward_31": {
-      "progress_m": 0.7677234620321131,
-      "max_pitch_deg": 31.012482723883465,
-      "final_z_m": 0.17637861962043969,
+      "progress_m": 0.7915898944939248,
+      "max_pitch_deg": 31.008791356514546,
+      "final_z_m": 0.19069795097368153,
       "tipped": false,
       "result": "滑落/停止"
     },
     "forward_34": {
-      "progress_m": 0.7576258232985896,
-      "max_pitch_deg": 34.015777068156126,
-      "final_z_m": 0.19265138369325543,
+      "progress_m": 0.7576279527750709,
+      "max_pitch_deg": 34.011360706463286,
+      "final_z_m": 0.19266374159674876,
       "tipped": false,
       "result": "滑落/停止"
     },
     "back_10": {
-      "progress_m": 2.3512680351730353,
-      "max_pitch_deg": 10.003134695549663,
-      "final_z_m": 0.3279590703859456,
+      "progress_m": 2.339325646970708,
+      "max_pitch_deg": 10.00350275463664,
+      "final_z_m": 0.32585337337467823,
       "tipped": false,
       "result": "OK"
     },
     "back_20": {
-      "progress_m": 2.249308937999006,
-      "max_pitch_deg": 20.013658807488042,
-      "final_z_m": 0.64292033597121,
+      "progress_m": 2.224861620274081,
+      "max_pitch_deg": 20.005383024415746,
+      "final_z_m": 0.6340222530170662,
       "tipped": false,
       "result": "OK"
     },
     "back_25": {
-      "progress_m": 2.17705174976237,
-      "max_pitch_deg": 25.021694176235556,
-      "final_z_m": 0.7918754090417284,
+      "progress_m": 2.144381486004551,
+      "max_pitch_deg": 25.00849617759803,
+      "final_z_m": 0.776640887639944,
       "tipped": false,
       "result": "OK"
     },
     "back_28": {
-      "progress_m": 1.8999042610763877,
-      "max_pitch_deg": 28.03048535869844,
-      "final_z_m": 0.7568348465656025,
+      "progress_m": 2.0889002710942757,
+      "max_pitch_deg": 28.00773374279448,
+      "final_z_m": 0.8573140984186292,
       "tipped": false,
       "result": "OK"
     },
     "back_31": {
-      "progress_m": 0.7677179947068642,
-      "max_pitch_deg": 31.05795970496863,
-      "final_z_m": 0.17636328492772033,
+      "progress_m": 1.027954233460463,
+      "max_pitch_deg": 31.0079421734044,
+      "final_z_m": 0.3327103489447617,
       "tipped": false,
       "result": "滑落/停止"
     },
     "back_34": {
-      "progress_m": 0.7576332083270829,
-      "max_pitch_deg": 34.09057892492972,
-      "final_z_m": 0.1926376480228606,
+      "progress_m": 0.7578304541732972,
+      "max_pitch_deg": 34.0188847864185,
+      "final_z_m": 0.1927813245113305,
       "tipped": false,
       "result": "滑落/停止"
     }
