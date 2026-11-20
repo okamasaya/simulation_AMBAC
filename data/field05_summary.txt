@@ -1,12 +1,12 @@
 === 1. 性能表（荷物運びの安全な最短時間: 傾き 1° 未満・ずれ 5 mm 未満）===
   tank_arm           practice  g= 9.807 μ=0.6: 安全な最短時間 1.351 s
   tank_arm           ice       g= 9.807 μ=0.1: 安全な最短時間 2.22 s（フルード則の予測 1.35 s）
-  tank_arm           mars      g= 3.721 μ=0.6: 安全な最短時間 2.22 s（フルード則の予測 2.19 s）
-  tank_arm           moon      g= 1.625 μ=0.6: 安全な最短時間 3.362 s（フルード則の予測 3.32 s）
-  tank_waist_3axis   practice  g= 9.807 μ=0.6: 安全な最短時間 1.443 s
-  tank_waist_3axis   ice       g= 9.807 μ=0.1: 安全な最短時間 2.448 s（フルード則の予測 1.44 s）
-  tank_waist_3axis   mars      g= 3.721 μ=0.6: 安全な最短時間 2.311 s（フルード則の予測 2.34 s）
-  tank_waist_3axis   moon      g= 1.625 μ=0.6: 安全な最短時間 3.454 s（フルード則の予測 3.54 s）
+  tank_arm           mars      g= 3.721 μ=0.6: 安全な最短時間 2.208 s（フルード則の予測 2.19 s）
+  tank_arm           moon      g= 1.625 μ=0.6: 安全な最短時間 3.339 s（フルード則の予測 3.32 s）
+  tank_waist_3axis   practice  g= 9.807 μ=0.6: 安全な最短時間 1.408 s
+  tank_waist_3axis   ice       g= 9.807 μ=0.1: 安全な最短時間 2.425 s（フルード則の予測 1.41 s）
+  tank_waist_3axis   mars      g= 3.721 μ=0.6: 安全な最短時間 2.277 s（フルード則の予測 2.29 s）
+  tank_waist_3axis   moon      g= 1.625 μ=0.6: 安全な最短時間 3.442 s（フルード則の予測 3.46 s）
 
 === 2. 校正データ: 2586 行（6 ループ）→ data/field_calibration_dataset.csv、正解 → data/field_calibration_truth.json ===
 === 3. Excel のサマリー → data/field_summary.xlsx（シート: 説明, 性能表, 照合結果, キャリブレーション, 計測データ）===
