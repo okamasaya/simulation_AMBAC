@@ -1,0 +1,156 @@
+{
+  "practice": {
+    "none": {
+      "T": 1.406,
+      "reduction_pct": 2.6,
+      "coef": [],
+      "at": {
+        "track_err_deg": 0.198,
+        "done_time_s": 1.332,
+        "peak_torque_Nm": 317.923,
+        "max_tilt_deg": 0.508,
+        "net_yaw_deg": 0.494,
+        "slide_mm": 4.439,
+        "airborne_s": 0.002,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "elbow": {
+      "T": 0.831,
+      "reduction_pct": 42.4,
+      "coef": [
+        0.5612,
+        0.9324
+      ],
+      "at": {
+        "track_err_deg": 0.198,
+        "done_time_s": 0.948,
+        "peak_torque_Nm": 738.601,
+        "max_tilt_deg": 0.696,
+        "net_yaw_deg": 0.607,
+        "slide_mm": 3.464,
+        "airborne_s": 0.004,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "waist": {
+      "T": 0.573,
+      "reduction_pct": 60.3,
+      "coef": [
+        -0.5329,
+        -0.241,
+        -0.032,
+        0.8658
+      ],
+      "at": {
+        "track_err_deg": 0.11,
+        "done_time_s": 0.612,
+        "peak_torque_Nm": 838.791,
+        "max_tilt_deg": 0.71,
+        "net_yaw_deg": 0.336,
+        "slide_mm": 3.329,
+        "airborne_s": 0.038,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "both": {
+      "T": 0.499,
+      "reduction_pct": 65.4,
+      "coef": [
+        0.2143,
+        0.5229,
+        -0.4378,
+        -0.0339,
+        -0.0552,
+        0.9413
+      ],
+      "at": {
+        "track_err_deg": 0.11,
+        "done_time_s": 0.616,
+        "peak_torque_Nm": 1101.561,
+        "max_tilt_deg": 0.769,
+        "net_yaw_deg": 0.536,
+        "slide_mm": 3.733,
+        "airborne_s": 0.012,
+        "final_tilt_deg": 0.0
+      }
+    }
+  },
+  "moon": {
+    "none": {
+      "T": 3.47,
+      "reduction_pct": -0.5,
+      "coef": [],
+      "at": {
+        "track_err_deg": 0.033,
+        "done_time_s": 3.204,
+        "peak_torque_Nm": 80.031,
+        "max_tilt_deg": 0.35,
+        "net_yaw_deg": 0.248,
+        "slide_mm": 3.021,
+        "airborne_s": 0.012,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "elbow": {
+      "T": 2.019,
+      "reduction_pct": 41.6,
+      "coef": [
+        0.5779,
+        0.9169
+      ],
+      "at": {
+        "track_err_deg": 0.033,
+        "done_time_s": 2.1,
+        "peak_torque_Nm": 275.359,
+        "max_tilt_deg": 0.746,
+        "net_yaw_deg": 0.431,
+        "slide_mm": 3.664,
+        "airborne_s": 0.05,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "waist": {
+      "T": 1.505,
+      "reduction_pct": 56.4,
+      "coef": [
+        -0.2613,
+        -0.279,
+        0.0231,
+        0.5747
+      ],
+      "at": {
+        "track_err_deg": 0.019,
+        "done_time_s": 1.52,
+        "peak_torque_Nm": 547.8,
+        "max_tilt_deg": 0.996,
+        "net_yaw_deg": 0.151,
+        "slide_mm": 3.331,
+        "airborne_s": 0.266,
+        "final_tilt_deg": 0.0
+      }
+    },
+    "both": {
+      "T": 1.309,
+      "reduction_pct": 62.1,
+      "coef": [
+        0.2093,
+        0.568,
+        -0.1731,
+        -0.0898,
+        -0.0097,
+        0.6298
+      ],
+      "at": {
+        "track_err_deg": 0.018,
+        "done_time_s": 1.396,
+        "peak_torque_Nm": 331.85,
+        "max_tilt_deg": 0.554,
+        "net_yaw_deg": 0.385,
+        "slide_mm": 2.845,
+        "airborne_s": 0.058,
+        "final_tilt_deg": 0.0
+      }
+    }
+  }
+}
