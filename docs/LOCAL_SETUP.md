@@ -65,6 +65,31 @@ PowerShell で仮想環境を有効化できない場合は、一度だけ次を
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
+## 動きを目で確かめるツール（モーションチェック）
+
+クラウドでは画面がないため、`sims/field_gifs.py` で GIF を作って確かめている（`figures/field/gifs/`）。
+ローカルでは、次のツールで、より手軽に・自由な角度から動きを見られる。
+
+| ツール | 向いていること | 準備 |
+|---|---|---|
+| **MuJoCo のビューア**（おすすめ、最初に使う） | 画面で回転・拡大しながら、その場で動きを見る。一時停止・コマ送り、関節を手で動かして試す、接触力の表示もできる。Geant の対話的な表示に近い | `pip install mujoco` だけ。`python -m mujoco.viewer --mjcf=モデル.xml`、または Python から `mujoco.viewer.launch_passive(m, d)` |
+| Rerun（`pip install rerun-sdk`） | シミュレーションの記録を、時間軸を動かしながら見返す。3D とグラフ（傾き・トルクなど）を並べて見られる | pip で入る。記録を送る数行のコードが必要 |
+| MeshCat（`pip install meshcat`） | ブラウザで 3D を表示する軽いビューア | pip で入る |
+| Blender | 見栄えのよいアニメーション（影・質感・カメラワーク）。発表や説明の資料向け | MuJoCo の記録（各物体の位置と向きの時系列）を読み込む変換スクリプトが必要 |
+| NVIDIA Isaac Sim | ロボットの本格的なシミュレーションと描画 | 高性能な NVIDIA の GPU が必要。重い |
+
+組み立てた機体のモデルは、次のようにファイルに書き出してビューアで開ける。
+
+```python
+from ambac.field.assembly import build, load
+xml, joints = build(load("robots", "linked_track_arm"), load("stages", "steps"))
+open("linked_track_on_steps.xml", "w").write(xml)
+```
+
+```bash
+python -m mujoco.viewer --mjcf=linked_track_on_steps.xml
+```
+
 ## 動作確認
 
 ```bash

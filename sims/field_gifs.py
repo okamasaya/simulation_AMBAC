@@ -194,7 +194,8 @@ def track_scene(robot, h, strat, title):
         d.ctrl[drv] = (0.15 / 0.10) if d.time > 0.5 else 0.0
         if strat == "active" and d.time > 0.5:
             p, _ = pitch_yaw(d.qpos)
-            a = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_pitch"); d.ctrl[a] = f10.active(d.time, {"pitch": p})["arm_pitch"]
+            for jn, v in f10.active(d.time, {"pitch": p}).items():
+                d.ctrl[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, jn)] = v
 
     def info(m, d):
         p, _ = pitch_yaw(d.qpos)
@@ -235,7 +236,7 @@ def gif_turning():
     def swing(m, d):
         a = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_yaw")
         u = np.clip((d.time - 1.5) / 1.0, 0, 1); d.ctrl[a] = R(180) * (10 * u**3 - 15 * u**4 + 6 * u**5)
-    s1 = Scene(xml, "Pivot turn: tracks +0.15 / -0.15 m/s", init=lambda m, d: set_pose(m, d, {"arm_pitch": R(-90)}), control=pivot,
+    s1 = Scene(xml, "Pivot turn: tracks +0.15 / -0.15 m/s", init=lambda m, d: set_pose(m, d, {"arm_pitch": R(-20), "arm_elbow1": R(-70)}), control=pivot,
                cam=dict(distance=3.0, azimuth=90, elevation=-60, lookat=(0, 0, 0.3)), info=yinfo("p"))
     s2 = Scene(xml, "Fast arm swing (1 s) with 10 kg payload", init=lambda m, d: set_pose(m, d, {"arm_pitch": 0.0}), control=swing,
                cam=dict(distance=3.4, azimuth=90, elevation=-60, lookat=(0, 0, 0.3)), info=yinfo("s"))

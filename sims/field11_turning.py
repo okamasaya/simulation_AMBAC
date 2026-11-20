@@ -27,7 +27,7 @@ R = np.radians
 BASE = load("robots", "twin_track_arm")
 STAGE = load("stages", "practice")
 RS = BASE["base"]["track"]["sprocket_radius"]; B = BASE["base"]["track"]["gauge"]; MU = STAGE["friction"]
-POSE = {"arm_pitch": R(-90)}
+POSE = {"arm_pitch": R(-20), "arm_elbow1": R(-70)}   # 荷物が床のすぐ上に来る姿勢（以前の肩 −90° は床の下に入り込んでいた）
 
 
 def robot(L=0.8, force=None):
@@ -44,8 +44,9 @@ def weight(r):
 def load_distribution(r, bins=16):
     """止まった状態で、履板と床の接触の垂直力を、車体の前後方向の位置ごとに集計する（基準モデルに入れる荷重分布）"""
     xml, joints = build(r, STAGE); m = mujoco.MjModel.from_xml_string(xml); d = mujoco.MjData(m)
-    adr = m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, "arm_pitch")]
-    act = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_pitch"); d.qpos[adr] = POSE["arm_pitch"]; d.ctrl[act] = POSE["arm_pitch"]
+    for jn, v in POSE.items():
+        adr = m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, jn)]
+        act = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, jn); d.qpos[adr] = v; d.ctrl[act] = v
     for _ in range(int(2.0 / m.opt.timestep)):
         mujoco.mj_step(m, d)
     floor = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, "floor"); Rh = d.xmat[1].reshape(3, 3); P = []

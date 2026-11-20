@@ -27,14 +27,18 @@ EN = {"OK": "climbed", "転倒": "tipped over", "引っかかり": "stuck", "滑
 R = np.radians
 ROBOT = load("robots", "linked_track_arm")
 RS = ROBOT["base"]["track"]["sprocket_radius"]; SPEED = 0.15; T_RUN = 30.0
-POSES = {"down": {"arm_pitch": R(-90)}, "forward": {"arm_pitch": R(0)},
+# 腕を下ろす: 荷物が床のすぐ上（前方 0.47 m、高さ 0.08 m）に来る姿勢。以前は肩 −90° で、腕と荷物が床の下に入り込んでいた
+POSES = {"down": {"arm_pitch": R(-20), "arm_elbow1": R(-70)}, "forward": {"arm_pitch": R(0), "arm_elbow1": 0.0},
          "back": {"arm_pitch": R(135), "arm_elbow1": R(-100)}}
 
 
 def active(t, st):
+    """機首が上がる（pitch < 0）ほど、腕を「下ろす」姿勢から「水平に前へ伸ばす」姿勢へ移す（機首の上がり 22.5° で伸ばし切る）。
+    角度は世界座標で決め、台車の座標に直して指令する"""
     up = max(0.0, -st["pitch"])
-    world = min(0.0, R(-90) + 4.0 * up)
-    return {"arm_pitch": world - up}
+    s = min(1.0, up / R(22.5))
+    world = R(-20) * (1 - s)
+    return {"arm_pitch": world - up, "arm_elbow1": R(-70) * (1 - s)}
 
 
 def stage_of(kind, v):
