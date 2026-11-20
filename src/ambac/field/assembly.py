@@ -13,7 +13,9 @@
   arms     : [{"name", "mount": [x, y, z], "shoulder": "pitch" | "yaw_pitch" | "ball3",
                "links": [{"length", "mass"}, ...], "payload"}]
              肩: pitch=1 軸（x–z 面内）、yaw_pitch=2 軸ジンバル（旋回＋俯仰）、ball3=3 軸（旋回＋俯仰＋ひねり）。
+             省略可 "sea": {関節（yaw など）: {"stiffness" [N·m/rad], "damping", "rotor_inertia"}}：モーター側と腕の間にばね＋減衰（しなり）。
              リンクが 2 本以上なら、間に肘（俯仰）を入れる。
+  flywheel : 省略可。{"inertia", "mass", "radius", "pos", "torque_limit", "bearing_damping"}：車体に付けた、鉛直軸まわりに回る円盤（駆動は "flywheel" のトルク）
   actuator : {"kp", "kv"}（位置サーボのゲイン、関節ごとに一律）
              省略可: "torque_limit"（N·m、数値なら全関節、辞書なら {関節名の末尾: 値}、例 {"pitch": 150, "elbow1": 80}）、
                      "speed_limit_deg_s"（目標角の変化の速さの上限、同じ書き方）。モーターと減速機の定格を表す簡易モデル。
@@ -57,6 +59,13 @@ def _arm_xml(arm, color="0.3 0.5 0.9 1"):
             open_tags.append(f'<body name="{name}_{jn}_frame">'); close_tags.append("</body>")
         open_tags.append(f'<joint name="{name}_{jn}" type="hinge" axis="{ax}"/>')
         joints.append(f"{name}_{jn}")
+        sea = arm.get("sea", {}).get(jn)
+        if sea:
+            # しなり（直列弾性）: モーター側（ローター）の関節の先に、ばね＋減衰の受動関節を挟む
+            Ir = sea.get("rotor_inertia", 0.5)
+            open_tags.append(f'<inertial pos="0 0 0" mass="0.5" diaginertia="{Ir} {Ir} {Ir}"/>')
+            open_tags.append(f'<body name="{name}_{jn}_out">'); close_tags.append("</body>")
+            open_tags.append(f'<joint name="{name}_{jn}_spring" type="hinge" axis="{ax}" stiffness="{sea["stiffness"]}" damping="{sea.get("damping", 0.0)}"/>')
         if k < len(axes) - 1:
             open_tags.append('<inertial pos="0 0 0" mass="1e-4" diaginertia="1e-7 1e-7 1e-7"/>')
     for i, link in enumerate(arm["links"]):
@@ -154,6 +163,12 @@ def build(robot, stage, timestep=5e-4):
         parts.append("".join(o[0] for o in outs)); track_world = "".join(o[1] for o in outs)
         eq_t = "".join(o[2] for o in outs); act_t = "".join(o[3] for o in outs)
         equality = "<equality>" + eq_t + "</equality>"
+    fw = robot.get("flywheel")
+    if fw:   # 車体に付けた、鉛直軸まわりに回る円盤（逆回転するおもり）。トルクで駆動する
+        If = fw["inertia"]; fp = fw.get("pos", [0, 0, 0.4])
+        parts.append(f'<body name="flywheel" pos="{fp[0]} {fp[1]} {fp[2]}"><joint name="flywheel" type="hinge" axis="0 0 1" damping="{fw.get("bearing_damping", 0.0)}"/>'
+                     f'<inertial pos="0 0 0" mass="{fw.get("mass", 10.0)}" diaginertia="{If / 2} {If / 2} {If}"/>'
+                     f'<geom type="cylinder" size="{fw.get("radius", 0.2)} 0.02" contype="0" conaffinity="0" rgba="0.9 0.3 0.3 1"/></body>')
     arm_parent_close = ""
     w = robot.get("waist")
     if w:
@@ -193,6 +208,8 @@ def build(robot, stage, timestep=5e-4):
         equality = "<equality>" + "".join(f'<joint joint1="{wn}" joint2="{wheels[0]}" polycoef="0 1 0 0 0"/>' for wn in wheels[1:]) + "</equality>"
     if b["type"] == "linked_track":
         acts += act_t
+    if fw:
+        acts += f'<motor name="flywheel" joint="flywheel" gear="1" ctrllimited="true" ctrlrange="{-fw.get("torque_limit", 1000)} {fw.get("torque_limit", 1000)}"/>'
     sl = [per_joint(a.get("speed_limit_deg_s"), j) for j in joints]
     custom = ""
     if any(sl):

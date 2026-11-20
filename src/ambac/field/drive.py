@@ -11,11 +11,13 @@ except ImportError:  # pragma: no cover
 from .ground import pitch_yaw, roll
 
 
-def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_every=20, pose_fun=None, speed_fun=None, tip_stop=True):
+def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_every=20, pose_fun=None, speed_fun=None, tip_stop=True, ctrl_fun=None, log_fun=None):
     """腕・腰を pose（{関節名: 角度}）に保ち、転輪の周速を speed [m/s] にして T 秒走る。
     pose_fun(t, state) を渡すと、走行中に姿勢を変えられる（state は下の speed_fun と同じ）。
     speed_fun(t, state) を渡すと、左右の履帯の周速 (v_left, v_right) [m/s] を時刻と状態ごとに決められる（旋回・向きの制御）。
     名前に "_L_" / "_R_" を含む駆動に与える。state: {"x", "z", "pitch", "yaw"（連続化した向き）, "yaw_rate"}
+    ctrl_fun(m, d, t) を渡すと、毎ステップの最後に任意の制御を加えられる（円盤のトルクなど）。
+    log_fun(m, d) を渡すと、記録のたびにその値を rec["log"] に残す
     戻り値: 時系列（t, 車体の位置 x・z, pitch）と要約（進んだ距離、最大の pitch、最終の高さ、転倒したか、計算が発散したか）"""
     m = mujoco.MjModel.from_xml_string(xml); d = mujoco.MjData(m)
     adr = [m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, j)] for j in joints]
@@ -42,7 +44,11 @@ def run_drive(xml, joints, pose, speed, T, wheel_radius, settle=0.5, record_ever
         if pose_fun is not None and t > 0:
             newpose = pose_fun(t, state)
             d.ctrl[act] = [newpose.get(j, pose.get(j, 0.0)) for j in joints]
+        if ctrl_fun is not None:
+            ctrl_fun(m, d, t)
         if k % record_every == 0:
+            if log_fun is not None:
+                rec.setdefault("log", []).append(log_fun(m, d))
             p, yw = pitch_yaw(d.qpos)
             rec["t"].append(t); rec["x"].append(d.qpos[0]); rec["y"].append(d.qpos[1]); rec["z"].append(d.qpos[2]); rec["pitch"].append(p)
             rec["roll"].append(roll(d.qpos)); rec["yaw"].append(yw)
