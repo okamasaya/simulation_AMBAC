@@ -7,6 +7,7 @@
   04_track_step.gif        履帯で 0.15 m の段差：腕を後ろ（転倒） vs 能動の腕（段階 10）
   05_track_length.gif      短い履帯で 0.20 m（転倒） vs 長い履帯で 0.30 m（段階 10）
   06_turning.gif           その場旋回と、腕を速く振ると車体が回る（段階 11）
+  07_ground_ambac_ratchet.gif  腕の非対称な往復で車体を回す / その場旋回できない長い履帯を、腕の往復で回す（段階 12）
 実行: cd sims && MUJOCO_GL=osmesa python field_gifs.py [番号 ...]（約 15 分）
 """
 import os
@@ -243,7 +244,44 @@ def gif_turning():
     record("06_turning", [s1, s2], T=6.0, fps=10, speed=1.0)
 
 
-ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning}
+# ---- 7. 地上版 AMBAC：腕の往復で車体を回す ---------------------------------------------------
+def gif_ratchet():
+    import field11_turning as f11
+    Tf, Ts = 0.6, 3.0; period = Tf + Ts + 0.4
+
+    def mj(u):
+        u = np.clip(u, 0, 1); return 10 * u**3 - 15 * u**4 + 6 * u**5
+
+    def arm(m, d, t):
+        k = int(t // period); u = t - k * period
+        a = mj(u / Tf) if u < Tf + 0.2 else 1 - mj((u - Tf - 0.2) / Ts)
+        d.ctrl[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_yaw")] = R(120) * a
+    yaw0 = {}
+
+    def yinfo(key):
+        def f(m, d):
+            _, y = pitch_yaw(d.qpos); yaw0.setdefault(key, y)
+            return f"base heading {np.degrees((y - yaw0[key] + np.pi) % (2 * np.pi) - np.pi):+6.1f} deg"
+        return f
+    xml1, _ = build(f11.robot(0.8), load("stages", "practice"))
+
+    def c1(m, d):
+        if d.time > 0.5:
+            arm(m, d, d.time - 0.5)
+    xml2, _ = build(f11.robot(1.2, 300), load("stages", "practice"))
+
+    def c2(m, d):
+        L = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "drive_L_sprocket"); Rr = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "drive_R_sprocket")
+        on = d.time > 0.5; d.ctrl[L] = 1.5 if on else 0; d.ctrl[Rr] = -1.5 if on else 0
+        if on and d.time > 4.5:          # 最初の 4 s は履帯だけ（回らない）、その後に腕の往復を加える
+            arm(m, d, d.time - 4.5)
+    cam = dict(distance=3.6, azimuth=90, elevation=-65, lookat=(0, 0, 0.3))
+    s1 = Scene(xml1, "Arm only: fast swing (0.6 s), slow return (3 s)", init=lambda m, d: set_pose(m, d, {"arm_pitch": 0.0}), control=c1, cam=cam, info=yinfo("a"))
+    s2 = Scene(xml2, "Track 1.2 m, 300 N pivot: + arm swings after 4 s", init=lambda m, d: set_pose(m, d, {"arm_pitch": 0.0}), control=c2, cam=cam, info=yinfo("b"))
+    record("07_ground_ambac_ratchet", [s1, s2], T=20.5, fps=10, speed=2.0)
+
+
+ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet}
 if __name__ == "__main__":
     for k in (sys.argv[1:] or ALL):
         print(f"GIF {k}", flush=True); ALL[k]()
