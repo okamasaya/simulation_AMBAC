@@ -48,3 +48,21 @@ def steady_turn(uL, uR, L=0.8, B=0.45, b=0.15, mu=0.6, W=1500.0):
 def pivot_resistance(L=0.8, B=0.45, mu=0.6, W=1500.0):
     """その場旋回で、片側の履帯が出す必要のある前後の力（一様な圧力、滑り始めの近似: μ W L / (4 B)）"""
     return mu * W * L / (4 * B)
+
+
+def steady_turn_dist(uL, uR, xs, share, B=0.45, b=0.15, mu=0.6, W=1500.0, ny=4):
+    """前後方向の荷重分布（位置 xs と割合 share、左右で同じ）を与えた場合の定常旋回の (vx, vy, ω)"""
+    share = np.asarray(share, float) / np.sum(share)
+    ys = (np.arange(ny) + 0.5) / ny * b - b / 2
+    pts = [(x, s * B / 2 + y, "L" if s > 0 else "R", w * W / 2 / ny) for x, w in zip(xs, share) for s in (1, -1) for y in ys]
+
+    def F(st):
+        vx, vy, w = st; out = np.zeros(3)
+        for x, y, side, p in pts:
+            u = uL if side == "L" else uR
+            sx = vx - w * y - u; sy = vy + w * x; sp = np.hypot(sx, sy) + 1e-4
+            fx, fy = -mu * p * sx / sp, -mu * p * sy / sp
+            out += (fx, fy, x * fy - y * fx)
+        return out / W
+    w0 = (uR - uL) / B
+    return fsolve(F, [(uL + uR) / 2, 0.0, 0.5 * w0], xtol=1e-10)

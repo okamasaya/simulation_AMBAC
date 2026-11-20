@@ -1,7 +1,7 @@
 """Field11: 左右 2 本の履帯による旋回（スキッドステア）と、旋回中の腕の作業（段階 11）.
 
 機体: twin_track_arm（板をつないだ履帯 2 本：各幅 0.15 m、中心の間隔 B = 0.45 m、接地長 L = 0.8 m、腕は 2 軸の肩＋肘＋荷物 10 kg）。
-基準モデル: ambac.field.skid（接地面の一様な圧力とクーロン摩擦から、定常旋回の角速度を求める準静的なモデル）。
+基準モデル: ambac.field.skid（接地面の圧力分布とクーロン摩擦から、定常旋回の角速度を求める準静的なモデル）。圧力分布は、一様な場合と、MuJoCo で止まった状態の接地の荷重を測った場合の 2 通り。
 Part A: 左右の送りの速さ (v_L, v_R) を変えて、定常旋回の角速度を基準モデルと比べる（L = 0.8 m と 1.2 m）
 Part B: その場旋回（v_L = −v_R）を、1 本あたりの駆動力の上限を変えて試す。基準モデルの必要な力 μ W L / (4 B) と比べる
 Part C: 止まった状態と直進中に、荷物を持った腕を横に振る（肩の旋回 0 → 180°）。車体の向きの変化と傾きを測る（段階 2・Sim06 の続き）
@@ -19,7 +19,8 @@ import numpy as np
 from common import DATA, FIG
 from ambac.field.assembly import build, load, mass_properties
 from ambac.field.drive import run_drive
-from ambac.field.skid import pivot_resistance, steady_turn
+from ambac.field.skid import pivot_resistance, steady_turn, steady_turn_dist
+import mujoco
 
 FIGF = FIG / "field"
 R = np.radians
@@ -38,6 +39,23 @@ def robot(L=0.8, force=None):
 
 def weight(r):
     return mass_properties(build(r, STAGE)[0])[0] * 9.80665
+
+
+def load_distribution(r, bins=16):
+    """止まった状態で、履板と床の接触の垂直力を、車体の前後方向の位置ごとに集計する（基準モデルに入れる荷重分布）"""
+    xml, joints = build(r, STAGE); m = mujoco.MjModel.from_xml_string(xml); d = mujoco.MjData(m)
+    adr = m.jnt_qposadr[mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, "arm_pitch")]
+    act = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, "arm_pitch"); d.qpos[adr] = POSE["arm_pitch"]; d.ctrl[act] = POSE["arm_pitch"]
+    for _ in range(int(2.0 / m.opt.timestep)):
+        mujoco.mj_step(m, d)
+    floor = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, "floor"); Rh = d.xmat[1].reshape(3, 3); P = []
+    for i in range(d.ncon):
+        c = d.contact[i]
+        if floor in (c.geom1, c.geom2):
+            f = np.zeros(6); mujoco.mj_contactForce(m, d, i, f); P.append(((Rh.T @ (c.pos - d.xpos[1]))[0], f[0]))
+    P = np.array(P); L = r["base"]["size"][0]
+    h, e = np.histogram(P[:, 0], bins=bins, range=(-L / 2 - 0.05, L / 2 + 0.05), weights=P[:, 1])
+    return (e[:-1] + e[1:]) / 2, h / h.sum()
 
 
 def turn_trial(args):
@@ -64,6 +82,10 @@ def swing_trial(args):
 if __name__ == "__main__":
     t0 = time.time()
     WL = {L: weight(robot(L)) for L in (0.8, 1.2)}
+    DIST = {L: load_distribution(robot(L)) for L in (0.8, 1.2)}
+    for L in (0.8, 1.2):
+        xs, sh = DIST[L]; on = xs[sh > 0.01]
+        print(f"接地の荷重分布（L={L} m）: 荷重を受ける範囲 x = {on.min():+.2f}〜{on.max():+.2f} m、重心位置 {np.sum(xs * sh):+.3f} m")
     VS = [(0.15, -0.15), (0.15, 0.0), (0.20, 0.10), (0.15, 0.05)]
     jobsA = [(L, vl, vr, None) for L in (0.8, 1.2) for vl, vr in VS]
     FORCES = [200, 300, 450, 700, 1000]
@@ -76,10 +98,12 @@ if __name__ == "__main__":
     print("=== Part A: 定常旋回の角速度 [rad/s]（MuJoCo / 基準モデル）===")
     for (L, vl, vr, _), w, s in outA:
         th, eff = steady_turn(vl, vr, L=L, B=B, mu=MU, W=WL[L])
+        td = steady_turn_dist(vl, vr, *DIST[L], B=B, mu=MU, W=WL[L])
         ideal = (vr - vl) / B
-        res["A"].append(dict(L=L, vL=vl, vR=vr, w_mujoco=round(w, 4), w_theory=round(float(th[2]), 4), w_noslip=round(ideal, 4)))
-        print(f"  L={L} m  v_L={vl:+.2f} v_R={vr:+.2f}: MuJoCo {w:+.3f}  基準モデル {th[2]:+.3f}  滑りなし {ideal:+.3f}"
-              f"  → MuJoCo/基準 {w / th[2]:.2f}")
+        res["A"].append(dict(L=L, vL=vl, vR=vr, w_mujoco=round(w, 4), w_theory_uniform=round(float(th[2]), 4),
+                             w_theory=round(float(td[2]), 4), w_noslip=round(ideal, 4)))
+        print(f"  L={L} m  v_L={vl:+.2f} v_R={vr:+.2f}: MuJoCo {w:+.3f}  基準モデル（実測の荷重分布）{td[2]:+.3f}  （一様な圧力）{th[2]:+.3f}"
+              f"  滑りなし {ideal:+.3f}  → MuJoCo/基準 {w / td[2]:.2f}")
     print("=== Part B: その場旋回（v = ±0.15 m/s）と駆動力の上限（1 本あたり）===")
     for L in (0.8, 1.2):
         need = pivot_resistance(L=L, B=B, mu=MU, W=WL[L])

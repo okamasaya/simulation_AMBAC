@@ -4,8 +4,9 @@ assembly.build の base.type = "linked_track" から使う。座標は車体（b
   ・履板: 厚さ t、長さ p（ピッチ）の箱を、ヒンジ（y 軸）で輪につなぐ。最初の履板は自由関節、最後と最初は connect 拘束で閉じる
   ・起動輪（後ろ、半径 Rs、駆動）、転輪（半径 Rr、空転）、誘導輪（前、高さ H、半径 Ri、空転）は車体に付く
   ・接触: 履板 ↔ 床・段・障害物、履板 ↔ 車輪。履板どうし、車輪 ↔ 床は接触しない
-  ・履板と地面の接触はやや柔らかくする（ground_solref、既定 0.1 s：静止時に約 3.5 mm 沈む）。硬い接触のままだと、
-    荷重が履帯の前後の端に集中し（不静定な多点接触のため）、旋回の抵抗が約 2 倍になる。実際の地面の沈み込みやサスペンションに相当する
+  ・転輪はばね（サスペンション、既定で 1 個あたり約 1 cm たわむ）で上下に動き、起動輪は地面から少し浮かせる。
+    これがないと、硬い履帯と硬い地面の多点接触では荷重が前後の端に集中し（不静定）、旋回の抵抗が約 2 倍になる。
+    地面を柔らかくする方法（ground_solref を大きくする）でも荷重は均されるが、0.1 では計算が発散した
   ・誘導輪はばね（張り装置、既定 1500 N で前へ押す）で前後に動く。起動輪には歯がないため、摩擦（既定 μ = 2.0）と張りで履板を送る
 """
 from __future__ import annotations
@@ -38,7 +39,7 @@ def linked_track(spec, length, width, mu, z0=0.0, y=0.0, prefix=""):
     H = spec.get("front_height", 0.25); n_road = spec.get("n_road", 5)
     half = length / 2
     zc = t + Rr                                          # 転輪の中心の高さ（履板の厚さの上）
-    sprocket = (-half + Rs, t + Rs, Rs)
+    sprocket = (-half + Rs, t + Rs + spec.get("sprocket_lift", 0.01), Rs)   # 起動輪は地面から少し浮かせる
     ang = np.radians(spec.get("approach_deg", 40.0))
     idler = (half - Rr + (H - zc) / np.tan(ang), H, Ri)
     road = [(x, zc, Rr) for x in np.linspace(-half + 2 * Rs, half - Rr, n_road)]
@@ -58,6 +59,10 @@ def linked_track(spec, length, width, mu, z0=0.0, y=0.0, prefix=""):
         fr = spec.get("sprocket_friction", 2.0) if k == 0 else 0.3
         # 誘導輪は前後に動けるようにし、ばねで前に押してベルトに張りを与える（張り装置）
         tens = ""
+        if k >= 2 and spec.get("suspension", True):
+            ks = spec.get("suspension_stiffness", 2.0e4); pre = spec.get("suspension_preload", 150.0)
+            tens = (f'<joint name="{name}_susp" type="slide" axis="0 0 1" stiffness="{ks}" springref="{-pre / ks:.5f}" '
+                    f'damping="{spec.get("suspension_damping", 400)}" range="-0.03 0.03" limited="true"/>')
         if k == 1 and spec.get("tensioner", True):
             kt = spec.get("tensioner_stiffness", 1.0e5); pre = spec.get("tensioner_preload", 1500.0)
             tens = (f'<joint name="{name}_tension" type="slide" axis="1 0 0" stiffness="{kt}" springref="{pre / kt:.5f}" '
@@ -80,7 +85,7 @@ def linked_track(spec, length, width, mu, z0=0.0, y=0.0, prefix=""):
         # 外向きの法線（反時計回りの経路では、進行方向の右手 = 外側）: 局所座標の −z 側…ではなく、経路の外側に厚みを置く
         chain.append(f'<inertial pos="{p_eff / 2:.5f} 0 0" mass="{mass}" diaginertia="{Ip[0]:.6f} {Ip[1]:.6f} {Ip[2]:.6f}"/>'
                      f'<geom type="box" pos="{p_eff / 2:.5f} 0 0" size="{p_eff / 2 * 0.98:.5f} {w / 2:.4f} {t / 2:.4f}" contype="2" conaffinity="1" '
-                     f'friction="{mu} 0.005 0.0001" solref="{spec.get("ground_solref", 0.1)} 1" rgba="0.25 0.25 0.22 1"/>')
+                     f'friction="{mu} 0.005 0.0001" solref="{spec.get("ground_solref", 0.004)} 1" rgba="0.25 0.25 0.22 1"/>')
         close.append("</body>")
     chain_xml = "".join(chain) + "".join(close)
     equality = f'<connect body1="{prefix}plate{N - 1}" body2="{prefix}plate0" anchor="{p_eff:.5f} 0 0" solref="0.002 1"/>'
