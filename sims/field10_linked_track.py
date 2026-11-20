@@ -6,6 +6,7 @@
 機体: linked_track_arm（車体 80 kg、接地長 0.8 m、腕＋荷物 10 kg）。駆動力の上限 2000 N、周速 0.15 m/s、μ = 0.6。
 Part A: 段差 0.05〜0.30 m × 腕の姿勢（下ろす / 前 / 後ろ上方 / 能動：機首が上がるほど腕を前へ）
 Part B: 上り坂 15〜34° × 腕の姿勢
+Part C: 機体の形を変える（重心を下げる 0.30 → 0.15 m、履帯を長くする 0.8 → 1.2 m、両方）× 段差 0.20〜0.30 m × 腕（下ろす / 能動）
 4 並列で計算する（1 回の試行は実時間の約 2.6 倍）。
 """
 import os
@@ -22,6 +23,7 @@ from ambac.field.assembly import build, load, mass_properties
 from ambac.field.drive import run_drive
 
 FIGF = FIG / "field"
+EN = {"OK": "climbed", "転倒": "tipped over", "引っかかり": "stuck", "滑落/停止": "slid back"}
 R = np.radians
 ROBOT = load("robots", "linked_track_arm")
 RS = ROBOT["base"]["track"]["sprocket_radius"]; SPEED = 0.15; T_RUN = 30.0
@@ -41,9 +43,19 @@ def stage_of(kind, v):
     return {"name": f"slope{v}", "gravity": 9.80665, "friction": 0.6, "obstacles": [{"type": "slope", "x": 0.7, "angle": v, "length": 4.0}]}
 
 
+def variant(name):
+    r = json.loads(json.dumps(ROBOT))
+    if "lowcom" in name:
+        r["base"]["com"] = [0, 0, 0.15]
+    if "long" in name:
+        r["base"]["size"][0] = 1.2
+    return r
+
+
 def trial(args):
-    kind, v, strat = args
-    xml, joints = build(ROBOT, stage_of(kind, v))
+    kind, v, strat = args[:3]
+    shape = args[3] if len(args) > 3 else "base"
+    xml, joints = build(variant(shape), stage_of(kind, v))
     rec, s = run_drive(xml, joints, POSES.get(strat, POSES["down"]), SPEED, T_RUN, RS,
                        pose_fun=active if strat == "active" else None, record_every=200)
     if kind == "step":
@@ -51,7 +63,7 @@ def trial(args):
     else:
         ok = s["final_z_m"] > 1.5 * np.sin(R(v)) * 0.9 and not s["tipped"]
     tag = "OK" if ok else ("転倒" if s["tipped"] else ("引っかかり" if kind == "step" else "滑落/停止"))
-    return (kind, v, strat), dict(s, result=tag), {k: rec[k].tolist() for k in ("t", "x", "z", "pitch")}
+    return tuple(args), dict(s, result=tag), {k: rec[k].tolist() for k in ("t", "x", "z", "pitch")}
 
 
 if __name__ == "__main__":
@@ -59,12 +71,15 @@ if __name__ == "__main__":
     print(f"機体: 総質量 {M:.0f} kg、重心の高さ {com[2]:.2f} m（腕を下ろす前の初期姿勢）")
     H = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]; A = [15, 20, 25, 28, 31, 34]
     STR = ["down", "forward", "back", "active"]
+    SHAPES = ["lowcom", "long", "long+lowcom"]
     jobs = [("step", h, s) for s in STR for h in H] + [("slope", a, s) for s in ["down", "forward", "back"] for a in A]
+    jobs += [("step", h, s, sh) for sh in SHAPES for s in ["down", "active"] for h in [0.20, 0.25, 0.30]]
     t0 = time.time()
     with Pool(4) as pool:
         out = pool.map(trial, jobs)
-    res = {f"{k[0]}_{k[1]}_{k[2]}": dict(s) for k, s, _ in out}
-    traj = {f"{k[0]}_{k[1]}_{k[2]}": r for k, _, r in out}
+    key = lambda k: "_".join(str(x) for x in k)
+    res = {key(k): dict(s) for k, s, _ in out}
+    traj = {key(k): r for k, _, r in out}
     print(f"（{len(jobs)} 試行、{time.time() - t0:.0f} s）")
     s8 = json.load(open(DATA / "field08_steps.json"))
     print("=== Part A: 段差（OK=段の上を走り抜けた）。括弧内は段階 8（転輪の列の近似）===")
@@ -79,12 +94,16 @@ if __name__ == "__main__":
     for st in ["down", "forward", "back"]:
         print(f"  {st:8s} " + " ".join(f"{a}°:{res[f'slope_{a}_{st}']['result']}" for a in A))
     print(f"  参考: 摩擦の限界 atan(μ) = {np.degrees(np.arctan(0.6)):.1f}°")
+    print("=== Part C: 機体の形を変えた場合（段差 0.20 / 0.25 / 0.30 m、元の形は Part A）===")
+    for sh, lab in [("lowcom", "重心を下げる（0.30→0.15 m）"), ("long", "履帯を長く（0.8→1.2 m）"), ("long+lowcom", "長く＋重心を下げる")]:
+        for st in ["down", "active"]:
+            print(f"  {lab:18s} {st:7s} " + " ".join(f"{h:.2f}:{res[f'step_{h}_{st}_{sh}']['result']}" for h in [0.20, 0.25, 0.30]))
     json.dump(dict(results=res), open(DATA / "field10_linked_track.json", "w"), indent=2, ensure_ascii=False)
 
     fig, ax = plt.subplots(1, 2, figsize=(12, 4.2))
     for st, col in [("down", "tab:gray"), ("forward", "tab:blue"), ("back", "tab:orange"), ("active", "tab:red")]:
         r = traj[f"step_0.15_{st}"]
-        ax[0].plot(r["x"], -np.degrees(np.array(r["pitch"])), color=col, label=f"arm {st}: {res[f'step_0.15_{st}']['result']}")
+        ax[0].plot(r["x"], -np.degrees(np.array(r["pitch"])), color=col, label=f"arm {st}: {EN[res[f'step_0.15_{st}']['result']]}")
         ax[1].plot(r["t"], r["x"], color=col, label=f"arm {st}")
     ax[0].set_xlabel("base x [m]"); ax[0].set_ylabel("nose-up pitch [deg]"); ax[0].set_title("linked-plate track, 0.15 m step"); ax[0].legend(fontsize=8)
     ax[1].set_xlabel("t [s]"); ax[1].set_ylabel("base x [m]"); ax[1].set_title("progress"); ax[1].legend(fontsize=8)
