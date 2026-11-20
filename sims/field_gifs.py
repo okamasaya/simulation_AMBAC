@@ -49,7 +49,11 @@ class Scene:
         self.cam.elevation = c["elevation"]; self.lookat = np.array(c["lookat"], float)
 
     def step_to(self, t):
+        from ambac.field.ground import roll as _roll
         while self.d.time < t:
+            if self.m.jnt_type[0] == mujoco.mjtJoint.mjJNT_FREE and abs(_roll(self.d.qpos)) > np.radians(80):
+                self.title_suffix = "  [tipped over: stopped]"
+                return                                   # 車体が倒れたら、その場面は止める（倒れた後の接触の計算がとても重いため）
             if self.control:
                 self.control(self.m, self.d)
             mujoco.mj_step(self.m, self.d)
@@ -63,7 +67,7 @@ class Scene:
         img = Image.fromarray(renderer.render())
         dr = ImageDraw.Draw(img)
         dr.rectangle([0, 0, img.width, 38], fill=(255, 255, 255))
-        dr.text((6, 3), self.title, fill=(0, 0, 0), font=FONT)
+        dr.text((6, 3), self.title + getattr(self, "title_suffix", ""), fill=(0, 0, 0), font=FONT)
         line = f"t = {self.d.time:4.1f} s"
         if self.info:
             line += "   " + self.info(self.m, self.d)
@@ -327,7 +331,7 @@ def gif_arm3d():
                    control=lambda m, d: ctrl(m, d, d.time - 0.5), cam=dict(distance=3.4, azimuth=140, elevation=-18, lookat=(0, 0, 0.7)), info=info)
         return sc, T_total
     sc = [make("servo_fast", "Position servo, fast (1 s / segment)"), make("motor", "Torque motor"), make("mr", "Motor + MR brake/hold")]
-    record("09_arm3d_power_off", [x[0] for x in sc], T=max(x[1] for x in sc) + 0.5, fps=10, speed=1.0, size=(300, 260))
+    record("09_arm3d_power_off", [x[0] for x in sc], T=max(x[1] for x in sc) + 0.5, fps=8, speed=1.0, size=(300, 260))
 
 
 ALL = {"1": gif_space, "2": gif_pick_place, "3": gif_biped, "4": gif_track_step, "5": gif_track_length, "6": gif_turning, "7": gif_ratchet, "8": gif_reaction, "9": gif_arm3d}
