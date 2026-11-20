@@ -66,6 +66,26 @@ AMBAC（Active Mass Balance Auto Control）は『機動戦士ガンダム』で�
 第 1 段階の振り返りの中で、PC 上に「試験場」と「ステージ」を用意して機体を試すシミュレーション場の構想が生まれ、実現方法の検討を始めた（途中経過）：
 [11. シミュレーション場の構想と実現方法の検討](docs/11_simulation_field_plan.md)
 
+### シミュレーション場の動画（GIF）
+
+主な場面を MuJoCo で描画した動画（`sims/field_gifs.py` で作成。数値は各段階の結果と同じ条件）。
+
+| 宇宙：腕と脚のループで向きを変える（段階 1） | 荷物運び：補正なし vs 腰の補正（段階 6） |
+|---|---|
+| ![](figures/field/gifs/01_space_loop.gif) | ![](figures/field/gifs/02_pick_place_waist.gif) |
+
+二本脚（腰なし / 腰あり）と戦車型＋腰（段階 9）
+
+![](figures/field/gifs/03_biped_vs_tank.gif)
+
+| 履帯で 0.15 m の段差：腕を後ろ vs 能動の腕（段階 10） | 短い履帯で 0.20 m vs 長い履帯で 0.30 m（段階 10） |
+|---|---|
+| ![](figures/field/gifs/04_track_step.gif) | ![](figures/field/gifs/05_track_length.gif) |
+
+その場旋回と、腕を速く振ると車体が回る様子（段階 11）
+
+![](figures/field/gifs/06_turning.gif)
+
 ## 主な知見（第 1 段階）
 
 ### 導入の問いへの答え

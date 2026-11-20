@@ -41,6 +41,7 @@ def _box_inertia(m, sx, sy, sz):
 
 
 def _arm_xml(arm, color="0.3 0.5 0.9 1"):
+    color = arm.get("color", color)
     """腕の body の入れ子と、関節名のリストを返す"""
     joints = []
     name = arm["name"]; sh = arm.get("shoulder", "pitch")
