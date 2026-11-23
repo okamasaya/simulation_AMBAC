@@ -11,6 +11,13 @@
   - 技術報告書 [87 ページ版](report/AMBAC_technical_report.pdf) と [詳細版 159 ページ](report/AMBAC_technical_report_detailed.pdf)（LaTeX ソースは `report/`）
 - ストーリーと目的は [docs/00_purpose.md](docs/00_purpose.md)、全体像は [README.md](README.md)
 
+## 最新の作業（2026-11-23）
+
+- レター論文（`report/letter/`）：原本 `letter.tex` と、学術論文版 `letter_formal.tex`（SF 考証を除いた版）。SF 考証版は別に作成。ブランチ `claude/project-thread-pnh03p`。
+- 段階 4 の誤差評価（`sims/field04b_error_budget.py`）と kinematic fit による校正（`sims/field04c_kinfit.py`）。経緯は [docs/13](docs/13_error_evaluation_kinfit.md)。
+- **注意**：部品表から組み立てた機体（`assembly.build`）の積分法は implicitfast（1 次）で、角運動量の保存が必要な校正の試験では +1〜2% の系統誤差を生む。校正の試験では RK4 を使う（field04b・04c は XML を置き換えている）。
+- 画面のないクラウドでは `MUJOCO_GL=disable` で実行する（osmesa が入っていない場合）。
+
 ## 環境の準備
 
 デスクトップで準備する場合（シミュレーション場など画面が必要な作業）は [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md) を参照。以下はクラウド（Linux）向け。
