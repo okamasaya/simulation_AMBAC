@@ -1,0 +1,20 @@
+title: "AMBACをCPUで確かめる：ガンダムの姿勢制御から考える、安いシミュレーションとフィジカルAI"
+summary: "『機動戦士ガンダム』のAMBAC（手足を振った反動で姿勢を変える）を試験台に、実機もGPUもなしで、CPUだけの自作シミュレーター（Python＋MuJoCo）がフィジカルAIの課題にどこまで答えられるかを確かめた記録。幾何学的位相、二乗三乗則、学習と最適制御の分担、地上の機体、3次元の肩、シミュレーション場、校正の誤差評価とkinematic fit、そして失敗の記録まで。"
+topics: ["python", "mujoco", "robotics", "physics", "simulation"]
+published: false
+price: 0
+chapters:
+  - 00-introduction
+  - 01-ambac-basics
+  - 02-rw-vs-ambac
+  - 03-scaling
+  - 04-learning
+  - 05-ground
+  - 06-shoulder-3d
+  - 07-field-design
+  - 08-field-stage01-11
+  - 09-field-stage12-17
+  - 10-stage2-summary
+  - 11-error-kinfit
+  - 12-failures
+  - 13-now-and-next
