@@ -17,11 +17,14 @@
 | ソフト | 必須かどうか | 用途 | 備考 |
 |---|---|---|---|
 | Git | 必須 | GitHub との同期 | |
-| Python 3.11 以上 | 必須 | シミュレーション全般 | 3.13 で動作確認済み |
+| GitHub CLI（gh） | 推奨 | PR の作成・確認 | `winget install GitHub.cli` → `gh auth login` |
+| Python 3.11 以上 | 必須 | シミュレーション全般 | 3.13（クラウド）と 3.14（Windows、2026-11-26）で動作確認済み |
 | エディタ（VS Code など） | 推奨 | 開発 | |
 | PDF ビューア | 推奨 | 報告書を読む | |
 | Blender（無料） | 任意 | 動きの可視化、人の動きのデータとの接続 | シミュレーション場の段階 6（docs/11） |
-| TeX Live または MiKTeX | 任意 | 報告書をローカルで組む場合のみ | LuaLaTeX と日本語用の jlreq クラスが必要。数 GB あるので、通常はクラウドに任せる |
+| TeX Live（推奨）または MiKTeX | 任意 | 報告書・論文をローカルで組む場合 | LuaLaTeX と日本語用の jlreq クラスが必要。下の「LaTeX」を参照 |
+| Node.js（LTS）と zenn-cli | 任意 | Zenn の記事（`articles/`）・本（`books/`）のプレビュー | 下の「Zenn のプレビュー」を参照 |
+| phyphox（iPhone、無料） | 任意 | 番外編の実験（アルミ棒＋iPhone 2 台） | 下の「番外編の実験」を参照 |
 | Excel | 任意 | 性能表・サマリーを見る | DIY_AutoML の出力と共通 |
 
 GPU は不要（すべて CPU で動く）。
@@ -107,6 +110,56 @@ MuJoCo のビューア（画面で動きを見る・操作する）は次で起�
 ```bash
 python -m mujoco.viewer
 ```
+
+## Windows での一括インストール（winget）
+
+PowerShell で実行する。インストール後はターミナル（VS Code）を開き直す。
+
+```bash
+winget install Git.Git GitHub.cli Python.Python.3.13 OpenJS.NodeJS.LTS
+```
+
+Python は 3.14 でも動く（2026-11-26 に Windows で `requirements-field.txt` の導入と Sim01 の −16.04° を確認）。
+
+## LaTeX（報告書・論文）
+
+- tug.org の `install-tl-windows.exe` で TeX Live を「full」で入れる（約 8 GB、1〜2 時間）。MiKTeX より確実。
+- エンジンは LuaLaTeX、クラスは jlreq（letter と full paper は twocolumn）、ビルドは latexmk。使うパッケージ（tikz、tikz-3dplot、pgfplots、tcolorbox、algorithmicx、booktabs、hyperref など）と日本語フォント（原ノ味）は full にすべて入っている。
+- ビルドの例：`cd report\fullpaper` → `latexmk -lualatex -jobname=AMBAC_fullpaper AMBAC_fullpaper_v1.tex`、`cd report\letter` → `latexmk -lualatex letter_formal.tex`。
+- VS Code の拡張「LaTeX Workshop」を入れると、保存のたびに PDF が更新される。PDF ビューアは、開いたまま上書きできる SumatraPDF が便利。
+
+## Zenn のプレビュー
+
+**リポジトリの直下**（`articles/` と `books/` があるフォルダ）で実行する。
+
+```bash
+npm init -y
+```
+
+```bash
+npm install zenn-cli
+```
+
+```bash
+npx zenn preview
+```
+
+「Preview: http://localhost:8000」と出たらブラウザで開く。`package.json`・`package-lock.json`・`node_modules/` は各自の PC の道具なので `.gitignore` に入れてある（コミットしない）。
+
+うまくいかないとき：
+
+| 症状 | 原因と対処 |
+|---|---|
+| `ENOVERSIONS` などのエラー | リポジトリの直下以外（例：`C:\Windows\system32`）で実行している。`cd` でリポジトリに移ってからやり直す（2026-11-26 に実際に起きた） |
+| 「npx.ps1 を読み込むことができません」 | PowerShell の実行ポリシー。`npx.cmd zenn preview` とするか、`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` を一度実行する |
+| 「npx は認識されていません」 | Node.js を入れる前に開いたターミナル。開き直す（`node -v` で確認） |
+| ポートが使用中 | `npx zenn preview --port 8001` |
+
+## 番外編の実験（アルミ棒＋iPhone 2 台）
+
+- iPhone SE3 の 2 台に phyphox（無料、App Store）を入れる。「ジャイロスコープ」で記録し、CSV で書き出して PC に移す。
+- 「リモートアクセス」をオンにすると、同じ Wi-Fi の PC のブラウザから 2 台の記録を開始・停止できる。
+- 解析は上の Python 環境だけで足りる（予定：`sims/bangai01_bar_imu.py`、実測は `data/bangai01/`）。
 
 ## Windows での注意
 
