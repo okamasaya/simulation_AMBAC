@@ -17,6 +17,7 @@ so these files can be pasted into dev.to, Qiita (English), Medium, Hashnode, etc
 - 2026-11-26: started. Plan: (1) new Zenn article from the mook (SF commentary), (2) English versions of articles 1–4 in this folder. The book is not translated in this pass.
 - 2026-11-26: done — Zenn `articles/ambac-sf-kosho-mook.md` (new), English `01_overview.md`.
 - 2026-11-26: done — English `02_what_we_did_and_next.md`.
+- 2026-11-26: done — English `03_side_story_bar_iphone_imu.md` (draft).
 - Cross-links between posts are still `TODO` until the Zenn user name / dev-community URLs are known.
 
 ## Translation notes
