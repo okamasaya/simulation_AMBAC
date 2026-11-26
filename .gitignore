@@ -3,3 +3,8 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 MUJOCO_LOG.TXT
+
+# Zenn のプレビュー用（各自の PC の道具。docs/LOCAL_SETUP.md 参照）
+node_modules/
+package.json
+package-lock.json
