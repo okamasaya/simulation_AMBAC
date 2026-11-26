@@ -98,7 +98,11 @@ The $r$ obtained from the slope of $a_c$ vs $\omega^2$ should differ slightly fr
 4. **Run the same analysis on both measurement and simulation**: period, ratio of $\omega$, slope of $a_c$ vs $\omega^2$, with the same script.
 5. **Judge the difference divided by the error.** Don't decide "match / no match" by eye; use pull $= (\text{measured} - \text{predicted})/\sigma$.
 
-TODO: comparison script (planned as `sims/bangai01_bar_imu.py`) and measured CSVs (`data/bangai01/`).
+The comparison script is `sims/bangai01_bar_imu.py`; measured CSVs go in `data/bangai01/` (layout in `data/bangai01/README.md`). Before the bar arrives, I tested the analysis itself on **synthetic data with a known answer** (CSV in the same format as phyphox).
+
+- Experiment A fits the solution of the pendulum equation to both gyros together with the sensor calibration (biases, orientation and scale of phone 2, clock offset and rate between the phones). Like the kinematic fit of the main series, it returns estimates, errors and χ² at once, and also updates sequentially every few periods.
+- Experiment B treats the angular velocity at every sample as an unknown (squaring a noisy $\omega$ and regressing on it is biased).
+- Running 60 synthetic datasets each, the pull standard deviation is about 1 (pendulum 0.88, rotation 1.0–1.2). Ignoring the time correlation of the noise widens the pendulum pull to 1.5, i.e. the error would be underestimated by a factor of 1.5.
 
 ## Error budget (plan)
 
@@ -117,6 +121,13 @@ As in the main series, split into statistical, computational and systematic. Num
 | Computational | MuJoCo integrator and time step | RK4, compare 0.1 ms and 0.5 ms |
 
 The angle's own cross-section inertia (the thickness effect) is about 0.02 % of the total and negligible.
+
+What the synthetic tests taught me (numbers from synthetic data):
+
+- The gyro fit pins the period down to **about 0.001 %**, about 4 times better than reading zero crossings (0.004 %).
+- The **prediction from the parts list is far coarser** than the measurement. The largest term is **how far each iPhone's center of mass sits from the center of its outline** (±3 mm assumed gives 0.12 % in the period). Balance the phone on a ruler edge to measure it.
+- The clock rate of the iPhone itself (±50 ppm assumed) contributes 0.005 % and cannot be determined inside this experiment.
+- Assembling the same parts list in MuJoCo reproduces the moment of inertia to 15 digits; the period error is below $10^{-11}$ with RK4 and $10^{-7}$ with implicitfast (0.5 ms). The integrator error that hurt the main series does not matter here (there, a tiny violation of angular-momentum conservation was amplified 100-fold along a poorly determined direction).
 
 ## Results
 
