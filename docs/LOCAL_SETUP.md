@@ -159,7 +159,8 @@ npx zenn preview
 
 - iPhone SE3 の 2 台に phyphox（無料、App Store）を入れる。「ジャイロスコープ」で記録し、CSV で書き出して PC に移す。
 - 「リモートアクセス」をオンにすると、同じ Wi-Fi の PC のブラウザから 2 台の記録を開始・停止できる。
-- 解析は上の Python 環境だけで足りる（予定：`sims/bangai01_bar_imu.py`、実測は `data/bangai01/`）。
+- 解析は上の Python 環境だけで足りる：`python sims/bangai01_bar_imu.py analyze data/bangai01/<名前>/config.json`。置き方と設定は `data/bangai01/README.md`。MuJoCo の確認（`mujoco`）だけは `requirements-field.txt` が必要。
+- 実測の前に、合成データで一通り動かせる：`python sims/bangai01_bar_imu.py all`（約 8 分）。
 
 ## Windows での注意
 
