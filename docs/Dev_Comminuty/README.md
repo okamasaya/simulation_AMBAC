@@ -6,10 +6,10 @@ so these files can be pasted into dev.to, Qiita (English), Medium, Hashnode, etc
 
 | # | English file | Japanese original (Zenn) | Status |
 |---|---|---|---|
-| 1 | [01_overview.md](01_overview.md) | `articles/ambac-overview-gundam-physics.md` | see progress log |
-| 2 | [02_what_we_did_and_next.md](02_what_we_did_and_next.md) | `articles/ambac-what-we-did-and-next.md` | see progress log |
+| 1 | [01_overview.md](01_overview.md) | `articles/ambac-overview-gundam-physics.md` | done (links TODO) |
+| 2 | [02_what_we_did_and_next.md](02_what_we_did_and_next.md) | `articles/ambac-what-we-did-and-next.md` | done (links TODO) |
 | 3 | [03_side_story_bar_iphone_imu.md](03_side_story_bar_iphone_imu.md) | `articles/ambac-bangai-bar-iphone-imu.md` | draft (experiment not done) |
-| 4 | [04_sf_commentary.md](04_sf_commentary.md) | `articles/ambac-sf-kosho-mook.md` (from `report/mook/mook.tex`) | see progress log |
+| 4 | [04_sf_commentary.md](04_sf_commentary.md) | `articles/ambac-sf-kosho-mook.md` (from `report/mook/mook.tex`) | done (links TODO) |
 | — | (book, 14 chapters) | `books/ambac-cpu-simulation/` | not translated yet |
 
 ## Progress log (so work can resume after a context reset)
@@ -18,6 +18,7 @@ so these files can be pasted into dev.to, Qiita (English), Medium, Hashnode, etc
 - 2026-11-26: done — Zenn `articles/ambac-sf-kosho-mook.md` (new), English `01_overview.md`.
 - 2026-11-26: done — English `02_what_we_did_and_next.md`.
 - 2026-11-26: done — English `03_side_story_bar_iphone_imu.md` (draft).
+- 2026-11-26: done — English `04_sf_commentary.md`. Remaining: cross-links (need Zenn user name), book translation (not started).
 - Cross-links between posts are still `TODO` until the Zenn user name / dev-community URLs are known.
 
 ## Translation notes
