@@ -166,46 +166,62 @@ class Problem:
         self.cache[key] = out
         return out
 
-    def solve(self, seed, maxiter=60):
+    def bounds(self):
+        if self.use_rom:
+            return self.lo, self.hi
+        # free: 生理的な可動域はないが、数値の箱として広い範囲に限る（17.5 の変更点 2）
+        return np.radians([-200.0, -60.0, -120.0, 0.0]), np.radians([90.0, 200.0, 120.0, 160.0])
+
+    def solve(self, seed, maxiter1=80, maxiter2=150):
+        """17.5 の変更後: (1) 制約の違反だけを小さくして実行できる点を探し、(2) そこから回転数を最大にする.
+        途中で見つけた実行できる点のうち、回転数が最大のものを答えにする."""
         rng = np.random.default_rng(seed)
-        lo = self.lo if self.use_rom else np.array([-np.pi, -np.pi / 2, -np.pi / 2, 0.0])
-        hi = self.hi if self.use_rom else np.array([np.pi / 3, np.pi, np.pi / 2, D(150)])
-        # 初期値: 可動域の中の一様乱数のうち、体と交差しないもの（既知の姿勢は使わない）
+        lo, hi = self.bounds()
         for _ in range(500):
             x0 = (lo[:, None] + (hi - lo)[:, None] * rng.uniform(size=(4, self.nk))).ravel()
             cs = self.spline(x0)
             if min(self.clearance(q) for q in cs(np.linspace(0, T_AIR, 71))) > 0:
                 break
+        bnds = list(zip(np.repeat(lo, self.nk), np.repeat(hi, self.nk)))
         h = 1e-3
+        best = [-np.inf, None]
         def fg(x):
             n, c, _ = self.evaluate(x)
+            if c.min() >= -1e-3 and n > best[0]:
+                best[0], best[1] = n, x.copy()
             return n, c
-        def jac_all(x):
-            n0, c0 = fg(x)
-            gn = np.zeros_like(x); gc = np.zeros((len(c0), len(x)))
-            for i in range(len(x)):
-                xp = x.copy(); xp[i] += h
-                n1, c1 = fg(xp)
-                gn[i] = (n1 - n0) / h; gc[:, i] = (c1 - c0) / h
-            return gn, gc
         jc = {}
         def J(x):
             k = x.tobytes()
             if k not in jc:
-                jc.clear(); jc[k] = jac_all(x)
+                n0, c0 = fg(x)
+                gn = np.zeros_like(x); gc = np.zeros((len(c0), len(x)))
+                for i in range(len(x)):
+                    xp = x.copy(); xp[i] += h if xp[i] + h <= bnds[i][1] else -h
+                    n1, c1 = fg(xp)
+                    d = xp[i] - x[i]
+                    gn[i] = (n1 - n0) / d; gc[:, i] = (c1 - c0) / d
+                jc.clear(); jc[k] = (n0, c0, gn, gc)
             return jc[k]
         t0 = time.time()
-        hist = []
-        def cb(x):
-            n, c, _ = self.evaluate(x)
-            hist.append([n, float(c.min())])
-        res = minimize(lambda x: -fg(x)[0], x0, jac=lambda x: -J(x)[0], method="SLSQP",
-                       constraints=[dict(type="ineq", fun=lambda x: fg(x)[1], jac=lambda x: J(x)[1])],
-                       options=dict(maxiter=maxiter, ftol=1e-5))
-        n, c, r = self.evaluate(res.x)
-        return dict(cond=self.cond, seed=seed, x=res.x.tolist(), x0=x0.tolist(), turns=n, cmin=float(c.min()),
-                    feasible=bool(c.min() >= -1e-3), nit=int(res.nit), msg=str(res.message), nev=self.nev,
-                    sec=time.time() - t0, hist=hist, tilt_land=r["tilt_land"], tilt_max=r["tilt_max"])
+        # (1) 実行できる点を探す: 違反の 2 乗和を最小に
+        def viol(x):
+            _, c, _, gc = J(x)
+            v = np.minimum(c, 0.0)
+            return float(np.sum(v**2)), 2 * (v @ gc)
+        r1 = minimize(viol, x0, jac=True, method="L-BFGS-B", bounds=bnds, options=dict(maxiter=maxiter1))
+        x1 = r1.x
+        n1, c1, _ = self.evaluate(x1)
+        # (2) 回転数を最大に
+        res = minimize(lambda x: -J(x)[0], x1, jac=lambda x: -J(x)[2], method="SLSQP", bounds=bnds,
+                       constraints=[dict(type="ineq", fun=lambda x: J(x)[1], jac=lambda x: J(x)[3])],
+                       options=dict(maxiter=maxiter2, ftol=1e-6))
+        xf = best[1] if best[1] is not None else res.x
+        n, c, r = self.evaluate(xf)
+        return dict(cond=self.cond, seed=seed, x=xf.tolist(), x0=x0.tolist(), turns=n, cmin=float(c.min()),
+                    feasible=bool(c.min() >= -1e-3), phase1_cmin=float(c1.min()), phase1_turns=n1,
+                    nit=int(res.nit), msg=str(res.message), nev=self.nev, sec=time.time() - t0,
+                    tilt_land=r["tilt_land"], tilt_max=r["tilt_max"])
 
 
 # ---------------------------------------------------------------- 17.4 滑らかさの指標（事前登録）

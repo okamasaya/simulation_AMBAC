@@ -1,0 +1,8 @@
+limited  seed 11: 3.453 回転  可否 False  最小の余裕 -0.589  SPARC -3.175  LDLJ -11.94  反転 15  反復 60  313 s
+limited  seed 12: 2.521 回転  可否 False  最小の余裕 -0.141  SPARC -1.851  LDLJ -12.25  反転 16  反復 60  317 s
+limited  seed 13: 3.352 回転  可否 False  最小の余裕 -0.257  SPARC -3.310  LDLJ -11.69  反転 18  反復 60  319 s
+limited  seed 14: 2.460 回転  可否 False  最小の余裕 -0.402  SPARC -2.138  LDLJ -11.72  反転 18  反復 60  340 s
+free     seed 12: 4.102 回転  可否 False  最小の余裕 -2.786  SPARC -4.637  LDLJ -14.79  反転 21  反復 60  319 s
+free     seed 13: 3.361 回転  可否 False  最小の余裕 -0.009  SPARC -3.171  LDLJ -14.94  反転 24  反復 60  322 s
+free     seed 11: 2.219 回転  可否 False  最小の余裕 -37.546  SPARC -1.972  LDLJ -22.94  反転 30  反復 60  363 s
+free     seed 14: -1.484 回転  可否 False  最小の余裕 -73.870  SPARC -2.328  LDLJ -23.60  反転 25  反復 60  357 s
