@@ -386,12 +386,13 @@ class Estimator:
 
     def __init__(self, cfg, rb, m, om, rng, c):
         self.cfg = cfg; self.rb = rb; self.m = m; self.om = om; self.rng = rng; self.c = c
-        self.d2 = mujoco.MjData(m)
+        self.d2 = mujoco.MjData(m); self.m_tot = float(np.sum(m.body_mass))
         self.jadr = [rb.qa[j] for j in JOINTS] + [rb.arm[sd] for sd in rb.arm]
         self.th_b = rng.normal(0, cfg.get("sthb", 0.0), 3)
         self.a_b = rng.normal(0, cfg.get("sab", 0.0), 2)
         self.x = None; self.Pk = None; self.buf = []
         self.floor = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, "floor")
+        self.sole = {mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, f"sole{sd}"): sd for sd in "LR"}
         self.sid = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_SITE, "imu")
         self.err = []
 
@@ -404,10 +405,61 @@ class Estimator:
         qn = np.zeros(4); mujoco.mju_mulQuat(qn, dq, d.qpos[3:7]); d2.qpos[3:7] = qn; d2.qpos[0:3] = 0
         mujoco.mj_kinematics(self.m, d2); mujoco.mj_comPos(self.m, d2)
         com = d2.subtree_com[1].copy()
-        if cf.get("anchor", "plan") == "true":      # 立っている足の場所を正しく知っている（脚のオドメトリが完全な場合）
+        anc = cf.get("anchor", "plan")
+        if anc == "true":      # 立っている足の場所を正しく知っている（脚のオドメトリが完全な場合）
             feet = {sd: d.site_xpos[self.rb.site[sd]].copy() for sd in "LR"}
+        elif anc == "odo":     # 段階 26: 脚のオドメトリ。両脚支持のあいだに、立っている足から新しく着いた足までのベクトルを運動学で測る
+            feet, support = self.odo(d, feet, support)
         est = [np.asarray(feet[sd])[:2] + (com[:2] - d2.site_xpos[self.rb.site[sd]][:2]) for sd in support]
         return np.mean(est, 0), qn
+
+    def foot_fz(self, d):
+        """足裏の力センサ: 左右の足の鉛直の力 [N]"""
+        fz = {"L": 0.0, "R": 0.0}; c6 = np.zeros(6)
+        for ci in range(d.ncon):
+            cc = d.contact[ci]
+            if self.floor not in (cc.geom1, cc.geom2):
+                continue
+            g = cc.geom2 if cc.geom1 == self.floor else cc.geom1
+            if g in self.sole:
+                mujoco.mj_contactForce(self.m, d, ci, c6); fz[self.sole[g]] += c6[0]
+        return fz
+
+    def odo(self, d, feet, support):
+        """段階 26: 足の場所の推定（脚のオドメトリ）。はじめは計画どおり（立ち始めの場所は知っている）。
+        接地は足裏の力で判定する（odo_th × 体重を超えたら接地、半分を切ったら離地）。計画の支持の時刻は使わない（odo_plan で使う）。
+        新しく着いた足 sd は、着いた瞬間と、そのあと両足が接地しているあいだ、前から立っている足 o の推定位置 ＋ 運動学の (p_sd − p_o) の平均で置く
+        （odo_n ms まで）。片脚で立つあいだは動かさない（立っている足は滑らないとみなす）。返す support も接地の判定による"""
+        d2 = self.d2; cf = self.cfg; ps = {sd: d2.site_xpos[self.rb.site[sd]][:2].copy() for sd in "LR"}
+        if cf.get("odo_plan", False):
+            cur = set(support)
+        else:
+            fz = self.foot_fz(d); W_ = self.m_tot * G; th = cf.get("odo_th", 0.1)
+            if not hasattr(self, "con"):
+                self.con = {sd: True for sd in "LR"}
+            for sd in "LR":
+                if fz[sd] > th * W_:
+                    self.con[sd] = True
+                elif fz[sd] < th * W_ / 2:
+                    self.con[sd] = False
+            cur = {sd for sd in "LR" if self.con[sd]} or set(support)
+        if not hasattr(self, "anc"):
+            self.anc = {sd: np.asarray(feet[sd])[:2].copy() for sd in "LR"}; self.prev = set(cur); self.acc_ = {}
+        nmax = cf.get("odo_n", 10 ** 6)
+        for sd in cur - self.prev:     # 着いた瞬間: もう一方の足（いま離れたところでもよい）からのベクトルで置く
+            o = "R" if sd == "L" else "L"
+            v0 = self.anc[o] + ps[sd] - ps[o]; self.acc_[sd] = [v0.copy(), 1]; self.anc[sd] = v0
+        if len(cur) == 2:
+            for sd in list(self.acc_):
+                o = "R" if sd == "L" else "L"
+                a = self.acc_[sd]
+                if a[1] < max(nmax, 1):
+                    a[0] += self.anc[o] + ps[sd] - ps[o]; a[1] += 1
+                    self.anc[sd] = a[0] / a[1]
+        else:
+            self.acc_ = {}
+        self.prev = cur
+        return {sd: np.r_[self.anc[sd], 0.0] for sd in "LR"}, "".join(sd for sd in "LR" if sd in cur)
 
     def cop(self, d):
         F = np.zeros(3); Mo = np.zeros(3); c6 = np.zeros(6)
@@ -427,6 +479,9 @@ class Estimator:
     def step(self, d, feet, support, dt):
         cf = self.cfg; typ = cf.get("type", "lipm")
         ck, qn = self.c_kin(d, feet, support)
+        if hasattr(self, "anc"):     # 足の場所の推定の誤差（立っている足）
+            self.anc_err = getattr(self, "anc_err", [])
+            self.anc_err.append(np.r_[d.time, np.ravel([self.anc[sd] - d.site_xpos[self.rb.site[sd]][:2] for sd in "LR"])])
         self.buf.append(ck)
         mujoco.mj_subtreeVel(self.m, d)
         ct, vt = d.subtree_com[1][:2].copy(), d.subtree_linvel[1][:2].copy()
@@ -600,6 +655,8 @@ def execute(c: Cfg, P=None, record=False):
         out["step"] = step_info
     if st and st.get("est") and est.err:
         E = np.array(est.err); out["est_rms"] = np.sqrt(np.mean(E**2, 0)).tolist()   # 推定の誤差の RMS（c_x, c_y, v_x, v_y）
+        if hasattr(est, "anc_err"):
+            out["anc_err"] = np.array(est.anc_err)
     if st:
         out["dcm_rms"] = float(np.sqrt(np.mean(np.sum(np.array(rec_st)**2, 1)))) if rec_st else np.nan
     if record:
