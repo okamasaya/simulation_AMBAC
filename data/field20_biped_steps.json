@@ -1,0 +1,1003 @@
+{
+ "jobs": [
+  {
+   "mode": "upright",
+   "s": 1.0,
+   "over": null,
+   "rom": [
+    0.51875,
+    0.525
+   ],
+   "qs": [
+    0.13125,
+    0.1375
+   ],
+   "mj": [
+    0.125,
+    0.13125
+   ],
+   "mj_any": [
+    0.3125,
+    0.31875
+   ],
+   "qs_plan": {
+    "lean_deg": 0.0,
+    "xc": 0.025,
+    "step_fwd": 0.3,
+    "r": 0.9877060724881365,
+    "peak": {
+     "hipL": 58.2,
+     "kneeL": 94.3,
+     "ankL": 80.8,
+     "hipR": 58.2,
+     "kneeR": 246.9,
+     "ankR": 80.8
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_plan": {
+    "lean_deg": 0.0,
+    "xc": 0.025,
+    "step_fwd": 0.3,
+    "r": 0.9747143428770796,
+    "peak": {
+     "hipL": 58.3,
+     "kneeL": 94.4,
+     "ankL": 80.8,
+     "hipR": 58.3,
+     "kneeR": 243.7,
+     "ankR": 80.8
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_detail": {
+    "0.0": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.0561918742785651e-06,
+     "zmin_err": -0.010146850389726958,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.075,
+      "ankR": 0.008
+     }
+    },
+    "0.4": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 3.0209464655620955,
+     "trail_scrape": 0.7277721537793633,
+     "pitch": 76.1453006298975,
+     "zmin_err": -1.0423274273982939,
+     "sat_s": {
+      "hipL": 2.178,
+      "kneeL": 0.055,
+      "hipR": 1.255,
+      "kneeR": 1.326
+     }
+    },
+    "0.2": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.030695198646141432,
+     "trail_scrape": 0.3138210470610922,
+     "pitch": 1.0562519095245335e-06,
+     "zmin_err": -0.028519875661776717,
+     "sat_s": {
+      "hipL": 0.113,
+      "hipR": 0.075,
+      "kneeR": 1.227,
+      "ankR": 0.007
+     }
+    },
+    "0.1": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.056228054784348e-06,
+     "zmin_err": -0.010248729712449611,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.076,
+      "kneeR": 0.029,
+      "ankR": 0.006
+     }
+    },
+    "0.15": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.012091871447240185,
+     "trail_scrape": 0.15521809327846336,
+     "pitch": 1.0562593897746507e-06,
+     "zmin_err": -0.02010443729266176,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.075,
+      "kneeR": 1.193,
+      "ankR": 0.008
+     }
+    },
+    "0.125": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.056220000565977e-06,
+     "zmin_err": -0.010280863863648682,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.076,
+      "kneeR": 0.786,
+      "ankR": 0.009
+     }
+    },
+    "0.1375": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.5363723834091695,
+     "trail_scrape": 0.0,
+     "pitch": 1.0562001609075154e-06,
+     "zmin_err": -0.01337142405800229,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.076,
+      "kneeR": 1.003,
+      "ankR": 0.007
+     }
+    },
+    "0.13125": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.362237825549917,
+     "trail_scrape": 0.0,
+     "pitch": 1.0562075926937337e-06,
+     "zmin_err": -0.014111079077100186,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.076,
+      "kneeR": 1.032,
+      "ankR": 0.008
+     }
+    },
+    "0.3": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.3360774166316741,
+     "trail_scrape": 0.5868681613832784,
+     "pitch": 1.4844527878331701,
+     "zmin_err": -0.06324372086578944,
+     "sat_s": {
+      "hipL": 0.875,
+      "kneeL": 0.009,
+      "hipR": 0.232,
+      "kneeR": 1.228,
+      "ankR": 0.026
+     }
+    },
+    "0.35": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.4766700078930659,
+     "trail_scrape": 0.5344782633463706,
+     "pitch": 82.55074247659945,
+     "zmin_err": -0.9922188998364143,
+     "sat_s": {
+      "hipL": 1.388,
+      "kneeL": 0.007,
+      "hipR": 0.285,
+      "kneeR": 1.366
+     }
+    },
+    "0.325": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.09584606387715637,
+     "trail_scrape": 0.601390301955864,
+     "pitch": 95.93253620839899,
+     "zmin_err": -0.9677745942927004,
+     "sat_s": {
+      "hipL": 1.081,
+      "kneeL": 0.014,
+      "hipR": 0.224,
+      "kneeR": 1.184
+     }
+    },
+    "0.3125": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.05281858560977135,
+     "trail_scrape": 0.6030328326644733,
+     "pitch": 0.002698166586675223,
+     "zmin_err": -0.07862307287458514,
+     "sat_s": {
+      "hipL": 1.013,
+      "kneeL": 0.014,
+      "hipR": 0.187,
+      "kneeR": 1.194,
+      "ankR": 0.001
+     }
+    },
+    "0.31875": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.07430961212143522,
+     "trail_scrape": 0.5969592950572548,
+     "pitch": 95.62584054701624,
+     "zmin_err": -0.9608229964480117,
+     "sat_s": {
+      "hipL": 1.071,
+      "kneeL": 0.019,
+      "hipR": 0.222,
+      "kneeR": 1.202
+     }
+    }
+   }
+  },
+  {
+   "mode": "lean",
+   "s": 1.0,
+   "over": null,
+   "rom": [
+    0.51875,
+    0.525
+   ],
+   "qs": [
+    0.35,
+    0.35625
+   ],
+   "mj": [
+    0.325,
+    0.33125
+   ],
+   "mj_any": [
+    0.51875,
+    0.525
+   ],
+   "qs_plan": {
+    "lean_deg": 40.0,
+    "xc": 0.1,
+    "step_fwd": 0.3,
+    "r": 0.9934005810182813,
+    "peak": {
+     "hipL": 57.1,
+     "kneeL": 92.7,
+     "ankL": 112.7,
+     "hipR": 78.4,
+     "kneeR": 248.4,
+     "ankR": 112.7
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P3",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_plan": {
+    "lean_deg": 40.0,
+    "xc": 0.1,
+    "step_fwd": 0.3,
+    "r": 0.9633686348552658,
+    "peak": {
+     "hipL": 57.0,
+     "kneeL": 92.8,
+     "ankL": 113.1,
+     "hipR": 78.3,
+     "kneeR": 240.8,
+     "ankR": 113.1
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P3",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_detail": {
+    "0.0": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.0561902941940822e-06,
+     "zmin_err": -0.01011678808333727,
+     "sat_s": {
+      "hipL": 0.047,
+      "hipR": 0.076,
+      "ankR": 0.012
+     }
+    },
+    "0.4": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.1163085912663615,
+     "trail_scrape": 0.46413650298562986,
+     "pitch": 1.0562037173957986e-06,
+     "zmin_err": -0.04784987815857267,
+     "sat_s": {
+      "hipL": 0.099,
+      "hipR": 0.902,
+      "kneeR": 0.67,
+      "ankR": 0.009
+     }
+    },
+    "0.2": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.056179727761151e-06,
+     "zmin_err": -0.010840525273984047,
+     "sat_s": {
+      "hipL": 0.047,
+      "hipR": 0.075,
+      "ankR": 0.006
+     }
+    },
+    "0.3": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.056208621785577e-06,
+     "zmin_err": -0.01614566558439523,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.076,
+      "kneeR": 0.031,
+      "ankR": 0.006
+     }
+    },
+    "0.35": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.03061031745548534,
+     "trail_scrape": 0.21842528277242287,
+     "pitch": 1.0562106500331076e-06,
+     "zmin_err": -0.029238729777697592,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.074,
+      "kneeR": 0.886,
+      "ankR": 0.009
+     }
+    },
+    "0.325": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 1.056222621584111e-06,
+     "zmin_err": -0.026347114956074114,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.075,
+      "kneeR": 0.963,
+      "ankR": 0.01
+     }
+    },
+    "0.3375": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.2225171620223767,
+     "pitch": 1.0562114304201882e-06,
+     "zmin_err": -0.028576945431275647,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.075,
+      "kneeR": 0.893,
+      "ankR": 0.01
+     }
+    },
+    "0.33125": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.20298076757982145,
+     "pitch": 1.0562210602996937e-06,
+     "zmin_err": -0.02983367522708491,
+     "sat_s": {
+      "hipL": 0.046,
+      "hipR": 0.075,
+      "kneeR": 0.949,
+      "ankR": 0.01
+     }
+    },
+    "0.6": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.5": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.14591333086970065,
+     "trail_scrape": 0.3863899665358848,
+     "pitch": 1.0561557450201683e-06,
+     "zmin_err": -0.04404731924160865,
+     "sat_s": {
+      "hipL": 0.05,
+      "hipR": 0.66,
+      "kneeR": 0.844,
+      "ankR": 0.006
+     }
+    },
+    "0.55": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.525": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.5125": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.6458852830360517,
+     "pitch": 7.388605451910749e-07,
+     "zmin_err": -0.058135786887000496,
+     "sat_s": {
+      "hipL": 0.059,
+      "hipR": 1.235,
+      "kneeR": 1.415,
+      "ankR": 0.026
+     }
+    },
+    "0.51875": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.14627943771483426,
+     "trail_scrape": 0.3959852642232284,
+     "pitch": 1.056131022135212e-06,
+     "zmin_err": -0.045217342676439065,
+     "sat_s": {
+      "hipL": 0.048,
+      "hipR": 0.751,
+      "kneeR": 1.016,
+      "ankR": 0.006
+     }
+    }
+   }
+  },
+  {
+   "mode": "upright",
+   "s": 0.5,
+   "over": null,
+   "rom": [
+    0.25938,
+    0.2625
+   ],
+   "qs": [
+    0.25938,
+    0.2625
+   ],
+   "mj": [
+    0.15,
+    0.15313
+   ],
+   "mj_any": [
+    0.19688,
+    0.2
+   ],
+   "qs_plan": {
+    "lean_deg": 0.0,
+    "xc": 0.025,
+    "step_fwd": 0.3,
+    "r": 0.7299558639571688,
+    "peak": {
+     "hipL": 3.4,
+     "kneeL": 5.7,
+     "ankL": 5.1,
+     "hipR": 3.4,
+     "kneeR": 22.8,
+     "ankR": 5.1
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_plan": {
+    "lean_deg": 0.0,
+    "xc": 0.025,
+    "step_fwd": 0.3,
+    "r": 0.6292692103390616,
+    "peak": {
+     "hipL": 3.4,
+     "kneeL": 5.7,
+     "ankL": 5.1,
+     "hipR": 3.4,
+     "kneeR": 19.7,
+     "ankR": 5.1
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_detail": {
+    "0.0": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.0005104926824555587,
+     "zmin_err": -0.004726634761424708,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.024,
+      "ankR": 0.001
+     }
+    },
+    "0.2": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5734314003482923,
+     "pitch": 106.20443849468818,
+     "zmin_err": -0.5212508420218761,
+     "sat_s": {
+      "hipL": 0.575,
+      "hipR": 0.257,
+      "kneeR": 0.023,
+      "ankR": 0.002
+     }
+    },
+    "0.1": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.0005180962256346608,
+     "zmin_err": -0.0059869271795017776,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.021,
+      "ankR": 0.002
+     }
+    },
+    "0.15": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.00041111813855584337,
+     "zmin_err": -0.008639070918027292,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.02,
+      "ankR": 0.003
+     }
+    },
+    "0.175": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.3432401049829365,
+     "trail_scrape": 0.42330689364242313,
+     "pitch": 0.0005011571348769894,
+     "zmin_err": -0.009927837950421403,
+     "sat_s": {
+      "hipL": 0.043,
+      "hipR": 0.027,
+      "kneeR": 0.002,
+      "ankR": 0.001
+     }
+    },
+    "0.1625": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.16792158536232535,
+     "trail_scrape": 0.2547481312432669,
+     "pitch": 0.0004878897603369633,
+     "zmin_err": -0.009307244199983966,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.018,
+      "kneeR": 0.007,
+      "ankR": 0.003
+     }
+    },
+    "0.15625": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0914499677162388,
+     "trail_scrape": 0.0835196325595543,
+     "pitch": 0.0005145723864503477,
+     "zmin_err": -0.00897035592189488,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.022,
+      "ankR": 0.002
+     }
+    },
+    "0.15313": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.029652804159969494,
+     "trail_scrape": 0.0,
+     "pitch": 0.0004796440290025322,
+     "zmin_err": -0.008794565294763856,
+     "sat_s": {
+      "hipL": 0.015,
+      "hipR": 0.02,
+      "ankR": 0.002
+     }
+    },
+    "0.1875": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.4456496105849773,
+     "trail_scrape": 0.5402727918607807,
+     "pitch": 0.0005036576573368836,
+     "zmin_err": -0.010474078583707302,
+     "sat_s": {
+      "hipL": 0.215,
+      "hipR": 0.15,
+      "kneeR": 0.009,
+      "ankR": 0.002
+     }
+    },
+    "0.19375": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5050177275430462,
+     "pitch": 1.5733392606931524,
+     "zmin_err": -0.009671053184785672,
+     "sat_s": {
+      "hipL": 0.386,
+      "hipR": 0.21,
+      "kneeR": 0.012,
+      "ankR": 0.003
+     }
+    },
+    "0.19688": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5612494454459477,
+     "pitch": 5.227806967429981,
+     "zmin_err": -0.011011930222453503,
+     "sat_s": {
+      "hipL": 0.489,
+      "hipR": 0.24,
+      "kneeR": 0.022,
+      "ankR": 0.004
+     }
+    }
+   }
+  },
+  {
+   "mode": "lean",
+   "s": 0.5,
+   "over": null,
+   "rom": [
+    0.25938,
+    0.2625
+   ],
+   "qs": [
+    0.25938,
+    0.2625
+   ],
+   "mj": [
+    0.21563,
+    0.21875
+   ],
+   "mj_any": [
+    0.25938,
+    0.2625
+   ],
+   "qs_plan": {
+    "lean_deg": 40.0,
+    "xc": 0.1,
+    "step_fwd": 0.3,
+    "r": 0.5757023064019191,
+    "peak": {
+     "hipL": 3.3,
+     "kneeL": 5.7,
+     "ankL": 7.3,
+     "hipR": 5.2,
+     "kneeR": 18.0,
+     "ankR": 7.3
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_plan": {
+    "lean_deg": 40.0,
+    "xc": 0.06,
+    "step_fwd": 0.3,
+    "r": 0.5531082183895071,
+    "peak": {
+     "hipL": 3.3,
+     "kneeL": 5.7,
+     "ankL": 6.1,
+     "hipR": 5.4,
+     "kneeR": 17.3,
+     "ankR": 6.1
+    },
+    "where": {
+     "hipL": "P2",
+     "kneeL": "P2",
+     "ankL": "P2",
+     "hipR": "P2",
+     "kneeR": "P3",
+     "ankR": "P2"
+    }
+   },
+   "mj_detail": {
+    "0.0": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.0005097499445100973,
+     "zmin_err": -0.00471069585819095,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.022,
+      "ankR": 0.001
+     }
+    },
+    "0.2": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.0004967325765263635,
+     "zmin_err": -0.010777101753856266,
+     "sat_s": {
+      "hipL": 0.015,
+      "hipR": 0.019,
+      "ankR": 0.002
+     }
+    },
+    "0.3": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.25": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.476364494369177,
+     "pitch": 0.0005297453994553103,
+     "zmin_err": -0.013387815897519917,
+     "sat_s": {
+      "hipL": 0.044,
+      "hipR": 0.073,
+      "ankR": 0.002
+     }
+    },
+    "0.225": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5558079786868537,
+     "pitch": 3.8616852505284127,
+     "zmin_err": -0.012681475647606244,
+     "sat_s": {
+      "hipL": 0.026,
+      "hipR": 0.021,
+      "kneeR": 0.016,
+      "ankR": 0.002
+     }
+    },
+    "0.2125": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.000512294672836118,
+     "zmin_err": -0.0114366273570089,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.022,
+      "ankR": 0.002
+     }
+    },
+    "0.21875": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.10407068420088725,
+     "pitch": 0.0005085117460114978,
+     "zmin_err": -0.011777008062910932,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.022,
+      "kneeR": 0.001,
+      "ankR": 0.002
+     }
+    },
+    "0.21563": {
+     "ok": true,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 0.0005098139718343743,
+     "zmin_err": -0.011592069121595161,
+     "sat_s": {
+      "hipL": 0.016,
+      "hipR": 0.022,
+      "ankR": 0.002
+     }
+    },
+    "0.275": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.2625": {
+     "ok": false,
+     "ok_any": false
+    },
+    "0.25625": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5098604951539812,
+     "pitch": 0.0005878330548888357,
+     "zmin_err": -0.013396592006586161,
+     "sat_s": {
+      "hipL": 0.045,
+      "hipR": 0.074,
+      "kneeR": 0.005,
+      "ankR": 0.003
+     }
+    },
+    "0.25938": {
+     "ok": false,
+     "ok_any": true,
+     "trail_push": 0.0,
+     "trail_scrape": 0.5285517546205913,
+     "pitch": 0.0005519040762539308,
+     "zmin_err": -0.013741958200721993,
+     "sat_s": {
+      "hipL": 0.05,
+      "hipR": 0.073,
+      "kneeR": 0.007,
+      "ankR": 0.002
+     }
+    }
+   }
+  },
+  {
+   "mode": "upright",
+   "s": 2.0,
+   "over": null,
+   "rom": [
+    1.0375,
+    1.05
+   ],
+   "qs": [
+    NaN,
+    0.0
+   ],
+   "mj": [
+    NaN,
+    0.0
+   ],
+   "mj_any": [
+    NaN,
+    0.0
+   ],
+   "qs_plan": null,
+   "mj_plan": null,
+   "mj_detail": {
+    "0.0": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 126.56081160995198,
+     "zmin_err": -1.1707193063260322,
+     "sat_s": {
+      "hipL": 0.044,
+      "kneeL": 2.537,
+      "ankL": 0.008,
+      "hipR": 0.014,
+      "kneeR": 0.081
+     }
+    }
+   }
+  },
+  {
+   "mode": "lean",
+   "s": 2.0,
+   "over": null,
+   "rom": [
+    1.0375,
+    1.05
+   ],
+   "qs": [
+    NaN,
+    0.0
+   ],
+   "mj": [
+    NaN,
+    0.0
+   ],
+   "mj_any": [
+    NaN,
+    0.0
+   ],
+   "qs_plan": null,
+   "mj_plan": null,
+   "mj_detail": {
+    "0.0": {
+     "ok": false,
+     "ok_any": false,
+     "trail_push": 0.0,
+     "trail_scrape": 0.0,
+     "pitch": 67.95933048455743,
+     "zmin_err": -1.2233732834705022,
+     "sat_s": {
+      "kneeL": 2.278,
+      "ankL": 0.005,
+      "hipR": 0.033,
+      "kneeR": 0.076
+     }
+    }
+   }
+  }
+ ],
+ "sim10": {
+  "0.5": {
+   "rom": 0.3169172932330827,
+   "upright": 0.3169172932330827,
+   "lean": 0.3169172932330827,
+   "tau_upright": 0.44955,
+   "tau_lean": 0.44955
+  },
+  "1.0": {
+   "rom": 0.6338345864661654,
+   "upright": 0.18477744360902257,
+   "lean": 0.5971466165413534,
+   "tau_upright": 0.18477744360902257,
+   "tau_lean": 0.5971466165413534
+  },
+  "2.0": {
+   "rom": 1.2676691729323308,
+   "upright": 0.0811218045112782,
+   "lean": 0.3650481203007519,
+   "tau_upright": 0.0811218045112782,
+   "tau_lean": 0.3650481203007519
+  }
+ }
+}
