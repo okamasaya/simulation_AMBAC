@@ -335,7 +335,7 @@ def plan(c: Cfg, dt_plan=0.01):
         com_xy, zmp_lipm = preview_com(zr, dt_plan, zc, c.preview * np.sqrt(s))
     else:   # 準静的: 重心 = ZMP の目標（重心をそのまま支持する足の上へ）
         com_xy, zmp_lipm = zr.copy(), zr.copy()
-    Q = []; ok_all = True; sup = []; tauff = []
+    Q = []; ok_all = True; sup = []; tauff = []; Sens = []
     q = q0.copy(); xy = np.zeros(2)
     Lr = 0.98 * (L_TH + L_SH) * s
     for k, tt in enumerate(t):
@@ -354,9 +354,17 @@ def plan(c: Cfg, dt_plan=0.01):
         xy = q[0:2].copy()
         ok_all &= ok
         Q.append(q.copy()); sup.append(support)
+        if c.extra.get("stab"):          # 段階 23: 骨盤を水平に δ ずらしたときの脚の関節角の変化（足は床に固定）
+            dl = 0.005 * s; Sk = np.zeros((len(JOINTS), 2))
+            adr_ = [rb.qa[j] for j in JOINTS]
+            for ax_ in range(2):
+                rx = q[0:3].copy(); rx[ax_] += dl
+                q2, _ = rb.ik(rx, feet, q.copy())
+                Sk[:, ax_] = (q2[adr_] - q[adr_]) / dl
+            Sens.append(Sk)
         tauff.append(rb.static_torques(q, support) if c.ff else np.zeros(len(JOINTS)))
     return dict(rb=rb, t=t, Q=np.array(Q), ok=bool(ok_all), support=sup, zref=zr, zmp_lipm=zmp_lipm, com=com_xy, zc=zc,
-                tauff=np.array(tauff), steps=steps, T_end=T_end)
+                tauff=np.array(tauff), steps=steps, T_end=T_end, S=np.array(Sens) if Sens else None)
 
 
 def execute(c: Cfg, P=None, record=False):
@@ -378,10 +386,39 @@ def execute(c: Cfg, P=None, record=False):
     n = int(round(P["T_end"] / m.opt.timestep)); c6 = np.zeros(6)
     rec = {k: [] for k in ("t", "root", "cop", "com", "tilt", "tau", "mz")}
     tau_lim = c.tau * s**3; sat = 0.0; tilt_max = 0.0; fell = False
+    # 段階 23: 閉ループの安定化（DCM のずれ → 骨盤を水平にずらす）と、外から押す力
+    st = c.extra.get("stab"); push = c.extra.get("push")
+    if st:
+        dtp = P["t"][1] - P["t"][0]; om = np.sqrt(G / P["zc"])
+        xi_ref = P["com"] + np.gradient(P["com"], dtp, axis=0) / om
+        nc = max(1, int(round(st.get("dt_c", 0.01) / m.opt.timestep)))
+        ndl = int(round(st.get("delay", 0.0) / (nc * m.opt.timestep)))
+        rng_ = np.random.default_rng(st.get("seed", 0)); queue = []; corr = np.zeros(2)
+        Kx, dmax = st.get("K", 1.0), st.get("max", 0.08) * s
+        rec_st = []
     for k in range(n):
         tt = d.time
         i = min(int(tt / (P["t"][1] - P["t"][0])), len(P["t"]) - 2); w = (tt - P["t"][i]) / (P["t"][1] - P["t"][0])
-        d.ctrl[act] = Qj[i] * (1 - w) + Qj[i + 1] * w
+        u_ = Qj[i] * (1 - w) + Qj[i + 1] * w
+        if st:
+            if k % nc == 0:
+                mujoco.mj_subtreeVel(m, d)
+                cm = d.subtree_com[1][:2] + rng_.normal(0, st.get("noise", 0.0), 2)
+                vm = d.subtree_linvel[1][:2] + rng_.normal(0, st.get("noise_v", 0.0), 2)
+                e = (cm + vm / om) - (xi_ref[i] * (1 - w) + xi_ref[i + 1] * w)
+                if st.get("lpf", 0.0) > 0:      # 1 次の低域通過フィルタ（時定数 lpf 秒）
+                    ef = e if not rec_st else ef + min(1.0, nc * m.opt.timestep / st["lpf"]) * (e - ef)
+                    e_use = ef
+                else:
+                    e_use = e
+                queue.append(np.clip(-Kx * e_use, -dmax, dmax))
+                corr = queue.pop(0) if len(queue) > ndl else np.zeros(2)
+                rec_st.append(e)
+            Sk = P["S"][i] * (1 - w) + P["S"][i + 1] * w
+            u_ = u_.copy(); u_[:len(JOINTS)] += Sk @ corr
+        d.ctrl[act] = u_
+        if push:
+            d.xfrc_applied[1, :3] = np.r_[push["F"], 0.0] * s**3 if push["t"] <= tt < push["t"] + push.get("dur", 0.1) * np.sqrt(s) else 0.0
         mujoco.mj_step(m, d)
         Rm = d.xmat[1].reshape(3, 3); tilt = D(np.arccos(np.clip(Rm[2, 2], -1, 1)))
         tilt_max = max(tilt_max, tilt)
@@ -409,6 +446,8 @@ def execute(c: Cfg, P=None, record=False):
     out = dict(fell=fell, tilt_max=float(tilt_max), pos_err=pos_err, sat_s=float(sat), t_end=float(d.time),
                dist=float(d.qpos[0]), plan_dist=float(plan_end[0]), yaw=yaw)
     out["ok"] = bool(not fell and tilt_max < 15 and pos_err < 0.10 * s)
+    if st:
+        out["dcm_rms"] = float(np.sqrt(np.mean(np.sum(np.array(rec_st)**2, 1)))) if rec_st else np.nan
     if record:
         out["rec"] = {k: np.array(v) for k, v in rec.items()}
     return out

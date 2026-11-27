@@ -1,0 +1,80 @@
+[
+ {
+  "case": {
+   "noise": 0.001,
+   "noise_v": 0.01
+  },
+  "ok": [
+   true,
+   false,
+   true
+  ]
+ },
+ {
+  "case": {
+   "noise": 0.005,
+   "noise_v": 0.0
+  },
+  "ok": [
+   false,
+   true,
+   false
+  ]
+ },
+ {
+  "case": {
+   "noise": 0.0,
+   "noise_v": 0.05
+  },
+  "ok": [
+   false,
+   false,
+   false
+  ]
+ },
+ {
+  "case": {
+   "noise": 0.005,
+   "noise_v": 0.05
+  },
+  "ok": [
+   false,
+   false,
+   false
+  ]
+ },
+ {
+  "case": {
+   "noise": 0.005,
+   "noise_v": 0.05,
+   "lpf": 0.03
+  },
+  "ok": [
+   true,
+   true,
+   false
+  ]
+ },
+ {
+  "case": {
+   "noise": 0.005,
+   "noise_v": 0.05,
+   "lpf": 0.1
+  },
+  "ok": [
+   false,
+   false,
+   false
+  ]
+ },
+ {
+  "case": {
+   "lpf": 0.03
+  },
+  "ok": [
+   true,
+   false,
+   true
+  ]
+ }
+]
