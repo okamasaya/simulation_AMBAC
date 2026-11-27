@@ -17,7 +17,7 @@
 - 段階 4 の誤差評価（`sims/field04b_error_budget.py`）と kinematic fit による校正（`sims/field04c_kinfit.py`）。経緯は [docs/13](docs/13_error_evaluation_kinfit.md)。
 - **注意**：部品表から組み立てた機体（`assembly.build`）の積分法は implicitfast（1 次）で、角運動量の保存が必要な校正の試験では +1〜2% の系統誤差を生む。校正の試験では RK4 を使う（field04b・04c は XML を置き換えている）。
 - 今後、full paper（詳細版）を書くときは、docs/13 の「うまくいかなかったこと」（13.5 節）を必ず含める（ユーザーの方針）。
-- full paper（詳細版）は `report/fullpaper/`。tex は版ごとに別ファイル（`AMBAC_fullpaper_v1.tex`, `_v2`, ...）で残し、PDF は `AMBAC_fullpaper.pdf` に上書きする。ビルドは `cd report/fullpaper && latexmk -lualatex -jobname=AMBAC_fullpaper AMBAC_fullpaper_v<N>.tex`。第 1 版（2026-11-26）は 12 ページ。第 4 版（2026-11-27、下半身の段階 18〜24 を第 III 部に追加）は 25 ページ。第 5 版（2026-11-27、段階 25・26 の状態推定を追加）は 26 ページ。
+- full paper（詳細版）は `report/fullpaper/`。tex は版ごとに別ファイル（`AMBAC_fullpaper_v1.tex`, `_v2`, ...）で残し、PDF は `AMBAC_fullpaper.pdf` に上書きする。ビルドは `cd report/fullpaper && latexmk -lualatex -jobname=AMBAC_fullpaper AMBAC_fullpaper_v<N>.tex`。第 1 版（2026-11-26）は 12 ページ。第 4 版（2026-11-27、下半身の段階 18〜24 を第 III 部に追加）は 25 ページ。第 5 版（2026-11-27、段階 25・26 の状態推定を追加）は 26 ページ。第 6 版（段階 27 を追加、失敗の表を 2 つに分割）も 26 ページ。ビルド後は log の Overfull と、表が下にはみ出していないかを確認する。
 - 画面のないクラウドでは `MUJOCO_GL=disable` で実行する（osmesa が入っていない場合）。
 - 番外編（アルミ棒 + iPhone 2 台、2026-11-26）：解析 `sims/bangai01_bar_imu.py`（予測・phyphox の CSV の読み込み・2 台の時刻合わせ・振り子の当てはめと逐次更新・回転の当てはめ・誤差評価・合成データ・toy MC・MuJoCo の確認）。使い方は `data/bangai01/README.md`、経緯と失敗（F14〜F19）は docs/13 の 13.5・13.7 節。実測はまだ（棒は未購入）。
 
