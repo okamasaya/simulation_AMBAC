@@ -64,6 +64,33 @@ def main():
     print(f"[{time.time() - T0:.0f} s]")
 
 
+def threshold():
+    """しきい値 6 cm で、推定した重心の行をやり直す（押さないときの DCM のずれの RMS は推定 2.5 cm、data/field27_threshold_check.txt）"""
+    from multiprocessing import Pool
+    cases = [("推定 K 0.3、踏み出し、しきい値 6 cm", {**F24.STEP, "K": 0.3, "est": EST, "e_th": 0.06}),
+             ("推定 K 0.3、踏み出し、しきい値 6 cm、逆向きの禁止", {**F24.STEP, "K": 0.3, "est": EST, "e_th": 0.06, "no_rev": True})]
+    jobs = []; tags = []
+    for name, st in cases:
+        for (over, st_, push), (dn, f) in zip(F24.jobs_for(st), [(d, f) for d in DIRS for f in FS]):
+            jobs.append((over, st_, push)); tags.append((name, dn, f))
+    out = {"FS": FS, "dirs": list(DIRS), "res": []}
+    with Pool(4) as pool:
+        res = []
+        for tg, r in zip(tags, pool.imap(run, jobs)):
+            res.append(r)
+            print(f"  {tg[0]} | {tg[1]} {tg[2]} N: {'○' if r['ok'] else ('△' if not r.get('fell') else '×')} 足のずらし {(r.get('step') or {}).get('offs')}", flush=True)
+    n = len(FS); nd = len(DIRS)
+    print("=== しきい値 6 cm（T 0.8 s、L 0.25 m、0.1 s、30〜70 N·s） ===")
+    for a, (name, _) in enumerate(cases):
+        rr = res[a * n * nd:(a + 1) * n * nd]; row = []; lims = []
+        for b, dn in enumerate(DIRS):
+            l, sq = F24.limit(rr[b * n:(b + 1) * n]); lims.append(l / 10 if l else 0); row.append(f"{dn} {sq} {lims[-1]:.0f}")
+        print(f"| {name} | " + " | ".join(row) + " |", flush=True)
+        out["res"].append(dict(name=name, lims=lims, seq=["".join("○" if r["ok"] else ("△" if not r.get("fell") else "×") for r in rr[b * n:(b + 1) * n]) for b in range(nd)]))
+    json.dump(out, open(DATA / "field27_threshold.json", "w"), indent=1, ensure_ascii=False, default=str)
+    print(f"[{time.time() - T0:.0f} s]")
+
+
 def figure():
     res = json.load(open(DATA / "field27_push_estimated.json"))
     en = ["true state K1 + stepping (stage 24)", "true K1 + stepping, no reverse", "estimated K0.3, no stepping (stage 26)",
@@ -93,4 +120,4 @@ def figure():
 
 if __name__ == "__main__":
     arg = sys.argv[1] if len(sys.argv) > 1 else "main"
-    {"main": main, "figure": figure}[arg]()
+    {"main": main, "threshold": threshold, "figure": figure}[arg]()
