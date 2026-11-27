@@ -1,0 +1,24 @@
+{
+  "name": "de Leva 1996 male (adjusted Zatsiorsky-Seluyanov)",
+  "source": "de Leva P. (1996) J Biomech 29(9):1223-1230, Table 4 (male). Lengths are fractions of the reference stature 1741 mm.",
+  "height_m": 1.741,
+  "mass_kg": 73.0,
+  "boot_mass_kg": 0.0,
+  "landmarks_frac": {
+    "hip_jc_height": 0.52,
+    "shoulder_jc_half_width": 0.100,
+    "hip_jc_half_width": 0.050,
+    "chest_half_depth": 0.060
+  },
+  "segments": {
+    "head":     {"len": 0.1395, "mass": 0.0694, "com": 0.5002, "r": [0.303, 0.315, 0.261]},
+    "trunk":    {"len": null,   "mass": 0.4346, "com": 0.5138, "r": [0.328, 0.306, 0.169]},
+    "upperarm": {"len": 0.1618, "mass": 0.0271, "com": 0.5772, "r": [0.285, 0.269, 0.158]},
+    "forearm":  {"len": 0.1545, "mass": 0.0162, "com": 0.4574, "r": [0.276, 0.265, 0.121]},
+    "hand":     {"len": 0.1069, "mass": 0.0061, "com": 0.7900, "r": [0.628, 0.513, 0.401]},
+    "thigh":    {"len": 0.2425, "mass": 0.1416, "com": 0.4095, "r": [0.329, 0.329, 0.149]},
+    "shank":    {"len": 0.2493, "mass": 0.0433, "com": 0.4459, "r": [0.255, 0.249, 0.103]},
+    "foot":     {"len": 0.1482, "mass": 0.0137, "com": 0.4415, "r": [0.257, 0.245, 0.124]}
+  },
+  "notes": "len/mass are fractions of height/mass; com is the fraction of the length from the proximal end (head: from vertex, trunk: from cervicale); r = radii of gyration / length about [sagittal(ML axis), transverse(AP axis), longitudinal]. trunk len null = filled from height minus head and hip joint height. Landmarks are assumptions (not de Leva), see docs/16."
+}
