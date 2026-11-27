@@ -554,7 +554,7 @@ def execute(c: Cfg, P=None, record=False):
         est = Estimator(st["est"], rb, m, om, np.random.default_rng(st.get("seed", 0) + 7), c) if st.get("est") else None
         ne = max(1, int(round(0.001 / m.opt.timestep))); ce, ve = None, None
         rec_st = []
-    old = None; t_sw = -1.0; step_info = None; t_next = 0.0; ks_fix = None; offs = {}; n_re = 0
+    old = None; t_sw = -1.0; step_info = None; t_next = 0.0; ks_fix = None; offs = {}; n_re = 0; u0_ = None
     for k in range(n):
         tt = d.time
         i = min(int(tt / (P["t"][1] - P["t"][0])), len(P["t"]) - 2); w = (tt - P["t"][i]) / (P["t"][1] - P["t"][0])
@@ -597,6 +597,11 @@ def execute(c: Cfg, P=None, record=False):
                             dl[1] = max(dl[1], -0.02 * s)     # 左足は右へ寄せない（脚が交差する）
                         else:
                             dl[1] = min(dl[1], 0.02 * s)
+                        if st.get("no_rev"):       # 段階 27: 最初の踏み出しと逆向きの成分を消す（F43 の逆向きの踏み出しを禁じる）
+                            if u0_ is None:
+                                u0_ = dl / max(np.linalg.norm(dl), 1e-9)
+                            elif dl @ u0_ < 0:
+                                dl = dl - (dl @ u0_) * u0_
                         nrm = np.linalg.norm(dl); dmx = st.get("step_max", 0.30) * s
                         dl = dl * min(1.0, dmx / max(nrm, 1e-9))
                         offs[ks] = dl
