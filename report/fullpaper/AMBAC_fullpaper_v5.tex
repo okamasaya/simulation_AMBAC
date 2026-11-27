@@ -347,7 +347,7 @@ AMBAC（関節角の空間のループ → 胴体の回転、接続の曲率の�
 
 \begin{table}[t]\centering\small
 \caption{腕組みに最低限必要な内旋量（Sim08）}\label{tab:armcross}
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{2pt}
 \begin{tabular}{lcc}\toprule
 胸の奥行 & 球関節のみ & 球関節＋上肢帯（前方突出） \\\midrule
 0.18 m（細身） & 86° & 71°（12°） \\
@@ -395,7 +395,7 @@ MR は熱で効きが落ち、使うほど劣化するが、劣化は熱に変�
 
 \begin{table}[t]\centering\footnotesize
 \caption{3 軸の肩＋肘の腕全体で、荷物を 2 区間動かす（段階 17）}\label{tab:arm3d}
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{1.4pt}
 \begin{tabular}{lcccl}\toprule
 方式 & 時間 & 車体の向き & 銅損 & 電源を切ったとき \\\midrule
 位置サーボ・速い & 2.14 s & $-7.7^\circ$ & 2167 J & 1.0 m 落ちる \\
@@ -567,7 +567,7 @@ $s$ & 上体 & Sim10 の式 & 準静的 & \textbf{MuJoCo} \\\midrule
 \begin{table}[t]\centering\small
 \caption{歩行の段階（21〜26）の主な結果}\label{tab:walk}
 \setlength{\tabcolsep}{2pt}
-\begin{tabular}{clp{0.64\linewidth}}\toprule
+\begin{tabular}{@{}cp{0.27\linewidth}p{0.62\linewidth}@{}}\toprule
 段階 & 仕組み & 主な結果 \\\midrule
 21 & ZMP の計画（開ループ） & 歩ける。1 歩 0.64 s 以上は条件によらず成功。準静的の計画は 6 s/歩より速いと倒れる。0.48〜0.60 s/歩は足のねじれの滑りで失敗 \\
 22 & 腕を脚と逆に振る & 成功の割合 0.62 → 1.00。必要な摩擦 1.11 → 0.38。逆向きに振ると悪化。最適な振り幅 25° \\
@@ -947,7 +947,7 @@ F18 は F4・F10・F13 と同じ「誤差の誤差」を、記録した後でも
 
 \begin{table}[t]\centering\footnotesize
 \caption{実験 A の予測（部品表から。$T_0$ の誤差はモンテカルロ）}\label{tab:bgpred}
-\setlength{\tabcolsep}{2.5pt}
+\setlength{\tabcolsep}{2pt}
 \begin{tabular}{lcccc}\toprule
 構成 & $I$ [kg·m²] & $d$ [m] & $T_0$ [s] & $T(10^\circ)$ [s] \\\midrule
 棒だけ & 0.0640 & 0.480 & $1.6229\pm0.0011$ & 1.6260 \\
