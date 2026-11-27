@@ -228,6 +228,9 @@ def footsteps(c: Cfg):
         if last:
             tgt_x = other[0]
         new = np.array([tgt_x, pos[sw][1]])
+        so = c.extra.get("step_off")       # 段階 24: k 歩目の足を置く場所を d だけずらす（以後の足の前後の位置も続けてずれる）
+        if so and k in so:
+            new = new + np.asarray(so[k]) * s
         steps.append((t, t + Ts, sw, pos[sw].copy(), new))
         pos[sw] = new; t += Ts
     return steps, t + 1.5 * np.sqrt(s), ah
@@ -291,7 +294,7 @@ def zmp_ref(t, c, steps):
     return cur
 
 
-def preview_com(zref, dt, zc, preview):
+def preview_com(zref, dt, zc, preview, i0=0, x0=None):
     """LIPM の ZMP プレビュー制御（Kajita 2003）: zref (N×2) の ZMP を実現する重心の軌道"""
     A = np.array([[1, dt, dt * dt / 2], [0, 1, dt], [0, 0, 1]]); B = np.array([[dt**3 / 6], [dt * dt / 2], [dt]])
     C = np.array([[1, 0, -zc / G]])
@@ -312,6 +315,8 @@ def preview_com(zref, dt, zc, preview):
     for ax in range(2):
         x = np.array([zref[0, ax], 0, 0]); e = 0.0
         for k in range(N):
+            if x0 is not None and k == i0:        # 段階 24: 測った重心の位置・速度から計画し直す
+                x = np.array([x0[0][ax], x0[1][ax], 0.0])
             out[k, ax] = x[0]; zmp[k, ax] = (C @ x)[0]
             e += zmp[k, ax] - zref[k, ax]
             u = -Ke * e - Kx @ x - f @ zpad[k + 1:k + 1 + Np, ax]
@@ -332,7 +337,9 @@ def plan(c: Cfg, dt_plan=0.01):
     q0, _ = rb.ik((0, 0, z_hip), feet0, q00)
     zc = rb.com(q0)[2]
     if c.planner == "zmp":
-        com_xy, zmp_lipm = preview_com(zr, dt_plan, zc, c.preview * np.sqrt(s))
+        rf = c.extra.get("replan_from")
+        com_xy, zmp_lipm = preview_com(zr, dt_plan, zc, c.preview * np.sqrt(s),
+                                       *((rf["i"], (np.asarray(rf["x"]), np.asarray(rf["v"]))) if rf else (0, None)))
     else:   # 準静的: 重心 = ZMP の目標（重心をそのまま支持する足の上へ）
         com_xy, zmp_lipm = zr.copy(), zr.copy()
     Q = []; ok_all = True; sup = []; tauff = []; Sens = []
@@ -396,6 +403,7 @@ def execute(c: Cfg, P=None, record=False):
         rng_ = np.random.default_rng(st.get("seed", 0)); queue = []; corr = np.zeros(2)
         Kx, dmax = st.get("K", 1.0), st.get("max", 0.08) * s
         rec_st = []
+    old = None; t_sw = -1.0; step_info = None; t_next = 0.0; ks_fix = None; offs = {}; n_re = 0
     for k in range(n):
         tt = d.time
         i = min(int(tt / (P["t"][1] - P["t"][0])), len(P["t"]) - 2); w = (tt - P["t"][i]) / (P["t"][1] - P["t"][0])
@@ -414,8 +422,48 @@ def execute(c: Cfg, P=None, record=False):
                 queue.append(np.clip(-Kx * e_use, -dmax, dmax))
                 corr = queue.pop(0) if len(queue) > ndl else np.zeros(2)
                 rec_st.append(e)
+                # 段階 24: 足の置き場所の戦略。DCM のずれが e_th を超えたら一度だけ、次に着地する足を capture point の方へずらして計画し直す
+                # 段階 24: 足の置き場所の戦略。DCM のずれが e_th を超えたら、次に着地する足を capture point の方へずらして計画し直す。
+                # 着地の t_min 前まで、50 ms ごとに残りのずれで足し直す（押されている間はずれがまだ育つため）
+                if st.get("step") and tt >= t_next and np.linalg.norm(e) > st.get("e_th", 0.03) * s:
+                    stp = P["steps"]; Tds_ = c.ds * c.T_step * np.sqrt(s)
+                    if ks_fix is not None and tt > stp[ks_fix][1] - Tds_ / 2:     # 前の踏み出しが着地した → 次の足で続けて直す（複数歩）
+                        ks_fix = None
+                    if ks_fix is None:
+                        ks_fix = next((kk for kk, st_ in enumerate(stp) if st_[1] - Tds_ / 2 - tt > st.get("t_min", 0.15) * np.sqrt(s)), None)
+                    ks = ks_fix
+                    if ks is not None and ks < len(stp) - 1 and stp[ks][1] - Tds_ / 2 - tt > st.get("t_min", 0.15) * np.sqrt(s):
+                        t_land = stp[ks][1] - Tds_ / 2
+                        dl = offs.get(ks, np.zeros(2)) + e * np.exp(om * (t_land - tt)) * st.get("g_step", 1.0)
+                        side = stp[ks][2]
+                        if side == "L":
+                            dl[1] = max(dl[1], -0.02 * s)     # 左足は右へ寄せない（脚が交差する）
+                        else:
+                            dl[1] = min(dl[1], 0.02 * s)
+                        nrm = np.linalg.norm(dl); dmx = st.get("step_max", 0.30) * s
+                        dl = dl * min(1.0, dmx / max(nrm, 1e-9))
+                        offs[ks] = dl
+                        ex2 = {**c.extra, "step_off": {kk: (v / s).tolist() for kk, v in offs.items()}}
+                        if st.get("from_state"):       # 計画を、いまの重心の位置・速度から作り直す（目標の跳びをなくす）
+                            # 位置は計画のまま、DCM のずれ e を速度に入れる（重心の計画と MuJoCo の 2〜3 cm の差で目標が跳ばないように）
+                            vp = (P["com"][min(i + 1, len(P["com"]) - 1)] - P["com"][max(i - 1, 0)]) / (2 * dtp)
+                            ex2["replan_from"] = {"i": int(i), "x": P["com"][i].tolist(), "v": (vp + om * e).tolist()}
+                        c2 = Cfg(**{**c.__dict__, "extra": ex2})
+                        P2 = plan(c2)
+                        Qj2 = P2["Q"][:, adr].copy()
+                        if c.ff:
+                            Qj2[:, :len(JOINTS)] += P2["tauff"] / kp
+                        old = (Qj, P["S"]); Qj = Qj2; P = {**P2, "rb": rb}
+                        xi_ref = P["com"] + np.gradient(P["com"], dtp, axis=0) / om
+                        t_sw = tt; n_re += 1
+                        step_info = dict(offs={int(kk): np.round(v, 3).tolist() for kk, v in offs.items()}, t=tt, n=n_re)
+                        t_next = tt + st.get("re_dt", 0.05)
             Sk = P["S"][i] * (1 - w) + P["S"][i + 1] * w
             u_ = u_.copy(); u_[:len(JOINTS)] += Sk @ corr
+            if old is not None and tt - t_sw < 0.05:      # 切り替えを 50 ms でなめらかに
+                bl = (tt - t_sw) / 0.05; uo = old[0][i] * (1 - w) + old[0][i + 1] * w
+                uo = uo.copy(); uo[:len(JOINTS)] += (old[1][i] * (1 - w) + old[1][i + 1] * w) @ corr
+                u_ = (1 - bl) * uo + bl * u_
         d.ctrl[act] = u_
         if push:
             d.xfrc_applied[1, :3] = np.r_[push["F"], 0.0] * s**3 if push["t"] <= tt < push["t"] + push.get("dur", 0.1) * np.sqrt(s) else 0.0
@@ -446,6 +494,8 @@ def execute(c: Cfg, P=None, record=False):
     out = dict(fell=fell, tilt_max=float(tilt_max), pos_err=pos_err, sat_s=float(sat), t_end=float(d.time),
                dist=float(d.qpos[0]), plan_dist=float(plan_end[0]), yaw=yaw)
     out["ok"] = bool(not fell and tilt_max < 15 and pos_err < 0.10 * s)
+    if st and step_info is not None:
+        out["step"] = step_info
     if st:
         out["dcm_rms"] = float(np.sqrt(np.mean(np.sum(np.array(rec_st)**2, 1)))) if rec_st else np.nan
     if record:
