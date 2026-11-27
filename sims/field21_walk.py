@@ -42,6 +42,7 @@ TRUNK = (0.25, 0.4, 0.6); TRUNK_COM = 0.25
 HEEL, TOE, FOOT_W, FOOT_H, ANK_H = 0.10, 0.15, 0.10, 0.04, 0.06
 HIP_Y = 0.10
 TAU = 250.0
+ARM_M, ARM_L, ARM_Y, ARM_Z, ARM_C = 4.0, 0.60, 0.22, 0.50, 0.45   # 段階 22 の腕: 片腕の質量・長さ、肩の位置（骨盤から）、重心の位置（肩から長さの割合）
 RANGES = {"hr": (-30, 30), "hp": (-30, 120), "kn": (-1, 140), "ap": (-50, 50), "ar": (-30, 30)}
 SEG = ("hr", "hp", "kn", "ap", "ar")
 JOINTS = [f"{j}{sd}" for sd in "LR" for j in SEG]
@@ -82,6 +83,20 @@ def build_xml(c: Cfg):
     jr = lambda k: f'range="{RANGES[k][0]} {RANGES[k][1]}" limited="true" armature="{arm}"'
     mid = '<inertial pos="0 0 0" mass="1e-3" diaginertia="1e-6 1e-6 1e-6"/>'
     legs = ""
+    ar_ = c.extra.get("arms")          # 段階 22: 腕（肩の前後の振り）。上体 56 kg の中から腕の分を引く
+    acts_arm = ""
+    if ar_:
+        ma, La = ar_.get("m", ARM_M) * m3, ar_.get("L", ARM_L) * s
+        mt = mt - 2 * ar_.get("m", ARM_M)
+        kpa = ar_.get("kp", 3e3) * m3; kva = kpa * 0.05 * np.sqrt(s)
+        for sd, y in [("L", ARM_Y * s), ("R", -ARM_Y * s)]:
+            legs += f"""
+      <body name="arm{sd}" pos="0 {y} {ARM_Z * s}">
+        <joint name="sh{sd}" axis="0 -1 0" range="-90 90" limited="true" armature="{arm}"/>
+        <inertial pos="0 0 {-ARM_C * La}" mass="{ma}" diaginertia="{ma * La * La / 12 + ma * (ARM_C - 0.5)**2 * La * La:.6g} {ma * La * La / 12 + ma * (ARM_C - 0.5)**2 * La * La:.6g} {ma * (0.05 * s)**2 / 2:.6g}"/>
+        <geom type="capsule" fromto="0 0 0 0 0 {-La}" size="{0.04 * s}" contype="0" conaffinity="0" rgba="0.9 0.6 0.3 1"/>
+      </body>"""
+            acts_arm += f'<position name="sh{sd}" joint="sh{sd}" kp="{kpa}" kv="{kva}" forcelimited="true" forcerange="{-tau} {tau}"/>'
     for sd, y in [("L", HIP_Y * s), ("R", -HIP_Y * s)]:
         legs += f"""
       <body name="hipr{sd}" pos="0 {y} 0">
@@ -106,7 +121,7 @@ def build_xml(c: Cfg):
           </body>
         </body>
       </body>"""
-    acts = "".join(f'<position name="{j}" joint="{j}" kp="{kp}" kv="{kv}" forcelimited="true" forcerange="{-tau} {tau}"/>' for j in JOINTS)
+    acts = "".join(f'<position name="{j}" joint="{j}" kp="{kp}" kv="{kv}" forcelimited="true" forcerange="{-tau} {tau}"/>' for j in JOINTS) + acts_arm
     z0 = ah + c.z_hip * s
     return f"""<mujoco model="biped_walk">
   <option gravity="0 0 {-G}" timestep="{c.dt}" integrator="{c.integrator}" cone="elliptic" impratio="10"/>
@@ -135,6 +150,7 @@ class Robot:
         self.site = {sd: mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_SITE, f"ank{sd}") for sd in "LR"}
         self.foot = {sd: mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_BODY, f"foot{sd}") for sd in "LR"}
         self.lim = {f"{k}{sd}": np.radians(RANGES[k]) for sd in "LR" for k in SEG}
+        self.arm = {sd: m.jnt_qposadr[jid(f"sh{sd}")] for sd in "LR"} if c.extra.get("arms") else {}
         self.z0 = m.body_pos[1][2]
         q = self.d.qpos
         for sd in "LR":
@@ -240,6 +256,17 @@ def feet_at(t, c, steps, ah):
     return pos, support
 
 
+def arm_angles(t, c, steps, ah):
+    """段階 22: 腕を脚と逆に振る。右腕の前への角 = A × (左足 − 右足の前後の差) / 歩幅、左腕はその逆"""
+    ar_ = c.extra.get("arms")
+    if not ar_:
+        return {}
+    pos, _ = feet_at(t, c, steps, ah)
+    u = (pos["L"][0] - pos["R"][0]) / (c.L * c.s)
+    A = np.radians(ar_.get("A", 0.0))
+    return {"R": A * u, "L": -A * u}
+
+
 def zmp_ref(t, c, steps):
     """ZMP の目標: 片脚支持では支持する足の中央（足首の +0.025 s 前）、両脚支持の間に次の足へ直線で移す"""
     s = c.s; Tds = c.ds * c.T_step * np.sqrt(s); xc = (TOE - HEEL) / 2 * s
@@ -299,7 +326,10 @@ def plan(c: Cfg, dt_plan=0.01):
     zr = np.array([zmp_ref(tt, c, steps) for tt in t])
     feet0, _ = feet_at(0.0, c, steps, ah)
     z_hip = ah + c.z_hip * s
-    q0, _ = rb.ik((0, 0, z_hip), feet0, rb.d.qpos.copy())
+    q00 = rb.d.qpos.copy()
+    for sd, a_ in arm_angles(0.0, c, steps, ah).items():
+        q00[rb.arm[sd]] = a_
+    q0, _ = rb.ik((0, 0, z_hip), feet0, q00)
     zc = rb.com(q0)[2]
     if c.planner == "zmp":
         com_xy, zmp_lipm = preview_com(zr, dt_plan, zc, c.preview * np.sqrt(s))
@@ -312,6 +342,8 @@ def plan(c: Cfg, dt_plan=0.01):
         feet, support = feet_at(tt, c, steps, ah)
         # 骨盤の高さ: 両足に届く高さ（股関節〜足首が脚の長さの 98% 以内）に下げる（段階 20 と同じ）
         z = z_hip
+        for sd, a_ in arm_angles(tt, c, steps, ah).items():
+            q[rb.arm[sd]] = a_
         for _ in range(2):
             px = xy if k > 0 else com_xy[k]
             for sd, hy in (("L", HIP_Y * s), ("R", -HIP_Y * s)):
@@ -333,13 +365,18 @@ def execute(c: Cfg, P=None, record=False):
     rb = P["rb"]; m, d = rb.m, rb.d; s = c.s
     act = [mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, j) for j in JOINTS]
     adr = [rb.qa[j] for j in JOINTS]
+    if rb.arm:
+        act += [mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, f"sh{sd}") for sd in "LR"]
+        adr += [rb.arm[sd] for sd in "LR"]
     kp = c.kp * s**3
-    Qj = P["Q"][:, adr] + (P["tauff"] / kp if c.ff else 0)
+    Qj = P["Q"][:, adr].copy()
+    if c.ff:
+        Qj[:, :len(JOINTS)] += P["tauff"] / kp
     mujoco.mj_resetData(m, d); d.qpos[:] = P["Q"][0]; d.qpos[2] += 0.0005 * s; mujoco.mj_forward(m, d)
     floor = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, "floor")
     sole = {mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, f"sole{sd}"): sd for sd in "LR"}
     n = int(round(P["T_end"] / m.opt.timestep)); c6 = np.zeros(6)
-    rec = {k: [] for k in ("t", "root", "cop", "com", "tilt", "tau")}
+    rec = {k: [] for k in ("t", "root", "cop", "com", "tilt", "tau", "mz")}
     tau_lim = c.tau * s**3; sat = 0.0; tilt_max = 0.0; fell = False
     for k in range(n):
         tt = d.time
@@ -361,6 +398,7 @@ def execute(c: Cfg, P=None, record=False):
                     fw = -fw
                 F += fw; Mo += np.cross(cc.pos, fw)
             cop = np.array([-Mo[1] / F[2], Mo[0] / F[2]]) if F[2] > 1e-3 else np.array([np.nan, np.nan])
+            rec["mz"].append(Mo[2] - (cop[0] * F[1] - cop[1] * F[0]) if F[2] > 1e-3 else np.nan)   # 足圧中心まわりの鉛直軸のモーメント（ヨー）
             rec["t"].append(tt); rec["root"].append(d.qpos[0:3].copy()); rec["cop"].append(cop)
             rec["com"].append(d.subtree_com[1].copy()); rec["tilt"].append(tilt); rec["tau"].append(d.actuator_force[act].copy())
         if d.qpos[2] < 0.5 * rb.z0 or not np.isfinite(d.qpos).all():
