@@ -136,3 +136,4 @@ Sim01 で「腕振り 180° での最大姿勢変化: -16.04°」、報告書が
 - 修正の記録は報告書の付録「数値計算の方法と検証」にある（Sim06 の関節制約の不具合など）。
 
 - 番外編 03（2026-11-27）：トリプルアクセルを腕を伸ばしたまま跳べるか（体格・技術・運動能力の切り分け）。`sims/bangai03_axel_arms.py`（`poses`・`flight`・`factors`・`errors` 約 3 分・`anneal` 約 6 分・`figure`）、体のパラメータは `configs/body/`（de Leva 1996 の男女、ノギスで測った人形用の `bodychan_template.json`）。腕の動きを与え、胴体は運動量と角運動量の保存から解く（位置サーボは発散した、F63）。UC-AutoMaiL 0.4.1a0 の `annealing.search_subsets` を使う。記録は [docs/16](docs/16_axel_arms.md)、失敗は F63〜F70（F59〜F62 は PR #29 の docs/15）。
+- 番外編 04（2026-11-27）：肩の可動域と筋力の上限を入れたブラインド解析。`sims/bangai04_shoulder_blind.py`（`run COND SEED` 1 本 18〜65 分、`metrics`、`comp`、`figure`）。事前登録は docs/17 の 17.1〜17.4（最適化の前にコミット）、変更は 17.5。判定は「弱い支持」（上限ありの方が滑らか、LDLJ 5.2σ・SPARC 1.3σ）。文献の筋力では接触なしで 3A に届かない（最良 1.99 回転、F72）。失敗は F71〜F75。

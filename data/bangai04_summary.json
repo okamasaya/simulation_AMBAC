@@ -1,0 +1,616 @@
+{
+ "summary": {
+  "limited": {
+   "n": 4,
+   "n_ok": 3,
+   "turns": [
+    1.9007044816377665,
+    0.08429039161929201,
+    3
+   ],
+   "sparc": [
+    -2.2087832884846077,
+    0.0971034289357101,
+    3
+   ],
+   "ldlj": [
+    -12.096060535885082,
+    0.2575920349240539,
+    3
+   ],
+   "rev": [
+    18.333333333333332,
+    3.2145502536643185,
+    3
+   ],
+   "best": 13,
+   "shapes": [
+    "その他",
+    "その他",
+    "その他",
+    "その他"
+   ]
+  },
+  "free": {
+   "n": 4,
+   "n_ok": 4,
+   "turns": [
+    2.8284195300437895,
+    0.6430906288431635,
+    4
+   ],
+   "sparc": [
+    -2.9307272915040716,
+    0.5304436392065389,
+    4
+   ],
+   "ldlj": [
+    -14.743942581270076,
+    0.4446595382100998,
+    4
+   ],
+   "rev": [
+    25.75,
+    1.2583057392117916,
+    4
+   ],
+   "best": 12,
+   "shapes": [
+    "その他",
+    "頭上",
+    "その他",
+    "その他"
+   ]
+  },
+  "weak": {
+   "n": 4,
+   "n_ok": 1,
+   "turns": [
+    1.7817387333933747,
+    NaN,
+    1
+   ],
+   "sparc": [
+    -2.1309715411138286,
+    NaN,
+    1
+   ],
+   "ldlj": [
+    -12.095900334382685,
+    NaN,
+    1
+   ],
+   "rev": [
+    18.0,
+    NaN,
+    1
+   ],
+   "best": 14,
+   "shapes": [
+    "その他",
+    "その他",
+    "その他",
+    "その他"
+   ]
+  },
+  "strong": {
+   "n": 4,
+   "n_ok": 4,
+   "turns": [
+    1.9673942440087457,
+    0.0819515085508363,
+    4
+   ],
+   "sparc": [
+    -2.1886479898782456,
+    0.13846649803403505,
+    4
+   ],
+   "ldlj": [
+    -12.146368427643779,
+    0.20703659090583396,
+    4
+   ],
+   "rev": [
+    20.0,
+    2.449489742783178,
+    4
+   ],
+   "best": 11,
+   "shapes": [
+    "その他",
+    "その他",
+    "その他",
+    "その他"
+   ]
+  },
+  "rom180": {
+   "n": 4,
+   "n_ok": 3,
+   "turns": [
+    1.8789132960904051,
+    0.06801609302958261,
+    3
+   ],
+   "sparc": [
+    -2.2643159432704727,
+    0.017718075672979405,
+    3
+   ],
+   "ldlj": [
+    -12.197672403200391,
+    0.1517224330378001,
+    3
+   ],
+   "rev": [
+    18.666666666666668,
+    0.5773502691896258,
+    3
+   ],
+   "best": 13,
+   "shapes": [
+    "頭上",
+    "その他",
+    "その他",
+    "その他"
+   ]
+  }
+ },
+ "verdict": {
+  "sparc": {
+   "diff": 0.7219440030194639,
+   "sd": 0.539258314989903,
+   "ratio": 1.3387721300745852
+  },
+  "ldlj": {
+   "diff": 2.6478820453849945,
+   "sd": 0.5138830230485671,
+   "ratio": 5.152694147544826
+  },
+  "H1": "弱い支持"
+ },
+ "rows": {
+  "limited": [
+   {
+    "cond": "limited",
+    "seed": 11,
+    "turns": 2.953958649012077,
+    "cmin": -0.23494104160720183,
+    "feasible": false,
+    "phase1_cmin": -0.5165756715217775,
+    "phase1_turns": 2.0462114516695604,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 24272,
+    "sec": 3318.8759820461273,
+    "tilt_land": 4.377744508007952,
+    "tilt_max": 4.523933659380087,
+    "sparc": -3.339905306187936,
+    "ldlj": -11.783837274004117,
+    "reversals": 19,
+    "path": 1.945529666424848,
+    "shape": "その他"
+   },
+   {
+    "cond": "limited",
+    "seed": 12,
+    "turns": 1.8765462262079948,
+    "cmin": -0.0009539482483768796,
+    "feasible": true,
+    "phase1_cmin": -1.7493050748049341e-15,
+    "phase1_turns": 1.875798662129932,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 22533,
+    "sec": 3112.0301847457886,
+    "tilt_land": 4.444140170317562,
+    "tilt_max": 5.148557922267126,
+    "sparc": -2.254154892478155,
+    "ldlj": -12.094708191375538,
+    "reversals": 16,
+    "path": 2.411894598259698,
+    "shape": "その他"
+   },
+   {
+    "cond": "limited",
+    "seed": 13,
+    "turns": 1.9944362525448727,
+    "cmin": 0.0009491771100684536,
+    "feasible": true,
+    "phase1_cmin": 0.0009491771100683817,
+    "phase1_turns": 1.994375637747403,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 15947,
+    "sec": 2239.388430118561,
+    "tilt_land": 3.7490942500569173,
+    "tilt_max": 4.287302378971914,
+    "sparc": -2.0972991809051145,
+    "ldlj": -11.839147335630894,
+    "reversals": 22,
+    "path": 2.3325534001799317,
+    "shape": "その他"
+   },
+   {
+    "cond": "limited",
+    "seed": 14,
+    "turns": 1.831130966160432,
+    "cmin": -0.0005849153487147874,
+    "feasible": true,
+    "phase1_cmin": -7.694164000127484e-07,
+    "phase1_turns": 1.8310716819022237,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 18204,
+    "sec": 2479.186679840088,
+    "tilt_land": 4.0585848770568544,
+    "tilt_max": 4.4924167523375775,
+    "sparc": -2.2748957920705535,
+    "ldlj": -12.354326080648818,
+    "reversals": 17,
+    "path": 1.9111748507165003,
+    "shape": "その他"
+   }
+  ],
+  "free": [
+   {
+    "cond": "free",
+    "seed": 11,
+    "turns": 2.496386160610585,
+    "cmin": 0.9859593498414729,
+    "feasible": true,
+    "phase1_cmin": 2.2950985565407205,
+    "phase1_turns": 2.4017932605800976,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 27121,
+    "sec": 3724.894341945648,
+    "tilt_land": 4.817535419370945,
+    "tilt_max": 7.527334730425684,
+    "sparc": -2.724701431394515,
+    "ldlj": -15.314771677579992,
+    "reversals": 26,
+    "path": 8.041487213604299,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -62.885093378107285
+   },
+   {
+    "cond": "free",
+    "seed": 12,
+    "turns": 3.73415847279,
+    "cmin": -0.0009296991767052815,
+    "feasible": true,
+    "phase1_cmin": 0.41153057595311565,
+    "phase1_turns": 2.4991866434675236,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 12765,
+    "sec": 1752.9138178825378,
+    "tilt_land": 7.740732810185817,
+    "tilt_max": 8.176771875126535,
+    "sparc": -3.6765676198095614,
+    "ldlj": -14.320649430747668,
+    "reversals": 27,
+    "path": 6.191738354694364,
+    "shape": "頭上",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -57.10001536553066
+   },
+   {
+    "cond": "free",
+    "seed": 13,
+    "turns": 2.271827575422849,
+    "cmin": 0.02756348438941701,
+    "feasible": true,
+    "phase1_cmin": 0.027503023028163306,
+    "phase1_turns": 2.2717319653678416,
+    "nit": 46,
+    "msg": "More than 3*n iterations in LSQ subproblem",
+    "nev": 7844,
+    "sec": 1065.4115178585052,
+    "tilt_land": 4.498568932284016,
+    "tilt_max": 4.498568932284016,
+    "sparc": -2.437563385919587,
+    "ldlj": -14.866719690534037,
+    "reversals": 24,
+    "path": 8.312267824045158,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -108.0671896104213
+   },
+   {
+    "cond": "free",
+    "seed": 14,
+    "turns": 2.8113059113517243,
+    "cmin": 0.07024540045772222,
+    "feasible": true,
+    "phase1_cmin": 1.551191626487609,
+    "phase1_turns": 2.4083485538151517,
+    "nit": 52,
+    "msg": "More than 3*n iterations in LSQ subproblem",
+    "nev": 15651,
+    "sec": 2152.988337993622,
+    "tilt_land": 9.84501948669837,
+    "tilt_max": 10.058743220920931,
+    "sparc": -2.884076728892624,
+    "ldlj": -14.473629526218602,
+    "reversals": 26,
+    "path": 8.80563260148426,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -71.49336903901997
+   }
+  ],
+  "weak": [
+   {
+    "cond": "weak",
+    "seed": 11,
+    "turns": 2.847874353496938,
+    "cmin": -0.9256414066868931,
+    "feasible": false,
+    "phase1_cmin": -1.291266717650161,
+    "phase1_turns": 2.047340289475661,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 23199,
+    "sec": 3256.690773487091,
+    "tilt_land": 2.1044829553873776,
+    "tilt_max": 3.6125655634917364,
+    "sparc": -3.0072121978434,
+    "ldlj": -12.069352051614803,
+    "reversals": 22,
+    "path": 2.3208645563504025,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -0.12526701005318544
+   },
+   {
+    "cond": "weak",
+    "seed": 12,
+    "turns": 2.7462365700614617,
+    "cmin": -1.5034712042859155,
+    "feasible": false,
+    "phase1_cmin": -0.31962035817469536,
+    "phase1_turns": 1.8524796128576482,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 26455,
+    "sec": 3558.341623544693,
+    "tilt_land": 8.946778761340893,
+    "tilt_max": 9.31504883287808,
+    "sparc": -1.755139625431124,
+    "ldlj": -12.121541883258928,
+    "reversals": 16,
+    "path": 4.702417562673183,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -0.2520224692370818
+   },
+   {
+    "cond": "weak",
+    "seed": 13,
+    "turns": 2.370953962827105,
+    "cmin": -0.6895931640534727,
+    "feasible": false,
+    "phase1_cmin": -0.02114829569969654,
+    "phase1_turns": 2.0003963082064513,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 29489,
+    "sec": 3928.665182352066,
+    "tilt_land": 6.867857173863015,
+    "tilt_max": 6.867857173863015,
+    "sparc": -2.269839808593307,
+    "ldlj": -11.893727393536574,
+    "reversals": 15,
+    "path": 3.4324559540312607,
+    "shape": "その他",
+    "feasible_under_limited": true,
+    "cmin_under_limited": 0.0009491771100677455
+   },
+   {
+    "cond": "weak",
+    "seed": 14,
+    "turns": 1.7817387333933747,
+    "cmin": 0.0009491771100684536,
+    "feasible": true,
+    "phase1_cmin": 0.0009491771100682228,
+    "phase1_turns": 1.7816779612387694,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 16428,
+    "sec": 2179.849207878113,
+    "tilt_land": 3.6516541649583947,
+    "tilt_max": 4.057196604770259,
+    "sparc": -2.1309715411138286,
+    "ldlj": -12.095900334382685,
+    "reversals": 18,
+    "path": 1.6386697386036855,
+    "shape": "その他",
+    "feasible_under_limited": true,
+    "cmin_under_limited": 0.0009491771100684536
+   }
+  ],
+  "strong": [
+   {
+    "cond": "strong",
+    "seed": 11,
+    "turns": 2.0440192357515596,
+    "cmin": -0.0006348555231549324,
+    "feasible": true,
+    "phase1_cmin": 3.2302508483613845e-17,
+    "phase1_turns": 2.043920656114559,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 24753,
+    "sec": 3268.831910610199,
+    "tilt_land": 2.2908738132372286,
+    "tilt_max": 2.9342699231593508,
+    "sparc": -2.148558440991703,
+    "ldlj": -11.930690404391266,
+    "reversals": 23,
+    "path": 1.98996990943786,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -1.261429623293634
+   },
+   {
+    "cond": "strong",
+    "seed": 12,
+    "turns": 1.9108833293066432,
+    "cmin": 1.0332836833415793e-07,
+    "feasible": true,
+    "phase1_cmin": 1.4630551534732178e-14,
+    "phase1_turns": 1.9108200111977365,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 19610,
+    "sec": 2690.67444396019,
+    "tilt_land": 5.0356921606329115,
+    "tilt_max": 5.921694627053247,
+    "sparc": -2.259733622415861,
+    "ldlj": -12.10983903093056,
+    "reversals": 17,
+    "path": 2.9161245379174963,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -1.98610808527784
+   },
+   {
+    "cond": "strong",
+    "seed": 13,
+    "turns": 2.0310969112009913,
+    "cmin": -0.0007441245210017655,
+    "feasible": true,
+    "phase1_cmin": 1.7674140648438196e-05,
+    "phase1_turns": 2.0310214863607143,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 16317,
+    "sec": 2157.7899539470673,
+    "tilt_land": 3.5519289739924504,
+    "tilt_max": 3.6609069742754947,
+    "sparc": -2.0144392118856547,
+    "ldlj": -12.116048430918712,
+    "reversals": 20,
+    "path": 2.453122597338232,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -1.2659298099944976
+   },
+   {
+    "cond": "strong",
+    "seed": 14,
+    "turns": 1.8835774997757897,
+    "cmin": -0.0002343808727644614,
+    "feasible": true,
+    "phase1_cmin": -1.2722218725854067e-15,
+    "phase1_turns": 1.857934224505705,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 16280,
+    "sec": 2155.7133362293243,
+    "tilt_land": 3.996429709172361,
+    "tilt_max": 4.679345857000286,
+    "sparc": -2.331860684219764,
+    "ldlj": -12.42889584433458,
+    "reversals": 20,
+    "path": 2.310616749234076,
+    "shape": "その他",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -1.2736575614657561
+   }
+  ],
+  "rom180": [
+   {
+    "cond": "rom180",
+    "seed": 11,
+    "turns": 3.3150534722205847,
+    "cmin": -0.35149350757149167,
+    "feasible": false,
+    "phase1_cmin": -0.6247060202023867,
+    "phase1_turns": 2.047704211041597,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 22644,
+    "sec": 3012.4351263046265,
+    "tilt_land": 0.881082713909541,
+    "tilt_max": 3.0263651092406425,
+    "sparc": -3.213815956752535,
+    "ldlj": -11.851344037541683,
+    "reversals": 20,
+    "path": 2.2900356528563526,
+    "shape": "頭上",
+    "feasible_under_limited": false,
+    "cmin_under_limited": -0.35149350757149167
+   },
+   {
+    "cond": "rom180",
+    "seed": 12,
+    "turns": 1.839653076308439,
+    "cmin": -0.0009849529833582892,
+    "feasible": true,
+    "phase1_cmin": -1.1052427518085721e-14,
+    "phase1_turns": 1.8391264965018856,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 18981,
+    "sec": 2526.1736948490143,
+    "tilt_land": 4.888320528934756,
+    "tilt_max": 4.9153535035773475,
+    "sparc": -2.251121371460411,
+    "ldlj": -12.232590189130027,
+    "reversals": 19,
+    "path": 2.206718164887714,
+    "shape": "その他",
+    "feasible_under_limited": true,
+    "cmin_under_limited": -0.0009849529833582892
+   },
+   {
+    "cond": "rom180",
+    "seed": 13,
+    "turns": 1.9574515146593334,
+    "cmin": -0.00028511418477705774,
+    "feasible": true,
+    "phase1_cmin": -1.29102668466885e-07,
+    "phase1_turns": 1.957390348897012,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 23421,
+    "sec": 3142.6415762901306,
+    "tilt_land": 3.6929501385373316,
+    "tilt_max": 3.9491749471647446,
+    "sparc": -2.2573722668162297,
+    "ldlj": -12.031535139729842,
+    "reversals": 19,
+    "path": 1.7728024900671795,
+    "shape": "その他",
+    "feasible_under_limited": true,
+    "cmin_under_limited": -0.00028511418477705774
+   },
+   {
+    "cond": "rom180",
+    "seed": 14,
+    "turns": 1.8396352973034424,
+    "cmin": -0.00020866234826115714,
+    "feasible": true,
+    "phase1_cmin": -2.192876991102821e-09,
+    "phase1_turns": 1.8395754678027607,
+    "nit": 150,
+    "msg": "Iteration limit reached",
+    "nev": 15540,
+    "sec": 2089.1202080249786,
+    "tilt_land": 4.084047950077602,
+    "tilt_max": 4.478173513379768,
+    "sparc": -2.284454191534777,
+    "ldlj": -12.328891880741299,
+    "reversals": 18,
+    "path": 2.0721277466261085,
+    "shape": "その他",
+    "feasible_under_limited": true,
+    "cmin_under_limited": -0.00020866234826115714
+   }
+  ]
+ }
+}

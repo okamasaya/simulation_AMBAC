@@ -356,8 +356,8 @@ def figure():
     ax = axs[0, 0]
     for i, c in enumerate(CONDS):
         for r in S["rows"][c]:
-            ax.plot(r["sparc"], r["ldlj"], "o" if r["feasible"] else "x", color=cols[c], ms=8,
-                    label=jp[c] if r is S["rows"][c][0] else None)
+            ax.plot(r["sparc"], r["ldlj"], "o" if r["feasible"] else "x", color=cols[c], ms=8)
+        ax.plot([], [], "s", color=cols[c], label=jp[c])
     ax.set_xlabel("SPARC（0 に近いほど滑らか）"); ax.set_ylabel("LDLJ（0 に近いほど滑らか）")
     ax.set_title("(a) 手首の動きの滑らかさ（○ 制約を満たす、× 満たさない）"); ax.legend(fontsize=8)
     # (b) 回転数
