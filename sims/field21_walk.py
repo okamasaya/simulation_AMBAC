@@ -169,7 +169,9 @@ class Robot:
             err = 0.0
             for sd in "LR":
                 p = d.site_xpos[self.site[sd]]; Rm = d.xmat[self.foot[sd]].reshape(3, 3)
-                e = np.concatenate([np.asarray(feet[sd]) - p, 0.5 * np.cross(Rm[:, 0], [1, 0, 0]) + 0.5 * np.cross(Rm[:, 1], [0, 1, 0]) + 0.5 * np.cross(Rm[:, 2], [0, 0, 1])])
+                # 向きの誤差 0.5 Σ R[:, k] × e_k（np.cross を成分で書いたもの。段階 28 で計画し直しを速くするため。値は同じ）
+                e = np.concatenate([np.asarray(feet[sd]) - p,
+                                    0.5 * np.array([0.0, Rm[2, 0], -Rm[1, 0]]) + 0.5 * np.array([-Rm[2, 1], 0.0, Rm[0, 1]]) + 0.5 * np.array([Rm[1, 2], -Rm[0, 2], 0.0])])
                 err = max(err, np.abs(e[:3]).max())
                 mujoco.mj_jacSite(m, d, jacp, jacr, self.site[sd])
                 cols = [self.va[f"{k}{sd}"] for k in SEG]
@@ -178,7 +180,8 @@ class Robot:
                 dq = np.linalg.solve(J.T @ J + 1e-8 * np.eye(5), J.T @ ee)
                 for i, k in enumerate(SEG):
                     a = self.qa[f"{k}{sd}"]
-                    q[a] = np.clip(q[a] + np.clip(dq[i], -0.3, 0.3), *self.lim[f"{k}{sd}"])
+                    lo, hi = self.lim[f"{k}{sd}"]
+                    q[a] = min(max(q[a] + min(max(dq[i], -0.3), 0.3), lo), hi)
             if err < 1e-8:
                 break
         ok = err < 1e-4 * self.c.s
@@ -326,8 +329,9 @@ def preview_com(zref, dt, zc, preview, i0=0, x0=None):
     return out, zmp
 
 
-def plan(c: Cfg, dt_plan=0.01):
-    rb = Robot(c); s = c.s
+def plan(c: Cfg, dt_plan=0.01, reuse=None):
+    """reuse=(P_old, i0): 段階 28。計画し直すとき、i0 より前（もう過ぎた時刻）は古い計画をそのまま使い、i0 から先だけ逆運動学を解く"""
+    rb = Robot(c); s = c.s      # rb は毎回作る（実行中の MjData を逆運動学で書き換えないため）
     steps, T_end, ah = footsteps(c)
     t = np.arange(0, T_end, dt_plan)
     zr = np.array([zmp_ref(tt, c, steps) for tt in t])
@@ -347,7 +351,16 @@ def plan(c: Cfg, dt_plan=0.01):
     Q = []; ok_all = True; sup = []; tauff = []; Sens = []
     q = q0.copy(); xy = np.zeros(2)
     Lr = 0.98 * (L_TH + L_SH) * s
+    i0 = reuse[1] if (reuse and len(reuse[0]["Q"]) == len(t)) else 0
     for k, tt in enumerate(t):
+        if k < i0:          # 段階 28: 過ぎた時刻は古い計画のまま
+            Po = reuse[0]
+            Q.append(Po["Q"][k].copy()); sup.append(Po["support"][k]); tauff.append(Po["tauff"][k])
+            if Po.get("S") is not None:
+                Sens.append(Po["S"][k])
+            if k == i0 - 1:
+                q = Po["Q"][k].copy(); xy = q[0:2].copy()
+            continue
         feet, support = feet_at(tt, c, steps, ah)
         # 骨盤の高さ: 両足に届く高さ（股関節〜足首が脚の長さの 98% 以内）に下げる（段階 20 と同じ）
         z = z_hip
@@ -611,7 +624,7 @@ def execute(c: Cfg, P=None, record=False):
                             vp = (P["com"][min(i + 1, len(P["com"]) - 1)] - P["com"][max(i - 1, 0)]) / (2 * dtp)
                             ex2["replan_from"] = {"i": int(i), "x": P["com"][i].tolist(), "v": (vp + om * e).tolist()}
                         c2 = Cfg(**{**c.__dict__, "extra": ex2})
-                        P2 = plan(c2)
+                        P2 = plan(c2, reuse=(P, max(int(i) - 1, 1)) if st.get("fast", False) else None)
                         Qj2 = P2["Q"][:, adr].copy()
                         if c.ff:
                             Qj2[:, :len(JOINTS)] += P2["tauff"] / kp
