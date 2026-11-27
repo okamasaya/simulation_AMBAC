@@ -1,0 +1,232 @@
+{
+ "grid": [
+  {
+   "name": "MPC 開ループ（κ 0、K 0）",
+   "frac": 0.5416666666666666,
+   "ok": [
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "name": "MPC＋足首の戦略 K 1（測った値は骨盤だけ）",
+   "frac": 0.5833333333333334,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "name": "MPC＋足首 K 1＋足の置き場所（不感帯 4 cm、κ 1）",
+   "frac": 0.4166666666666667,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "name": "MPC＋足首 K 1＋足の置き場所（不感帯 6 cm、κ 0.5）",
+   "frac": 0.6666666666666666,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false
+   ]
+  }
+ ],
+ "push": [
+  {
+   "name": "MPC 開ループ（κ 0、K 0）",
+   "lims": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "seq": [
+    "×××××",
+    "×××××",
+    "×××××",
+    "×××××"
+   ]
+  },
+  {
+   "name": "MPC＋足首の戦略 K 1（測った値は骨盤だけ）",
+   "lims": [
+    30.0,
+    30.0,
+    0,
+    0
+   ],
+   "seq": [
+    "○××××",
+    "○××××",
+    "×××××",
+    "×××××"
+   ]
+  },
+  {
+   "name": "MPC＋足首 K 1＋足の置き場所（不感帯 4 cm、κ 1）",
+   "lims": [
+    40.0,
+    40.0,
+    40.0,
+    0
+   ],
+   "seq": [
+    "○○×××",
+    "○○×××",
+    "○○×××",
+    "×××××"
+   ]
+  },
+  {
+   "name": "MPC＋足首 K 1＋足の置き場所（不感帯 6 cm、κ 0.5）",
+   "lims": [
+    40.0,
+    40.0,
+    30.0,
+    0
+   ],
+   "seq": [
+    "○○×××",
+    "○○×××",
+    "○××××",
+    "×××××"
+   ]
+  }
+ ],
+ "repeat": [
+  {
+   "dt": 0.001,
+   "seq": "○○×××"
+  },
+  {
+   "dt": 0.002,
+   "seq": "×○×××"
+  },
+  {
+   "dt": 0.005,
+   "seq": "○××××"
+  },
+  {
+   "dt": 0.01,
+   "seq": "○○×××"
+  }
+ ],
+ "LS": [
+  0.25,
+  0.35,
+  0.45
+ ],
+ "TS": [
+  1.0,
+  0.8,
+  0.7,
+  0.6,
+  0.52,
+  0.44,
+  0.4,
+  0.36
+ ],
+ "FS": [
+  300,
+  400,
+  500,
+  600,
+  700
+ ],
+ "dirs": [
+  "前 +x",
+  "後ろ −x",
+  "横（振り出す足の側）+y",
+  "横（立つ足の側）−y"
+ ]
+}
