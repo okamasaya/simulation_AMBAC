@@ -127,7 +127,7 @@ _CAL = {}
 
 
 def calib(n_target=N_AIR_NOM, recompute=False):
-    """理想の締め（胸の前で組む）だと回りすぎる（F63）。全姿勢に同じ ΔI（胴体の長軸）を足し、
+    """理想の締め（胸の前で組む）だと回りすぎる（F64）。全姿勢に同じ ΔI（胴体の長軸）を足し、
     基準の選手が L 32.8・滞空 0.70 s・普通の締めで n_target 回転になるようにする. ΔI / (M H²) で保存."""
     key = round(n_target, 4)
     if key in _CAL and not recompute:
@@ -374,7 +374,7 @@ class Skater:
     def arm_plan(self, schedule, t_air, t_tr=T_TR, t_open=T_OPEN, p0="open"):
         """腕の関節角の指令を、5 次の多項式の移行の列にする. 返り値は t → (q, qd, qdd)（左 4 + 右 4）.
 
-        移行の途中で次の姿勢に変わるときは、その時点の位置・速度・加速度を引き継いで 5 次式を作り直す（F69）。
+        移行の途中で次の姿勢に変わるときは、その時点の位置・速度・加速度を引き継いで 5 次式を作り直す（F70）。
         """
         nb = len(schedule)
         tb = (t_air - t_open) / nb
@@ -697,7 +697,7 @@ def run_errors(n_mc=200, seed=7):
         for nm in SEGS:
             s = cfg["segments"][nm]
             s["mass"] *= np.exp(0.10 * rng.standard_normal())
-            ft, fl = np.exp(0.05 * rng.standard_normal(2))     # 横の 2 つの回転半径は同じ倍率（三角不等式を保つ、F67）
+            ft, fl = np.exp(0.05 * rng.standard_normal(2))     # 横の 2 つの回転半径は同じ倍率（三角不等式を保つ、F68）
             r0, r1, r2 = s["r"][0] * ft, s["r"][1] * ft, s["r"][2] * fl
             r2 = max(r2, 1.001 * np.sqrt(abs(r0**2 - r1**2)))   # 手は de Leva の値でも境目に近い
             s["r"] = [r0, r1, r2]
