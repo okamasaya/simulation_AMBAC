@@ -1,0 +1,1897 @@
+{
+ "基準": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {},
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.056179727761151e-06,
+    "zmin_err": -0.010840525273984047,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.075,
+     "ankR": 0.006
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.1163085912663615,
+    "trail_scrape": 0.46413650298562986,
+    "pitch": 1.0562037173957986e-06,
+    "zmin_err": -0.04784987815857267,
+    "sat_s": {
+     "hipL": 0.099,
+     "hipR": 0.902,
+     "kneeR": 0.67,
+     "ankR": 0.009
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.056208621785577e-06,
+    "zmin_err": -0.01614566558439523,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.076,
+     "kneeR": 0.031,
+     "ankR": 0.006
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.03061031745548534,
+    "trail_scrape": 0.21842528277242287,
+    "pitch": 1.0562106500331076e-06,
+    "zmin_err": -0.029238729777697592,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.074,
+     "kneeR": 0.886,
+     "ankR": 0.009
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.056222621584111e-06,
+    "zmin_err": -0.026347114956074114,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.963,
+     "ankR": 0.01
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.2225171620223767,
+    "pitch": 1.0562114304201882e-06,
+    "zmin_err": -0.028576945431275647,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.893,
+     "ankR": 0.01
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.20298076757982145,
+    "pitch": 1.0562210602996937e-06,
+    "zmin_err": -0.02983367522708491,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.949,
+     "ankR": 0.01
+    }
+   }
+  }
+ },
+ "計算: 時間刻み 0.5 ms": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "dt": 0.0005
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.31875,
+   0.325
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 60.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.8665023828910334,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.2,
+    "hipR": 111.9,
+    "kneeR": 216.6,
+    "ankR": 113.2
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.244044312114093e-06,
+    "zmin_err": -0.010784385098679294,
+    "sat_s": {
+     "hipL": 0.048,
+     "hipR": 0.068,
+     "kneeR": 0.011,
+     "ankR": 0.02
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.23448024477347035,
+    "trail_scrape": 0.406118425081833,
+    "pitch": 1.2440151823333408e-06,
+    "zmin_err": -0.045825445536726295,
+    "sat_s": {
+     "hipL": 0.138,
+     "hipR": 0.89,
+     "kneeR": 0.705,
+     "ankR": 0.02
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.2440873951810118e-06,
+    "zmin_err": -0.016154708389577888,
+    "sat_s": {
+     "hipL": 0.049,
+     "hipR": 0.064,
+     "kneeR": 0.238,
+     "ankR": 0.021
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.027726826133546982,
+    "trail_scrape": 0.21913242533194216,
+    "pitch": 1.243686209520771e-06,
+    "zmin_err": -0.02850174938879413,
+    "sat_s": {
+     "hipL": 0.048,
+     "hipR": 0.07,
+     "kneeR": 0.9,
+     "ankR": 0.02
+    }
+   },
+   "0.325": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.18620899198245897,
+    "pitch": 1.2440083241909072e-06,
+    "zmin_err": -0.02807301986966837,
+    "sat_s": {
+     "hipL": 0.048,
+     "hipR": 0.062,
+     "kneeR": 1.05,
+     "ankR": 0.021
+    }
+   },
+   "0.3125": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.2440872883471039e-06,
+    "zmin_err": -0.01682101299572447,
+    "sat_s": {
+     "hipL": 0.049,
+     "hipR": 0.064,
+     "kneeR": 0.216,
+     "ankR": 0.021
+    }
+   },
+   "0.31875": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.244086080905606e-06,
+    "zmin_err": -0.017164036692340456,
+    "sat_s": {
+     "hipL": 0.049,
+     "hipR": 0.064,
+     "kneeR": 0.242,
+     "ankR": 0.021
+    }
+   }
+  }
+ },
+ "計算: 時間刻み 0.1 ms": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "dt": 0.0001
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 8.904607473498996e-07,
+    "zmin_err": -0.01087448109227096,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "ankR": 0.002
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.06943211417028798,
+    "trail_scrape": 0.4591801229319814,
+    "pitch": 8.954571267549226e-07,
+    "zmin_err": -0.04967309653579488,
+    "sat_s": {
+     "hipL": 0.074,
+     "hipR": 0.914,
+     "kneeR": 0.652,
+     "ankR": 0.001
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 9.004324706346001e-07,
+    "zmin_err": -0.016196000472836314,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "kneeR": 0.009,
+     "ankR": 0.002
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.030403522058365117,
+    "trail_scrape": 0.21019123861484043,
+    "pitch": 8.904857092281097e-07,
+    "zmin_err": -0.029549631590765735,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "kneeR": 0.875,
+     "ankR": 0.001
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 8.904951086562557e-07,
+    "zmin_err": -0.023851521219640626,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "kneeR": 0.881,
+     "ankR": 0.002
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.20781449048481565,
+    "pitch": 8.954572004661311e-07,
+    "zmin_err": -0.029003877434499392,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "kneeR": 0.879,
+     "ankR": 0.001
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.20461806357241566,
+    "pitch": 9.004603520145074e-07,
+    "zmin_err": -0.030299797730764855,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.074,
+     "kneeR": 0.941,
+     "ankR": 0.001
+    }
+   }
+  }
+ },
+ "系統: 速く（1 相 1 s）": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "T_phase": 1.0
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   NaN,
+   0.2
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": null,
+  "mj_detail": {
+   "0.2": {
+    "ok": false,
+    "ok_any": false,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 136.45443365285874,
+    "zmin_err": -0.6796292541189276,
+    "sat_s": {
+     "ankL": 0.009,
+     "hipR": 0.006,
+     "kneeR": 0.084,
+     "ankR": 0.035
+    }
+   }
+  }
+ },
+ "系統: ゆっくり（1 相 4 s）": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "T_phase": 4.0
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.326111501137801e-07,
+    "zmin_err": -0.007324928438944056,
+    "sat_s": {
+     "hipL": 0.025,
+     "hipR": 0.073,
+     "ankR": 0.002
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.290274844754495,
+    "trail_scrape": 0.20674933566646894,
+    "pitch": 4.32612012780428e-07,
+    "zmin_err": -0.024055202855126412,
+    "sat_s": {
+     "hipL": 0.027,
+     "hipR": 1.182,
+     "kneeR": 1.248,
+     "ankR": 0.003
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.326117114912289e-07,
+    "zmin_err": -0.008188585053374942,
+    "sat_s": {
+     "hipL": 0.023,
+     "hipR": 0.077,
+     "kneeR": 0.014
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0323138392249987,
+    "trail_scrape": 0.10449473077562631,
+    "pitch": 4.3261227896103973e-07,
+    "zmin_err": -0.020205450617071463,
+    "sat_s": {
+     "hipL": 0.025,
+     "hipR": 0.073,
+     "kneeR": 1.508,
+     "ankR": 0.001
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.32612355668824e-07,
+    "zmin_err": -0.009671069708438229,
+    "sat_s": {
+     "hipL": 0.025,
+     "hipR": 0.073,
+     "kneeR": 1.056,
+     "ankR": 0.001
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.08072795587167987,
+    "pitch": 4.326117373961794e-07,
+    "zmin_err": -0.018695785380606678,
+    "sat_s": {
+     "hipL": 0.025,
+     "hipR": 0.073,
+     "kneeR": 1.475,
+     "ankR": 0.001
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.10192626338070208,
+    "pitch": 4.3261312166304167e-07,
+    "zmin_err": -0.018739695308186866,
+    "sat_s": {
+     "hipL": 0.025,
+     "hipR": 0.073,
+     "kneeR": 1.472,
+     "ankR": 0.001
+    }
+   }
+  }
+ },
+ "系統: サーボ kp 1e4": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "kp": 10000.0
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0001001303972814662,
+    "zmin_err": -0.010863384013415356,
+    "sat_s": {
+     "hipL": 0.045,
+     "hipR": 0.051
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.12654086942172058,
+    "trail_scrape": 0.32227254208842837,
+    "pitch": 2.0794032595035372e-05,
+    "zmin_err": -0.05202515637411409,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.05,
+     "kneeR": 0.805
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.00010264357184412022,
+    "zmin_err": -0.016212159940107496,
+    "sat_s": {
+     "hipL": 0.045,
+     "hipR": 0.052
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.030520009199314375,
+    "trail_scrape": 0.2694139983111095,
+    "pitch": 1.3579133651765726e-05,
+    "zmin_err": -0.042994092372032444,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.049,
+     "kneeR": 0.868
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.00011243507895225438,
+    "zmin_err": -0.019096647349739593,
+    "sat_s": {
+     "hipL": 0.045,
+     "hipR": 0.052,
+     "kneeR": 0.681
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.22533528865145952,
+    "pitch": 1.6973811855781198e-06,
+    "zmin_err": -0.03764848871348492,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.049,
+     "kneeR": 0.905
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.18612325674228133,
+    "pitch": 4.35321201188983e-06,
+    "zmin_err": -0.03443728837315074,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.049,
+     "kneeR": 1.029
+    }
+   }
+  }
+ },
+ "系統: サーボ kp 1e5": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "kp": 100000.0
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.31875,
+   0.325
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 60.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.8665023828910334,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.2,
+    "hipR": 111.9,
+    "kneeR": 216.6,
+    "ankR": 113.2
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0013001261812777413,
+    "zmin_err": -0.01082660594260032,
+    "sat_s": {
+     "hipL": 0.058,
+     "kneeL": 0.002,
+     "hipR": 0.083,
+     "kneeR": 0.073,
+     "ankR": 0.071
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.680727801407236,
+    "pitch": 0.006662976990986963,
+    "zmin_err": -0.06472473323750272,
+    "sat_s": {
+     "hipL": 0.356,
+     "kneeL": 0.034,
+     "hipR": 1.493,
+     "kneeR": 0.77,
+     "ankR": 0.12
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0013228315543798055,
+    "zmin_err": -0.016169680159830335,
+    "sat_s": {
+     "hipL": 0.059,
+     "kneeL": 0.002,
+     "hipR": 0.083,
+     "kneeR": 0.354,
+     "ankR": 0.072
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.296083317088089,
+    "pitch": 0.0012582316037250847,
+    "zmin_err": -0.02733675944782399,
+    "sat_s": {
+     "hipL": 0.078,
+     "kneeL": 0.002,
+     "hipR": 0.302,
+     "kneeR": 0.907,
+     "ankR": 0.076
+    }
+   },
+   "0.325": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.24633414963393127,
+    "pitch": 0.0012980865994646643,
+    "zmin_err": -0.02696344188076316,
+    "sat_s": {
+     "hipL": 0.058,
+     "kneeL": 0.002,
+     "hipR": 0.09,
+     "kneeR": 1.12,
+     "ankR": 0.07
+    }
+   },
+   "0.3125": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0013492528147992444,
+    "zmin_err": -0.01683681680766469,
+    "sat_s": {
+     "hipL": 0.059,
+     "kneeL": 0.002,
+     "hipR": 0.082,
+     "kneeR": 0.511,
+     "ankR": 0.071
+    }
+   },
+   "0.31875": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0012834197118206932,
+    "zmin_err": -0.017194529996690022,
+    "sat_s": {
+     "hipL": 0.058,
+     "kneeL": 0.002,
+     "hipR": 0.082,
+     "kneeR": 0.54,
+     "ankR": 0.071
+    }
+   }
+  }
+ },
+ "系統: 重力の補償なし": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "extra": {
+    "feedforward": false
+   }
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.31875,
+   0.325
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 60.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.8665023828910334,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.2,
+    "hipR": 111.9,
+    "kneeR": 216.6,
+    "ankR": 113.2
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.036456065695977896,
+    "zmin_err": -0.012173344982521206,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.073,
+     "ankR": 0.01
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.2424409769707952,
+    "trail_scrape": 0.5301974946966218,
+    "pitch": 0.03645606566262183,
+    "zmin_err": -0.059142736479108726,
+    "sat_s": {
+     "hipL": 0.128,
+     "hipR": 0.94,
+     "kneeR": 0.661,
+     "ankR": 0.007
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.03645607171288394,
+    "zmin_err": -0.018001182902059654,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.072,
+     "kneeR": 0.04,
+     "ankR": 0.009
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.03567429727602267,
+    "trail_scrape": 0.20041913249651552,
+    "pitch": 0.036456065611810515,
+    "zmin_err": -0.02999903023669015,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.072,
+     "kneeR": 0.813,
+     "ankR": 0.007
+    }
+   },
+   "0.325": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.20553414271615067,
+    "pitch": 0.036456065634478854,
+    "zmin_err": -0.031141132748649714,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.072,
+     "kneeR": 0.91,
+     "ankR": 0.008
+    }
+   },
+   "0.3125": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.03645606566298842,
+    "zmin_err": -0.018730224553099806,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.073,
+     "kneeR": 0.075,
+     "ankR": 0.009
+    }
+   },
+   "0.31875": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.03645606567845854,
+    "zmin_err": -0.019094756936556934,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.073,
+     "kneeR": 0.086,
+     "ankR": 0.009
+    }
+   }
+  }
+ },
+ "系統: 接触を柔らかく（solref 0.02）": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "solref": "0.02 1"
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.31875,
+   0.325
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 60.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.8665023828910334,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.2,
+    "hipR": 111.9,
+    "kneeR": 216.6,
+    "ankR": 113.2
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.904701132324772e-06,
+    "zmin_err": -0.0112298593995932,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.055,
+     "ankR": 0.01
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.2788392351261212,
+    "trail_scrape": 0.2171424686928114,
+    "pitch": 4.818133070027199e-06,
+    "zmin_err": -0.037416951588882474,
+    "sat_s": {
+     "hipL": 0.147,
+     "hipR": 0.803,
+     "kneeR": 0.639,
+     "ankR": 0.01
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.823497309910835e-06,
+    "zmin_err": -0.01650506884472458,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.057,
+     "kneeR": 0.05,
+     "ankR": 0.015
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.030971461127426686,
+    "trail_scrape": 0.12037660492699637,
+    "pitch": 4.850891128102907e-06,
+    "zmin_err": -0.029281966640048784,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.056,
+     "kneeR": 0.791,
+     "ankR": 0.011
+    }
+   },
+   "0.325": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.11401353543327503,
+    "pitch": 4.834828513998433e-06,
+    "zmin_err": -0.02796641635276198,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.057,
+     "kneeR": 0.853,
+     "ankR": 0.014
+    }
+   },
+   "0.3125": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.872930344695371e-06,
+    "zmin_err": -0.01716742755465206,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.055,
+     "kneeR": 0.065,
+     "ankR": 0.01
+    }
+   },
+   "0.31875": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 4.867642891723338e-06,
+    "zmin_err": -0.017498844206767616,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.055,
+     "kneeR": 0.071,
+     "ankR": 0.01
+    }
+   }
+  }
+ },
+ "系統: 摩擦 μ 0.4": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "mu": 0.4
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0561669821937516e-06,
+    "zmin_err": -0.010840525395326983,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.063,
+     "ankR": 0.007
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.1000241687858341,
+    "trail_scrape": 0.202763838971501,
+    "pitch": 1.0561341321610371e-06,
+    "zmin_err": -0.03567234049412793,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.528,
+     "kneeR": 0.896,
+     "ankR": 0.007
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0562153453779603e-06,
+    "zmin_err": -0.016145665579874402,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.063,
+     "kneeR": 0.03,
+     "ankR": 0.008
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0367177960346428,
+    "trail_scrape": 0.11158825434444705,
+    "pitch": 1.0559162795253023e-06,
+    "zmin_err": -0.028764583311730707,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.066,
+     "kneeR": 0.873,
+     "ankR": 0.009
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0561124778529285e-06,
+    "zmin_err": -0.02317253602721081,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.063,
+     "kneeR": 0.888,
+     "ankR": 0.006
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.11830840268544641,
+    "pitch": 1.0561894277958264e-06,
+    "zmin_err": -0.02839550548717562,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.063,
+     "kneeR": 0.924,
+     "ankR": 0.011
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.12544635176357347,
+    "pitch": 1.0561926050807738e-06,
+    "zmin_err": -0.029563035022490247,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.063,
+     "kneeR": 0.957,
+     "ankR": 0.011
+    }
+   }
+  }
+ },
+ "系統: 足首を強く（1000 N·m）": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "extra": {
+    "tau_ank": 1000.0
+   }
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0563035739159775e-06,
+    "zmin_err": -0.010840525273984047,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.072
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.1163085912663615,
+    "trail_scrape": 0.46413650298562986,
+    "pitch": 1.0562877209971946e-06,
+    "zmin_err": -0.04784987815857267,
+    "sat_s": {
+     "hipL": 0.1,
+     "hipR": 0.901,
+     "kneeR": 0.67
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.05618148455375e-06,
+    "zmin_err": -0.01614566558439523,
+    "sat_s": {
+     "hipL": 0.047,
+     "hipR": 0.075,
+     "kneeR": 0.031
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.03061031745548534,
+    "trail_scrape": 0.21842528277242287,
+    "pitch": 1.056204720267496e-06,
+    "zmin_err": -0.029238729777697592,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.886
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0562098571497063e-06,
+    "zmin_err": -0.026347114956074114,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.963
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.2225171620223767,
+    "pitch": 1.0562092919496915e-06,
+    "zmin_err": -0.028576945431275647,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.075,
+     "kneeR": 0.893
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.20298076757982145,
+    "pitch": 1.0562266106820834e-06,
+    "zmin_err": -0.02983367522708491,
+    "sat_s": {
+     "hipL": 0.046,
+     "hipR": 0.076,
+     "kneeR": 0.949
+    }
+   }
+  }
+ },
+ "系統: 回転子の慣性 0.005": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "armature": 0.005
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.31875,
+   0.325
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 60.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.8665023828910334,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.2,
+    "hipR": 111.9,
+    "kneeR": 216.6,
+    "ankR": 113.2
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.003470647486049405,
+    "zmin_err": -0.010899745923258042,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.071,
+     "kneeR": 0.247,
+     "ankR": 0.138
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.06866331865949511,
+    "trail_scrape": 0.3692691807715487,
+    "pitch": 0.003470639211191873,
+    "zmin_err": -0.041297956126477464,
+    "sat_s": {
+     "hipL": 0.17,
+     "hipR": 0.615,
+     "kneeR": 1.126,
+     "ankR": 0.031
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.005304837896663585,
+    "zmin_err": -0.01620703700770787,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.074,
+     "kneeR": 0.67,
+     "ankR": 0.053
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.3368351507284213,
+    "trail_scrape": 0.23259826471007147,
+    "pitch": 0.003551174042093372,
+    "zmin_err": -0.03129386616652052,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.072,
+     "kneeR": 1.401,
+     "ankR": 0.048
+    }
+   },
+   "0.325": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.06494232314108028,
+    "trail_scrape": 0.2171371388759719,
+    "pitch": 0.0036898194940694776,
+    "zmin_err": -0.031070563598982526,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.073,
+     "kneeR": 1.379,
+     "ankR": 0.058
+    }
+   },
+   "0.3125": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.005304602338492155,
+    "zmin_err": -0.016869334718615958,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.086,
+     "kneeR": 0.767,
+     "ankR": 0.054
+    }
+   },
+   "0.31875": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 0.0036886797627413963,
+    "zmin_err": -0.017206011649706365,
+    "sat_s": {
+     "hipL": 0.044,
+     "hipR": 0.092,
+     "kneeR": 0.82,
+     "ankR": 0.059
+    }
+   }
+  }
+ },
+ "系統: 回転子の慣性 0.5": {
+  "mode": "lean",
+  "s": 1.0,
+  "over": {
+   "armature": 0.5
+  },
+  "rom": [
+   NaN,
+   NaN
+  ],
+  "qs": [
+   NaN,
+   NaN
+  ],
+  "mj": [
+   0.325,
+   0.33125
+  ],
+  "mj_any": [
+   NaN,
+   NaN
+  ],
+  "qs_plan": null,
+  "mj_plan": {
+   "lean_deg": 40.0,
+   "xc": 0.1,
+   "step_fwd": 0.3,
+   "r": 0.9633686348552658,
+   "peak": {
+    "hipL": 57.0,
+    "kneeL": 92.8,
+    "ankL": 113.1,
+    "hipR": 78.3,
+    "kneeR": 240.8,
+    "ankR": 113.1
+   },
+   "where": {
+    "hipL": "P2",
+    "kneeL": "P2",
+    "ankL": "P2",
+    "hipR": "P3",
+    "kneeR": "P3",
+    "ankR": "P2"
+   }
+  },
+  "mj_detail": {
+   "0.2": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0255637288846284e-06,
+    "zmin_err": -0.010834305485032614,
+    "sat_s": {
+     "hipL": 0.081,
+     "hipR": 0.062,
+     "ankR": 0.019
+    }
+   },
+   "0.4": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.094112517768325,
+    "trail_scrape": 0.6113870119928625,
+    "pitch": 1.0390430205105645e-06,
+    "zmin_err": -0.05501462442787497,
+    "sat_s": {
+     "hipL": 0.107,
+     "hipR": 0.951,
+     "kneeR": 0.681,
+     "ankR": 0.018
+    }
+   },
+   "0.3": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.039026809231973e-06,
+    "zmin_err": -0.01614163902813681,
+    "sat_s": {
+     "hipL": 0.082,
+     "hipR": 0.063,
+     "kneeR": 0.018,
+     "ankR": 0.021
+    }
+   },
+   "0.35": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.031250212246004355,
+    "trail_scrape": 0.26311482866066416,
+    "pitch": 1.025606610779314e-06,
+    "zmin_err": -0.02981548986836957,
+    "sat_s": {
+     "hipL": 0.082,
+     "hipR": 0.064,
+     "kneeR": 0.892,
+     "ankR": 0.021
+    }
+   },
+   "0.325": {
+    "ok": true,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.0,
+    "pitch": 1.0255849390545424e-06,
+    "zmin_err": -0.025280830936780463,
+    "sat_s": {
+     "hipL": 0.081,
+     "hipR": 0.063,
+     "kneeR": 0.934,
+     "ankR": 0.02
+    }
+   },
+   "0.3375": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.27082564150146254,
+    "pitch": 1.0390419198766484e-06,
+    "zmin_err": -0.029179963909292006,
+    "sat_s": {
+     "hipL": 0.081,
+     "hipR": 0.062,
+     "kneeR": 0.895,
+     "ankR": 0.019
+    }
+   },
+   "0.33125": {
+    "ok": false,
+    "ok_any": true,
+    "trail_push": 0.0,
+    "trail_scrape": 0.2990258854685061,
+    "pitch": 1.0390506537293148e-06,
+    "zmin_err": -0.030464741867039402,
+    "sat_s": {
+     "hipL": 0.081,
+     "hipR": 0.062,
+     "kneeR": 0.948,
+     "ankR": 0.019
+    }
+   }
+  }
+ },
+ "mc": {
+  "masses": [
+   {
+    "trunk": 1.0273923374642908,
+    "thigh": 0.9539573427527741,
+    "shank": 0.908194704787239,
+    "foot": 0.8549582906585588
+   },
+   {
+    "trunk": 1.0626540478400546,
+    "thigh": 1.0825511154555443,
+    "shank": 1.021327155153436,
+    "foot": 1.0688489682951996
+   },
+   {
+    "trunk": 1.0087249982930846,
+    "thigh": 1.0870144847575536,
+    "shank": 1.0631707108243065,
+    "foot": 0.8508215500510444
+   },
+   {
+    "trunk": 1.071480855317514,
+    "thigh": 0.9067171150610929,
+    "shank": 1.0459310892859888,
+    "foot": 0.9026966861807677
+   },
+   {
+    "trunk": 1.0726357844699774,
+    "thigh": 1.0082922440498183,
+    "shank": 0.959942378107477,
+    "foot": 0.9768061663592975
+   },
+   {
+    "trunk": 0.9056639342290926,
+    "thigh": 0.9248566552999128,
+    "shank": 1.034124882938726,
+    "foot": 1.044156853472275
+   },
+   {
+    "trunk": 1.0230770222962509,
+    "thigh": 0.9767355108523766,
+    "shank": 1.0994419871578422,
+    "foot": 1.144250601632869
+   },
+   {
+    "trunk": 1.037108396896139,
+    "thigh": 1.0300918552535632,
+    "shank": 1.037689346114188,
+    "foot": 0.9666764271937311
+   },
+   {
+    "trunk": 0.9270193010044823,
+    "thigh": 1.0442976680388163,
+    "shank": 1.0050708644951452,
+    "foot": 0.9430725626676867
+   },
+   {
+    "trunk": 0.9971670717663578,
+    "thigh": 1.0778975668698,
+    "shank": 1.08680870319125,
+    "foot": 0.957338559012721
+   },
+   {
+    "trunk": 1.0143059661459521,
+    "thigh": 0.9643738782151884,
+    "shank": 1.0188600060399393,
+    "foot": 0.95137336765214
+   },
+   {
+    "trunk": 0.9783238001056322,
+    "thigh": 1.0780548704009585,
+    "shank": 0.945431518706676,
+    "foot": 1.0369561434058128
+   },
+   {
+    "trunk": 0.916803068716477,
+    "thigh": 1.0665288295306796,
+    "shank": 1.0574196614977367,
+    "foot": 0.9218108328978857
+   },
+   {
+    "trunk": 1.0752968461621408,
+    "thigh": 0.9117136069610389,
+    "shank": 0.9672234121091321,
+    "foot": 0.8950838400684518
+   },
+   {
+    "trunk": 0.9900678733298574,
+    "thigh": 1.0592648540574587,
+    "shank": 0.9461284417987494,
+    "foot": 0.8656063903193228
+   },
+   {
+    "trunk": 0.9809103679643056,
+    "thigh": 0.9397026089018511,
+    "shank": 0.9181506091238244,
+    "foot": 1.0240997157960552
+   }
+  ],
+  "h": [
+   0.325,
+   0.3125,
+   0.3125,
+   0.325,
+   0.3125,
+   0.3625,
+   0.3125,
+   0.3125,
+   0.325,
+   0.3125,
+   0.325,
+   0.3125,
+   0.325,
+   0.325,
+   0.3125,
+   0.3375
+  ]
+ }
+}
