@@ -1,0 +1,1022 @@
+{
+ "T": [
+  0.32,
+  0.36,
+  0.4,
+  0.44,
+  0.48,
+  0.52,
+  0.56,
+  0.6,
+  0.64,
+  0.68,
+  0.72,
+  0.76,
+  0.8
+ ],
+ "variants": [
+  {
+   "name": "基準",
+   "over": {},
+   "frac": 0.6153846153846154,
+   "t_slow": 0.64,
+   "t_fast": 0.36,
+   "gap": [
+    0.48,
+    0.52,
+    0.56,
+    0.6
+   ],
+   "yaw_max": 28.341401585158057,
+   "oks": [
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "計算: 時間刻み 0.25 ms",
+   "over": {
+    "dt": 0.00025
+   },
+   "frac": 0.5384615384615384,
+   "t_slow": 0.64,
+   "t_fast": 0.36,
+   "gap": [
+    0.44,
+    0.48,
+    0.52,
+    0.56,
+    0.6
+   ],
+   "yaw_max": 23.504842330702694,
+   "oks": [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "計算: 時間刻み 1 ms",
+   "over": {
+    "dt": 0.001
+   },
+   "frac": 0.6923076923076923,
+   "t_slow": 0.68,
+   "t_fast": 0.32,
+   "gap": [
+    0.4,
+    0.56,
+    0.6,
+    0.64
+   ],
+   "yaw_max": 18.66683840581267,
+   "oks": [
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: サーボ kp 1e4",
+   "over": {
+    "kp": 10000.0
+   },
+   "frac": 0.46153846153846156,
+   "t_slow": NaN,
+   "t_fast": 0.32,
+   "gap": [],
+   "yaw_max": 9.628062453626258,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "name": "系統: サーボ kp 1e5",
+   "over": {
+    "kp": 100000.0
+   },
+   "frac": 0.7692307692307693,
+   "t_slow": 0.6,
+   "t_fast": 0.32,
+   "gap": [
+    0.48,
+    0.52,
+    0.56
+   ],
+   "yaw_max": 17.829789260444933,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 重力の補償なし",
+   "over": {
+    "ff": false
+   },
+   "frac": 0.8461538461538461,
+   "t_slow": 0.52,
+   "t_fast": 0.36,
+   "gap": [
+    0.48
+   ],
+   "yaw_max": 14.282545752764577,
+   "oks": [
+    false,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 接触を柔らかく（solref 0.02）",
+   "over": {
+    "solref": "0.02 1"
+   },
+   "frac": 1.0,
+   "t_slow": 0.32,
+   "t_fast": 0.32,
+   "gap": [],
+   "yaw_max": 8.60045544674815,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 摩擦 μ 0.5",
+   "over": {
+    "mu": 0.5
+   },
+   "frac": 0.6153846153846154,
+   "t_slow": 0.64,
+   "t_fast": 0.36,
+   "gap": [
+    0.48,
+    0.52,
+    0.56,
+    0.6
+   ],
+   "yaw_max": 14.13999348657436,
+   "oks": [
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 摩擦 μ 1.5（ねじれの滑りの確認）",
+   "over": {
+    "mu": 1.5
+   },
+   "frac": 0.9230769230769231,
+   "t_slow": 0.64,
+   "t_fast": 0.32,
+   "gap": [
+    0.6
+   ],
+   "yaw_max": 16.563054949545734,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 回転子の慣性 0.005 / 0.5",
+   "over": {
+    "armature": 0.005
+   },
+   "frac": 0.5384615384615384,
+   "t_slow": 0.8,
+   "t_fast": 0.32,
+   "gap": [
+    0.56,
+    0.6,
+    0.64,
+    0.68,
+    0.72,
+    0.76
+   ],
+   "yaw_max": 5.43606085771904,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "name": "系統: 回転子の慣性 0.005 / 0.5",
+   "over": {
+    "armature": 0.5
+   },
+   "frac": 0.5384615384615384,
+   "t_slow": 0.6,
+   "t_fast": 0.32,
+   "gap": [
+    0.36,
+    0.4,
+    0.44,
+    0.48,
+    0.52,
+    0.56
+   ],
+   "yaw_max": 29.920559796208686,
+   "oks": [
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: プレビュー 0.8 s",
+   "over": {
+    "preview": 0.8
+   },
+   "frac": 0.46153846153846156,
+   "t_slow": 0.8,
+   "t_fast": 0.32,
+   "gap": [
+    0.52,
+    0.56,
+    0.6,
+    0.64,
+    0.68,
+    0.72,
+    0.76
+   ],
+   "yaw_max": 22.5076197593663,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+   ]
+  },
+  {
+   "name": "系統: 両脚支持 10% / 30%",
+   "over": {
+    "ds": 0.1
+   },
+   "frac": 1.0,
+   "t_slow": 0.32,
+   "t_fast": 0.32,
+   "gap": [],
+   "yaw_max": 2.9460115428723332,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 両脚支持 10% / 30%",
+   "over": {
+    "ds": 0.3
+   },
+   "frac": 0.38461538461538464,
+   "t_slow": 0.64,
+   "t_fast": 0.64,
+   "gap": [],
+   "yaw_max": 51.761204709603675,
+   "oks": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 骨盤の高さ 0.80 / 0.88",
+   "over": {
+    "z_hip": 0.8
+   },
+   "frac": 1.0,
+   "t_slow": 0.32,
+   "t_fast": 0.32,
+   "gap": [],
+   "yaw_max": 14.975146684123791,
+   "oks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "系統: 骨盤の高さ 0.80 / 0.88",
+   "over": {
+    "z_hip": 0.88
+   },
+   "frac": 0.46153846153846156,
+   "t_slow": 0.64,
+   "t_fast": 0.36,
+   "gap": [
+    0.4,
+    0.44,
+    0.48,
+    0.52,
+    0.56,
+    0.6
+   ],
+   "yaw_max": 16.091896209351503,
+   "oks": [
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ ],
+ "mc": {
+  "masses": [
+   {
+    "trunk": 1.0023643249400513,
+    "thigh": 1.0900927392651871,
+    "shank": 0.9288319225439268,
+    "foot": 1.1345948341411731
+   },
+   {
+    "trunk": 0.9623662904020971,
+    "thigh": 0.9846652897945152,
+    "shank": 1.0655405187640883,
+    "foot": 0.9727597409107483
+   },
+   {
+    "trunk": 1.009918737534612,
+    "thigh": 0.9055118226486136,
+    "shank": 1.0507026217349613,
+    "foot": 1.0114429939657834
+   },
+   {
+    "trunk": 0.9659463432998184,
+    "thigh": 1.0576857406856808,
+    "shank": 0.960638965858329,
+    "foot": 0.9860493668441954
+   },
+   {
+    "trunk": 0.926808339449433,
+    "thigh": 0.9806225972894258,
+    "shank": 0.94069104813523,
+    "foot": 0.9286940021325548
+   },
+   {
+    "trunk": 1.0500729345260105,
+    "thigh": 0.956081751597208,
+    "shank": 0.9970381948863271,
+    "foot": 1.1442211599403715
+   },
+   {
+    "trunk": 1.0923314387327574,
+    "thigh": 1.0449579881547066,
+    "shank": 1.0082453711094868,
+    "foot": 0.9330673612136112
+   },
+   {
+    "trunk": 0.9321304017550254,
+    "thigh": 1.0939850826432265,
+    "shank": 1.0032137171095759,
+    "foot": 0.884759683741231
+   },
+   {
+    "trunk": 1.0246979511075,
+    "thigh": 1.0553366228684595,
+    "shank": 1.0226006602106081,
+    "foot": 1.1251893114372709
+   },
+   {
+    "trunk": 0.9079185753328406,
+    "thigh": 1.0057178526520043,
+    "shank": 0.9918671765770808,
+    "foot": 0.8687048737449627
+   },
+   {
+    "trunk": 1.028265633827875,
+    "thigh": 1.0705265676961313,
+    "shank": 1.018588203620857,
+    "foot": 0.9280292343211669
+   },
+   {
+    "trunk": 1.0679763042062818,
+    "thigh": 1.001899176304302,
+    "shank": 1.0021777768933067,
+    "foot": 1.0759090623106533
+   },
+   {
+    "trunk": 0.9295844071569913,
+    "thigh": 1.0639253438238554,
+    "shank": 1.0366573812006514,
+    "foot": 1.0861290824664402
+   },
+   {
+    "trunk": 0.9383232518040271,
+    "thigh": 1.060472832226906,
+    "shank": 0.9382647852114401,
+    "foot": 0.8744657852090538
+   },
+   {
+    "trunk": 1.0710453948574141,
+    "thigh": 1.0722566992355338,
+    "shank": 1.075307419283316,
+    "foot": 0.9915729158076371
+   },
+   {
+    "trunk": 0.9548096777227436,
+    "thigh": 0.9014183657206333,
+    "shank": 1.0291441791149896,
+    "foot": 1.065972815052608
+   }
+  ],
+  "summary": [
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 22.482222370749636,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6153846153846154,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 20.67607823722897,
+    "oks": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 21.26353418969217,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 21.87027892252167,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.6,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.48,
+     0.52,
+     0.56
+    ],
+    "yaw_max": 18.048522384224224,
+    "oks": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 14.531539600074861,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.36,
+    "gap": [
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 13.85317438494082,
+    "oks": [
+     false,
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.6,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.48,
+     0.52,
+     0.56
+    ],
+    "yaw_max": 33.35193459947495,
+    "oks": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6153846153846154,
+    "t_slow": 0.64,
+    "t_fast": 0.36,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 31.760427480584102,
+    "oks": [
+     false,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.48,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 25.613456667529768,
+    "oks": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     true,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.36,
+    "gap": [
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 12.725698440930483,
+    "oks": [
+     false,
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.7692307692307693,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 14.99971541023975,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.32,
+    "gap": [
+     0.48,
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 20.878076017490542,
+    "oks": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.6,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.48,
+     0.52,
+     0.56
+    ],
+    "yaw_max": 21.494379963372307,
+    "oks": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.64,
+    "t_fast": 0.36,
+    "gap": [
+     0.52,
+     0.56,
+     0.6
+    ],
+    "yaw_max": 16.967830378265862,
+    "oks": [
+     false,
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "frac": 0.6923076923076923,
+    "t_slow": 0.56,
+    "t_fast": 0.32,
+    "gap": [
+     0.36,
+     0.44,
+     0.48,
+     0.52
+    ],
+    "yaw_max": 15.106817582063078,
+    "oks": [
+     true,
+     false,
+     true,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   }
+  ]
+ }
+}

@@ -21,7 +21,7 @@
 - 画面のないクラウドでは `MUJOCO_GL=disable` で実行する（osmesa が入っていない場合）。
 - 番外編（アルミ棒 + iPhone 2 台、2026-11-26）：解析 `sims/bangai01_bar_imu.py`（予測・phyphox の CSV の読み込み・2 台の時刻合わせ・振り子の当てはめと逐次更新・回転の当てはめ・誤差評価・合成データ・toy MC・MuJoCo の確認）。使い方は `data/bangai01/README.md`、経緯と失敗（F14〜F19）は docs/13 の 13.5・13.7 節。実測はまだ（棒は未購入）。
 
-- 下半身の本格的な検証（2026-11-27〜）：計画と記録は [docs/14](docs/14_lower_body.md)。段階 18（`sims/field18_legcone.py`、約 2 分）で宇宙の脚の円錐を MuJoCo で照合。失敗は F21〜F24。段階 19（`sims/field19_ankle.py`、約 3 分＋誤差の評価 `errors` 約 10 分）で足裏の摩擦と足首。失敗は F25〜F29。段階 20（`sims/field20_biped_steps.py`、約 8 分＋`errors` 約 25 分）で二本脚の段差。失敗は F30〜F35。次は歩行（段 4）。
+- 下半身の本格的な検証（2026-11-27〜）：計画と記録は [docs/14](docs/14_lower_body.md)。段階 18（`sims/field18_legcone.py`、約 2 分）で宇宙の脚の円錐を MuJoCo で照合。失敗は F21〜F24。段階 19（`sims/field19_ankle.py`、約 3 分＋誤差の評価 `errors` 約 10 分）で足裏の摩擦と足首。失敗は F25〜F29。段階 20（`sims/field20_biped_steps.py`、約 8 分＋`errors` 約 25 分）で二本脚の段差。失敗は F30〜F35。段階 21（`sims/field21_walk.py`、`main` 約 4 分＋`errors` 約 6 分＋`landscape` 約 4 分＋`figure`）で 3 次元の二本脚の歩行。失敗は F36〜F38。次は腕の振りでヨーを打ち消す（段 5 の候補）。
 
 ## 環境の準備
 
