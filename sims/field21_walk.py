@@ -130,12 +130,14 @@ def build_xml(c: Cfg):
     <geom name="floor" type="plane" size="{20*s} {20*s} 0.1" friction="{c.mu} 0.005 0.0001" rgba="0.85 0.85 0.8 1"/>
     <body name="trunk" pos="0 0 {z0}">
       <freejoint name="root"/>
+      <site name="imu" pos="0 0 {0.25 * s}" size="0.01"/>
       <inertial pos="0 0 {TRUNK_COM*s}" mass="{mt*m3}" diaginertia="{ib(mt*m3, tx, ty, tz)}"/>
       <geom type="box" pos="0 0 {tz/2}" size="{tx/2} {ty/2} {tz/2}" contype="0" conaffinity="0" rgba="0.65 0.65 0.7 1"/>
       {legs}
     </body>
   </worldbody>
   <actuator>{acts}</actuator>
+  <sensor><accelerometer name="acc" site="imu"/></sensor>
 </mujoco>"""
 
 
@@ -374,6 +376,98 @@ def plan(c: Cfg, dt_plan=0.01):
                 tauff=np.array(tauff), steps=steps, T_end=T_end, S=np.array(Sens) if Sens else None)
 
 
+class Estimator:
+    """段階 25: 重心の状態推定。測れるのは、関節角（エンコーダ、雑音 sq）、上体の傾き（IMU の姿勢、白色 sth ＋ 一定の偏り sthb）、
+    足圧中心（足裏の力センサ、雑音 sp）、上体の加速度（IMU の加速度計、雑音 sa ＋ 偏り sab）。立っている足は計画どおりの場所にあるとする。
+      kin: 関節角の運動学から重心の位置 c_kin（立っている足を基準）
+      type = "fd": 速度は c_kin の 10 ms の差分（段階 23 の雑音の入れ方に近い）
+             "lipm": カルマンフィルタ。予測は LIPM（c̈ = ω²(c − p)、p は測った足圧中心）、更新は c_kin
+             "acc": カルマンフィルタ。予測は IMU の加速度（上体の加速度 ≒ 重心の加速度とみなす）、更新は c_kin"""
+
+    def __init__(self, cfg, rb, m, om, rng, c):
+        self.cfg = cfg; self.rb = rb; self.m = m; self.om = om; self.rng = rng; self.c = c
+        self.d2 = mujoco.MjData(m)
+        self.jadr = [rb.qa[j] for j in JOINTS] + [rb.arm[sd] for sd in rb.arm]
+        self.th_b = rng.normal(0, cfg.get("sthb", 0.0), 3)
+        self.a_b = rng.normal(0, cfg.get("sab", 0.0), 2)
+        self.x = None; self.Pk = None; self.buf = []
+        self.floor = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, "floor")
+        self.sid = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_SITE, "imu")
+        self.err = []
+
+    def c_kin(self, d, feet, support):
+        d2 = self.d2; cf = self.cfg
+        d2.qpos[:] = d.qpos
+        d2.qpos[self.jadr] += self.rng.normal(0, cf.get("sq", 0.0), len(self.jadr))
+        dth = self.th_b + self.rng.normal(0, cf.get("sth", 0.0), 3)
+        dq = np.zeros(4); mujoco.mju_axisAngle2Quat(dq, dth / max(np.linalg.norm(dth), 1e-12), np.linalg.norm(dth))
+        qn = np.zeros(4); mujoco.mju_mulQuat(qn, dq, d.qpos[3:7]); d2.qpos[3:7] = qn; d2.qpos[0:3] = 0
+        mujoco.mj_kinematics(self.m, d2); mujoco.mj_comPos(self.m, d2)
+        com = d2.subtree_com[1].copy()
+        if cf.get("anchor", "plan") == "true":      # 立っている足の場所を正しく知っている（脚のオドメトリが完全な場合）
+            feet = {sd: d.site_xpos[self.rb.site[sd]].copy() for sd in "LR"}
+        est = [np.asarray(feet[sd])[:2] + (com[:2] - d2.site_xpos[self.rb.site[sd]][:2]) for sd in support]
+        return np.mean(est, 0), qn
+
+    def cop(self, d):
+        F = np.zeros(3); Mo = np.zeros(3); c6 = np.zeros(6)
+        for ci in range(d.ncon):
+            cc = d.contact[ci]
+            if self.floor not in (cc.geom1, cc.geom2):
+                continue
+            mujoco.mj_contactForce(self.m, d, ci, c6)
+            fw = cc.frame.reshape(3, 3).T @ c6[:3]
+            if cc.geom1 != self.floor:
+                fw = -fw
+            F += fw; Mo += np.cross(cc.pos, fw)
+        if F[2] < 1e-3:
+            return None
+        return np.array([-Mo[1] / F[2], Mo[0] / F[2]]) + self.rng.normal(0, self.cfg.get("sp", 0.0), 2)
+
+    def step(self, d, feet, support, dt):
+        cf = self.cfg; typ = cf.get("type", "lipm")
+        ck, qn = self.c_kin(d, feet, support)
+        self.buf.append(ck)
+        mujoco.mj_subtreeVel(self.m, d)
+        ct, vt = d.subtree_com[1][:2].copy(), d.subtree_linvel[1][:2].copy()
+        if typ == "fd":
+            nb = int(round(0.01 / dt))
+            v = (ck - self.buf[-1 - nb]) / (nb * dt) if len(self.buf) > nb else np.zeros(2)
+            self.buf = self.buf[-(nb + 1):]
+            self.err.append(np.r_[ck - ct, v - vt]); return ck, v
+        if self.x is None:
+            self.x = [np.array([ck[a], 0.0]) for a in range(2)]; self.Pk = [np.diag([1e-4, 1e-2]) for _ in range(2)]
+        om2 = self.om ** 2
+        if typ == "lipm":
+            p = self.cop(d)
+            A = np.array([[1, dt], [om2 * dt, 1]]); Bv = np.array([0, -om2 * dt]); u = p if p is not None else None
+            sw = cf.get("sw", 1.0)
+        else:
+            R_ = np.zeros(9); mujoco.mju_quat2Mat(R_, qn); R_ = R_.reshape(3, 3)
+            Rtrue = d.site_xmat[self.sid].reshape(3, 3); Rb = d.xmat[1].reshape(3, 3)
+            a_s = d.sensordata[0:3]
+            a_w = (R_ @ Rb.T @ Rtrue @ a_s)[:2] + self.a_b + self.rng.normal(0, cf.get("sa", 0.0), 2)
+            A = np.array([[1, dt], [0, 1]]); Bv = np.array([dt * dt / 2, dt]); u = a_w
+            sw = cf.get("sw", 0.5)
+        Gm = np.array([dt * dt / 2, dt]); Qk = np.outer(Gm, Gm) * sw ** 2; Rk = cf.get("sr", 0.005) ** 2
+        out_c, out_v = np.zeros(2), np.zeros(2)
+        for a in range(2):
+            x, Pk = self.x[a], self.Pk[a]
+            if typ == "lipm":
+                x = A @ x + (Bv * u[a] if u is not None else np.array([0, om2 * dt * 0]))
+                if u is None:
+                    x = np.array([x[0], x[1]])
+            else:
+                x = A @ x + Bv * u[a]
+            Pk = A @ Pk @ A.T + Qk
+            S = Pk[0, 0] + Rk; K = Pk[:, 0] / S
+            x = x + K * (ck[a] - x[0]); Pk = Pk - np.outer(K, Pk[0, :])
+            self.x[a], self.Pk[a] = x, Pk
+            out_c[a], out_v[a] = x
+        self.err.append(np.r_[out_c - ct, out_v - vt])
+        return out_c, out_v
+
+
 def execute(c: Cfg, P=None, record=False):
     if P is None:
         P = plan(c)
@@ -402,6 +496,8 @@ def execute(c: Cfg, P=None, record=False):
         ndl = int(round(st.get("delay", 0.0) / (nc * m.opt.timestep)))
         rng_ = np.random.default_rng(st.get("seed", 0)); queue = []; corr = np.zeros(2)
         Kx, dmax = st.get("K", 1.0), st.get("max", 0.08) * s
+        est = Estimator(st["est"], rb, m, om, np.random.default_rng(st.get("seed", 0) + 7), c) if st.get("est") else None
+        ne = max(1, int(round(0.001 / m.opt.timestep))); ce, ve = None, None
         rec_st = []
     old = None; t_sw = -1.0; step_info = None; t_next = 0.0; ks_fix = None; offs = {}; n_re = 0
     for k in range(n):
@@ -409,10 +505,16 @@ def execute(c: Cfg, P=None, record=False):
         i = min(int(tt / (P["t"][1] - P["t"][0])), len(P["t"]) - 2); w = (tt - P["t"][i]) / (P["t"][1] - P["t"][0])
         u_ = Qj[i] * (1 - w) + Qj[i + 1] * w
         if st:
+            if est is not None and k % ne == 0:
+                fe, su = feet_at(tt, c, P["steps"], ANK_H * s)
+                ce, ve = est.step(d, fe, su, ne * m.opt.timestep)
             if k % nc == 0:
                 mujoco.mj_subtreeVel(m, d)
-                cm = d.subtree_com[1][:2] + rng_.normal(0, st.get("noise", 0.0), 2)
-                vm = d.subtree_linvel[1][:2] + rng_.normal(0, st.get("noise_v", 0.0), 2)
+                if est is not None and st["est"].get("use", True):
+                    cm, vm = ce.copy(), ve.copy()
+                else:
+                    cm = d.subtree_com[1][:2] + rng_.normal(0, st.get("noise", 0.0), 2)
+                    vm = d.subtree_linvel[1][:2] + rng_.normal(0, st.get("noise_v", 0.0), 2)
                 e = (cm + vm / om) - (xi_ref[i] * (1 - w) + xi_ref[i + 1] * w)
                 if st.get("lpf", 0.0) > 0:      # 1 次の低域通過フィルタ（時定数 lpf 秒）
                     ef = e if not rec_st else ef + min(1.0, nc * m.opt.timestep / st["lpf"]) * (e - ef)
@@ -496,6 +598,8 @@ def execute(c: Cfg, P=None, record=False):
     out["ok"] = bool(not fell and tilt_max < 15 and pos_err < 0.10 * s)
     if st and step_info is not None:
         out["step"] = step_info
+    if st and st.get("est") and est.err:
+        E = np.array(est.err); out["est_rms"] = np.sqrt(np.mean(E**2, 0)).tolist()   # 推定の誤差の RMS（c_x, c_y, v_x, v_y）
     if st:
         out["dcm_rms"] = float(np.sqrt(np.mean(np.sum(np.array(rec_st)**2, 1)))) if rec_st else np.nan
     if record:
