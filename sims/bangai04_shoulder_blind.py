@@ -247,6 +247,139 @@ def smoothness(prob, x):
                 path=float(np.sum(np.linalg.norm(np.diff(W, axis=0), axis=1))))
 
 
+# ---------------------------------------------------------------- 集計（17.4 の判定）と図
+def classify(prob, x):
+    cs = prob.spline(np.asarray(x))
+    ts = np.linspace(0.25, 0.45, 21)
+    W = np.array([prob.points(q)[-2] for q in cs(ts)])
+    up = W[:, 2] - prob.zsh
+    rad = np.hypot(W[:, 0], W[:, 1])
+    if np.median(up) >= 0.3:
+        return "頭上"
+    if np.median(up) < 0 and np.median(rad) <= 0.25:
+        return "締め"
+    return "その他"
+
+
+def metrics():
+    res = {}
+    for c in CONDS:
+        p = Problem(c)
+        rows = []
+        for s in SEEDS:
+            f = DATA / "bangai04" / f"{c}_{s}.json"
+            if not f.exists():
+                continue
+            r = json.load(open(f))
+            r["shape"] = classify(p, r["x"])
+            # 上限（limited）での可否も見る（free などの解が人の力で実行できるか）
+            if c != "limited":
+                pl = Problem("limited")
+                _, cl, _ = pl.evaluate(np.asarray(r["x"]))
+                r["feasible_under_limited"] = bool(cl.min() >= -1e-3)
+                r["cmin_under_limited"] = float(cl.min())
+            rows.append(r)
+        res[c] = rows
+    summ = {}
+    for c, rows in res.items():
+        ok = [r for r in rows if r["feasible"]]
+        def ms(k):
+            v = np.array([r[k] for r in ok])
+            return (float(v.mean()), float(v.std(ddof=1)) if len(v) > 1 else float("nan"), len(v))
+        summ[c] = dict(n=len(rows), n_ok=len(ok), turns=ms("turns"), sparc=ms("sparc"), ldlj=ms("ldlj"),
+                       rev=ms("reversals"), best=max(ok, key=lambda r: r["turns"])["seed"] if ok else None,
+                       shapes=[r["shape"] for r in rows])
+    # 判定（limited 対 free）
+    verdict = {}
+    for k in ("sparc", "ldlj"):
+        a, b = summ["limited"][k], summ["free"][k]
+        diff = a[0] - b[0]
+        sd = float(np.hypot(a[1], b[1]))
+        verdict[k] = dict(diff=diff, sd=sd, ratio=diff / sd if sd > 0 else float("nan"))
+    ok = [verdict[k]["ratio"] > 2 for k in ("sparc", "ldlj")]
+    neg = [verdict[k]["diff"] < 0 for k in ("sparc", "ldlj")]
+    verdict["H1"] = "支持" if all(ok) else "弱い支持" if any(ok) else "反する" if all(neg) else "区別できない"
+    out = dict(summary=summ, verdict=verdict,
+               rows={c: [{k: v for k, v in r.items() if k not in ("x", "x0", "hist")} for r in rows] for c, rows in res.items()})
+    json.dump(out, open(DATA / "bangai04_summary.json", "w"), indent=1, ensure_ascii=False, default=float)
+    for c, sm in summ.items():
+        print(f"{c:8s} 可 {sm['n_ok']}/{sm['n']}  回転 {sm['turns'][0]:.3f}±{sm['turns'][1]:.3f}  SPARC {sm['sparc'][0]:.3f}±{sm['sparc'][1]:.3f}  "
+              f"LDLJ {sm['ldlj'][0]:.2f}±{sm['ldlj'][1]:.2f}  反転 {sm['rev'][0]:.1f}  形 {sm['shapes']}")
+    print("判定:", json.dumps(verdict, ensure_ascii=False, default=lambda x: round(float(x), 3)))
+    for c, rows in res.items():
+        for r in rows:
+            extra = f"  limited で可 {r['feasible_under_limited']} ({r['cmin_under_limited']:+.2f})" if "feasible_under_limited" in r else ""
+            print(f"  {c:8s} {r['seed']}: {r['turns']:.3f} 可 {r['feasible']} 形 {r['shape']}{extra}")
+    return out
+
+
+def comp_check():
+    """計算の誤差: 最良の limited の解を 1 ms で計算し直す・節点の値を 1e-3 rad 揺らす."""
+    s = json.load(open(DATA / "bangai04_summary.json"))["summary"]["limited"]["best"]
+    r = json.load(open(DATA / "bangai04" / f"limited_{s}.json"))
+    x = np.asarray(r["x"])
+    p1 = Problem("limited", dt=1e-3)
+    n1, c1, _ = p1.evaluate(x)
+    p2 = Problem("limited")
+    n2, c2, _ = p2.evaluate(x)
+    out = dict(seed=s, turns_2ms=n2, turns_1ms=n1, cmin_2ms=float(c2.min()), cmin_1ms=float(c1.min()))
+    print(out)
+    json.dump(out, open(DATA / "bangai04_comp.json", "w"), indent=1, default=float)
+
+
+def figure():
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    plt.rcParams["font.family"] = ["Noto Sans CJK JP", "DejaVu Sans"]
+    S = json.load(open(DATA / "bangai04_summary.json"))
+    fig, axs = plt.subplots(2, 3, figsize=(15, 9))
+    cols = dict(limited="C0", free="C3", weak="C7", strong="C2", rom180="C4")
+    jp = dict(limited="上限あり", free="上限なし", weak="筋力 ×0.7", strong="筋力 ×1.3", rom180="屈曲 180°")
+    # (a) 滑らかさ: SPARC と LDLJ（種ごと）
+    ax = axs[0, 0]
+    for i, c in enumerate(CONDS):
+        for r in S["rows"][c]:
+            ax.plot(r["sparc"], r["ldlj"], "o" if r["feasible"] else "x", color=cols[c], ms=8,
+                    label=jp[c] if r is S["rows"][c][0] else None)
+    ax.set_xlabel("SPARC（0 に近いほど滑らか）"); ax.set_ylabel("LDLJ（0 に近いほど滑らか）")
+    ax.set_title("(a) 手首の動きの滑らかさ（○ 制約を満たす、× 満たさない）"); ax.legend(fontsize=8)
+    # (b) 回転数
+    ax = axs[0, 1]
+    for i, c in enumerate(CONDS):
+        v = [r["turns"] for r in S["rows"][c]]
+        ax.scatter([i] * len(v), v, color=cols[c])
+    ax.axhline(3.43, color="k", ls="--", lw=1); ax.text(0, 3.45, "胸で組む普通の 3A（番外編 03）", fontsize=8)
+    ax.set_xticks(range(len(CONDS))); ax.set_xticklabels([jp[c] for c in CONDS])
+    ax.set_ylabel("回転数"); ax.set_title("(b) 最大にした回転数")
+    # (c)〜(f) 最良の解の関節角と手首の軌跡（limited と free）
+    for j, c in enumerate(("limited", "free")):
+        best = S["summary"][c]["best"]
+        if best is None:
+            continue
+        r = json.load(open(DATA / "bangai04" / f"{c}_{best}.json"))
+        p = Problem(c)
+        cs = p.spline(np.asarray(r["x"]))
+        ts = np.linspace(0, T_AIR, 351)
+        Q = np.degrees(cs(ts))
+        ax = axs[0, 2] if j == 0 else axs[1, 2]
+        for k, nm in enumerate(("肩 sf（負 = 屈曲）", "肩 sa（正 = 外転）", "肩 sr（正 = 外旋）", "肘（正 = 屈曲）")):
+            ax.plot(ts, Q[:, k], label=nm)
+        ax.set_xlabel("時間 [s]"); ax.set_ylabel("関節角 [°]"); ax.legend(fontsize=7)
+        ax.set_title(f"({'c' if j == 0 else 'f'}) {jp[c]} の最良の解（種 {best}、{r['turns']:.2f} 回転）")
+        ax = axs[1, j]
+        W = np.array([p.points(q)[-2] for q in cs(ts)])
+        sc = ax.scatter(W[:, 1], W[:, 2] - p.zsh, c=ts, cmap="viridis", s=6)
+        ax.add_patch(plt.Circle((0, p.zhead - p.zsh), 0.10, fill=False))
+        ax.plot([-p.B["chest"], -p.B["chest"], p.B["chest"], p.B["chest"]], [-p.zsh, 0.05, 0.05, -p.zsh], "k-", lw=1)
+        ax.plot(p.B["wsh"], 0, "ks")
+        ax.set_aspect("equal"); ax.set_xlabel("左右 [m]"); ax.set_ylabel("肩からの高さ [m]")
+        ax.set_title(f"({'d' if j == 0 else 'e'}) 左の手首の軌跡（正面から、色は時間）: {jp[c]}")
+        plt.colorbar(sc, ax=ax, label="時間 [s]")
+    fig.tight_layout(); fig.savefig(OUT / "bangai04_shoulder_blind.png", dpi=130)
+    print("図 → figures/field/bangai04_shoulder_blind.png")
+
+
 # ---------------------------------------------------------------- 実行
 def run(cond, seed):
     p = Problem(cond)
@@ -264,6 +397,12 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "all"
     if mode == "run":
         run(sys.argv[2], int(sys.argv[3]))
+    elif mode == "metrics":
+        metrics()
+    elif mode == "comp":
+        comp_check()
+    elif mode == "figure":
+        figure()
     elif mode == "all":
         for c in CONDS:
             for s in SEEDS:
