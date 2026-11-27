@@ -433,7 +433,8 @@ class Skater:
         vb = np.linalg.solve(M[:6, :6], h - M[:6, 6:] @ qa_d)
         return vb
 
-    def fly(self, schedule, L, t_air, t_tr=T_TR, t_open=T_OPEN, dt=1e-3, return_trace=False, torque=True, p0="open"):
+    def fly(self, schedule, L, t_air, t_tr=T_TR, t_open=T_OPEN, dt=1e-3, return_trace=False, torque=True, p0="open",
+            plan=None, tau_samples=False):
         """schedule: 区間ごとの (左の姿勢, 右の姿勢) の列（[0, t_air − t_open] を等分）. 最初は open から、最後は open へ.
 
         腕の関節角を時間の関数として与え（技術）、胴体の動きは運動量と角運動量の保存から解く（RK4）。
@@ -441,9 +442,10 @@ class Skater:
         """
         mj = self.mj
         m, d = self.m, self.d
-        for p in {x for pair in schedule for x in pair} | {p0}:
-            self.add_pose(p)
-        plan = self.arm_plan(schedule, t_air, t_tr, t_open, p0)
+        if plan is None:      # plan を直接渡すと、腕の関節角の任意の時間関数で飛ぶ（番外編 04）
+            for p in {x for pair in schedule for x in pair} | {p0}:
+                self.add_pose(p)
+            plan = self.arm_plan(schedule, t_air, t_tr, t_open, p0)
         mtot = m.body_subtreemass[self.trunk]
         Lw = np.array([0.0, 0.0, L])
         P0 = np.array([0.0, 0.0, mtot * G * t_air / 2])
@@ -514,6 +516,9 @@ class Skater:
                        tau_el_hold=float(tel[hold].max()) if hold.any() else 0.0, Ldev=float(max(Ld)))
             if return_trace:
                 out["tau_trace"] = np.c_[tt, tsh, tel]
+            if tau_samples:
+                out["tau_all"] = taus          # 列は qvel の腕の並び（左 sf sa sr el、右 sf sa sr el）
+                out["tau_t"] = tt
         if return_trace:
             out["trace"] = np.array(tr)
         return out
