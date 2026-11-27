@@ -5,11 +5,16 @@
 
 ## 15.1 入れ方
 
+0.4.1a0 の README の手順（wheel だけを TestPyPI から取り、依存は PyPI から入れる。新しい venv で動作を確認した）:
+
 ```sh
-pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ UC-AutoMaiL
+python -m pip --isolated download --index-url https://test.pypi.org/simple/ --no-deps --only-binary=:all: uc-automail==0.4.1a0
+python -m pip --isolated install --index-url https://pypi.org/simple/ ./uc_automail-0.4.1a0-py3-none-any.whl
+python -m pip check
 ```
 
-`-i https://test.pypi.org/simple/` だけでは、依存（pandas など）が TestPyPI にないため `ResolutionImpossible` で止まる。
+簡単には `pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ UC-AutoMaiL` でも入る（ただし同じ名前の偽の依存を TestPyPI から拾う危険がある）。
+`-i https://test.pypi.org/simple/` だけでは、依存（pandas など）が TestPyPI にないため止まる。
 `requirements*.txt` には入れていない（使うのは `sims/field30_uc_automail.py` と `sims/bangai02_uc_ukf.py` だけ）。
 
 ## 15.2 試したこと
@@ -52,3 +57,30 @@ EKF のヤコビアンは数値微分、時刻の刻みはサンプルごとに�
 5. **UKF のパラメータが固定**（α 1、β 2、κ 0、中心の平均の重み 0）。状態が大きいと σ 点が広がりすぎる場合があるので、選べるとよい。
 6. **焼きなましは特徴量の部分集合の探索だけ**で、連続のパラメータ（Q・R の調整など）には使えなかった。
 7. 小さな点：`uc_automail.__all__`（＝ `diy_automl.__all__`）に、`data`・`workflow`・`reporting` などのサブモジュールの名前が入っている（`globals()` から作っているため）。`from uc_automail import *` でモジュールまで読み込まれる。
+
+## 15.5 0.4.1a0 での再確認（2026-11-27）
+
+0.4.0a9 からの変更は、`diy_automl/__init__.py`（`__all__` を明示、新しい関数の公開）と、新しい `diy_automl/kalman_diagnostics.py`（`filter_diagnostics`、`evaluate_filter_consistency`）だけ。EKF・UKF の本体（`extended_kalman.py`、`unscented_kalman.py`、`state_space.py`）は 1 文字も変わっていない。
+
+| 15.4 の項目 | 0.4.1a0 | 確かめたこと |
+|---|---|---|
+| 1. 入れ方 | **直った** | README の手順で新しい venv に入り、`pip check` も通った |
+| 2. 1 ステップずつ呼ぶと遅い | 変わらず | 同じ再現コードで 1 回 270 μs（0.4.0a9 は 190〜260 μs、測定のばらつきの範囲） |
+| 3. 制御入力の引数 | 変わらず | シグネチャは同じ |
+| 4. 整合性の診断 | **加わった** | 下の (a)(b) |
+| 5. σ が系統の誤差を含まないこと | **一部**（README に一文、`evaluate_filter_consistency` が加わった） | フィルタの docstring は同じ。系統の誤差を振る関数はまだない |
+| 6. 状態に足したパラメータの注意 | 確認できず | パッケージの中には例題・注意なし（外部の文書 UNCERTAINTY_DESIGN.md は未確認） |
+| 7. UKF の α・β・κ | 変わらず | シグネチャは同じ |
+| 8. 連続のパラメータの焼きなまし | 変わらず | `annealing.py` は同じ |
+| 9. `__all__` | **直った** | 公開の 22 個の関数だけになった |
+
+(a) **正しいモデルでの検算**：等速度＋白色の加速度の 2 状態（2000 行、30 回）で、`evaluate_filter_consistency` の NEES の平均は 2.024 ± 0.026（理想 2）、`filter_diagnostics` の NIS は 1.000、Ljung–Box の p < 0.05 は 30 回中 0 回。EKF と UKF で同じ。診断の関数そのものは正しく動く。
+
+(b) **番外編 02**（`data/bangai02_summary.txt`）：パッケージの NIS と 1 次の自己相関は、手で計算した値と一致した（1.01、+0.50 / +0.01）。Ljung–Box（10 次まで）は、白色を仮定した場合を **40 回すべて** で検出した。雑音を AR(1) として状態に足した場合でも、**35〜40 %** で p < 0.05 になった。静止区間 2.5 s（約 250 点）から推定した ρ（0.45〜0.50）のずれが残るためで、真の ρ 0.5 と σ を与えると 12 回中 1 回（8 %）に下がった。pull の標準偏差（0.96）にはほとんど効かない程度のずれでも、約 3400 点あれば検定は気づく（F62）。
+
+(c) 段階 30（歩行）と番外編 02 の推定の結果は、0.4.0a9 とすべて同じだった（フィルタの本体が変わっていないため）。
+
+0.4.1a0 で新しく気づいた点
+- `filter_diagnostics` の Ljung–Box は、観測に NaN が 1 つでもある系列では NaN になる（docstring のとおり「欠けのない系列だけ」）。欠けた行を飛ばす版か、警告があるとよい。
+- Ljung–Box は長い系列では、実用上は無視できる小さなずれまで棄却する。p 値と一緒に、自己相関の大きさ（効果量）と ±2/√N の目安を出すと読みやすい。
+- 行の時刻が等間隔だと仮定している（ジャイロの揺らぎ 2 % 程度なら問題なかった）。

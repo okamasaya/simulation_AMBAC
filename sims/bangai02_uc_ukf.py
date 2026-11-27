@@ -9,6 +9,7 @@ uc_automail.unscented_kalman_filter / extended_kalman_filter に一括で渡し�
   ar1  : 雑音 n を状態に足す（n_k = ρ n_{k−1} + e、Var e = σ²(1 − ρ²)）。観測 = θ' + b1 + n、R はごく小さい値
 比べること: T0 の pull の平均と標準偏差（1 なら σ が正直）、ω0 の σ の大きさ、計算時間、
             フィルタ自身の整合性の目安（NIS = 正規化したイノベーションの 2 乗の平均、1 が理想）と、イノベーションの 1 次の自己相関
+0.4.1a0 からは uc_automail.filter_diagnostics（NIS、自己相関、Ljung–Box）も使い、手で計算した値と照合する。
 実行: python sims/bangai02_uc_ukf.py [--n 40]
 """
 from __future__ import annotations
@@ -84,8 +85,13 @@ def run_filter(t, y, P, method, noise):
     res = r["predicted_observation"][:, 0] - y[1:]
     S = r["predicted_observation_covariance"][:, 0, 0]
     u = res / np.sqrt(S)
-    return dict(w0=float(xf[2]), sd_w0=float(math.sqrt(Pf[2, 2])), sec=sec, nis=float(np.mean(u ** 2)),
-                ac1=float(np.corrcoef(u[:-1], u[1:])[0, 1]))     # 正規化したイノベーションの 1 次の自己相関（白色なら 0）
+    out = dict(w0=float(xf[2]), sd_w0=float(math.sqrt(Pf[2, 2])), sec=sec, nis=float(np.mean(u ** 2)),
+               ac1=float(np.corrcoef(u[:-1], u[1:])[0, 1]))      # 正規化したイノベーションの 1 次の自己相関（白色なら 0）
+    if hasattr(UC, "filter_diagnostics"):      # 0.4.1a0 から。手で計算した値と照合する
+        dg = UC.filter_diagnostics(r, y[1:, None], max_lag=10)
+        out.update(pkg_nis=float(dg["mean_nis_per_dimension"]), pkg_ac1=float(dg["autocorrelation"][0, 0]),
+                   lb_p=float(dg["ljung_box_pvalue"][0]))
+    return out
 
 
 def toy(i):
@@ -102,7 +108,8 @@ def toy(i):
             for noise in ("white", "ar1"):
                 r = run_filter(t, y, P, method, noise)
                 T0 = 2 * math.pi / r["w0"]; sd = 2 * math.pi / r["w0"] ** 2 * r["sd_w0"]
-                out[f"{method}_{noise}"] = dict(T0=T0, sd=sd, pull=(T0 - tr["T0"]) / sd, sec=r["sec"], nis=r["nis"], ac1=r["ac1"], n=len(t))
+                out[f"{method}_{noise}"] = dict(T0=T0, sd=sd, pull=(T0 - tr["T0"]) / sd, n=len(t),
+                                                 **{k: r[k] for k in ("sec", "nis", "ac1", "pkg_nis", "pkg_ac1", "lb_p") if k in r})
     except Exception as e:  # noqa: BLE001  失敗も記録する
         out["error"] = f"{type(e).__name__}: {e}"
     return out
@@ -115,6 +122,7 @@ def main():
         res = pool.map(toy, range(a.n))
     ref = json.load(open(DATA / "bangai01" / "toys.json"))["summary"]["pend"]
     summ = {}
+    print(f"UC-AutoMaiL {UC.__version__}")
     print(f"=== 合成データ {a.n} 回、T0 の pull（平均 ± 標準偏差）。参照: 番外編 01 の GLS {ref['pull']['mean']:+.2f} ± {ref['pull']['sd']:.2f}、"
           f"OLS（白色化なし） {ref['pull_ols']['mean']:+.2f} ± {ref['pull_ols']['sd']:.2f} ===")
     for key in ("ukf_white", "ukf_ar1", "ekf_white", "ekf_ar1"):
@@ -123,9 +131,14 @@ def main():
         summ[key] = dict(n=len(p), pull_mean=float(p.mean()), pull_sd=float(p.std(ddof=1)), sd_T0_us_median=float(np.median(sd)),
                          sec_mean=float(np.mean([r["sec"] for r in rr])), nis_mean=float(np.mean([r["nis"] for r in rr])), ac1_mean=float(np.mean([r["ac1"] for r in rr])),
                          n_samples=int(np.median([r["n"] for r in rr])))
+        if all("lb_p" in r for r in rr):
+            summ[key].update(pkg_nis_mean=float(np.mean([r["pkg_nis"] for r in rr])), pkg_ac1_mean=float(np.mean([r["pkg_ac1"] for r in rr])),
+                             lb_reject_frac=float(np.mean([r["lb_p"] < 0.05 for r in rr])))
         s = summ[key]
         print(f"| {key} | pull {s['pull_mean']:+.2f} ± {s['pull_sd']:.2f} (±{s['pull_sd'] / math.sqrt(2 * (len(p) - 1)):.2f}) | "
-              f"σ(T0) 中央値 {s['sd_T0_us_median']:.0f} μs | NIS 平均 {s['nis_mean']:.2f} | 自己相関 {s['ac1_mean']:+.2f} | {s['sec_mean']:.1f} s / {s['n_samples']} 点 |", flush=True)
+              f"σ(T0) 中央値 {s['sd_T0_us_median']:.0f} μs | NIS 平均 {s['nis_mean']:.2f} | 自己相関 {s['ac1_mean']:+.2f} | {s['sec_mean']:.1f} s / {s['n_samples']} 点 |"
+              + (f" パッケージ: NIS {s['pkg_nis_mean']:.2f}、自己相関 {s['pkg_ac1_mean']:+.2f}、Ljung–Box p < 0.05 の割合 {s['lb_reject_frac']:.2f} |" if "lb_reject_frac" in s else ""),
+              flush=True)
     errs = [r for r in res if "error" in r]
     print("失敗:", [(r["i"], r["error"]) for r in errs])
     json.dump(dict(summary=summ, ref=dict(gls=ref["pull"], ols=ref["pull_ols"]), toys=res, failures=errs, seconds=time.time() - T),
