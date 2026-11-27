@@ -1,0 +1,24 @@
+{
+  "name": "de Leva 1996 female (adjusted Zatsiorsky-Seluyanov)",
+  "source": "de Leva P. (1996) J Biomech 29(9):1223-1230, Table 4 (female). Lengths are fractions of the reference stature 1735 mm.",
+  "height_m": 1.735,
+  "mass_kg": 61.9,
+  "boot_mass_kg": 0.0,
+  "landmarks_frac": {
+    "hip_jc_height": 0.52,
+    "shoulder_jc_half_width": 0.095,
+    "hip_jc_half_width": 0.052,
+    "chest_half_depth": 0.058
+  },
+  "segments": {
+    "head":     {"len": 0.1405, "mass": 0.0668, "com": 0.4841, "r": [0.271, 0.295, 0.261]},
+    "trunk":    {"len": null,   "mass": 0.4257, "com": 0.4964, "r": [0.307, 0.292, 0.147]},
+    "upperarm": {"len": 0.1586, "mass": 0.0255, "com": 0.5754, "r": [0.278, 0.260, 0.148]},
+    "forearm":  {"len": 0.1523, "mass": 0.0138, "com": 0.4559, "r": [0.261, 0.257, 0.094]},
+    "hand":     {"len": 0.1026, "mass": 0.0056, "com": 0.7474, "r": [0.531, 0.454, 0.335]},
+    "thigh":    {"len": 0.2124, "mass": 0.1478, "com": 0.3612, "r": [0.369, 0.364, 0.162]},
+    "shank":    {"len": 0.2492, "mass": 0.0481, "com": 0.4416, "r": [0.271, 0.267, 0.093]},
+    "foot":     {"len": 0.1316, "mass": 0.0129, "com": 0.4014, "r": [0.299, 0.279, 0.139]}
+  },
+  "notes": "Same conventions as deleva1996_male.json."
+}

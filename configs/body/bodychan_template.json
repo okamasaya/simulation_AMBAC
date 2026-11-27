@@ -1,0 +1,26 @@
+{
+  "name": "posable body figure measured with calipers (template)",
+  "source": "Fill with caliper measurements of the figure in mm. Each segment is modelled as an elliptic frustum (uniform density); the result is scaled to height_m / mass_kg.",
+  "type": "caliper",
+  "height_m": 1.72,
+  "mass_kg": 60.0,
+  "boot_mass_kg": 1.3,
+  "figure_height_mm": 160.0,
+  "measure_mm": {
+    "head":     {"len": 22.0, "w0": 14.0, "d0": 16.0, "w1": 10.0, "d1": 12.0},
+    "trunk":    {"len": 56.0, "w0": 26.0, "d0": 14.0, "w1": 24.0, "d1": 15.0},
+    "upperarm": {"len": 26.0, "w0": 7.0,  "d0": 7.0,  "w1": 5.5,  "d1": 5.5},
+    "forearm":  {"len": 25.0, "w0": 5.5,  "d0": 5.5,  "w1": 4.0,  "d1": 3.5},
+    "hand":     {"len": 17.0, "w0": 6.0,  "d0": 2.5,  "w1": 5.0,  "d1": 2.0},
+    "thigh":    {"len": 39.0, "w0": 12.0, "d0": 12.0, "w1": 8.0,  "d1": 8.0},
+    "shank":    {"len": 40.0, "w0": 8.0,  "d0": 8.0,  "w1": 5.0,  "d1": 5.0},
+    "foot":     {"len": 24.0, "w0": 6.0,  "d0": 5.0,  "w1": 6.0,  "d1": 3.0}
+  },
+  "landmarks_mm": {
+    "hip_jc_height": 83.0,
+    "shoulder_jc_half_width": 16.0,
+    "hip_jc_half_width": 8.0,
+    "chest_half_depth": 9.5
+  },
+  "notes": "w = width (left-right), d = depth (front-back) at the proximal (0) and distal (1) ends, all in mm on the figure. Values here are placeholders (roughly human proportions), not a real measurement. head len = vertex to cervicale; trunk len = cervicale to hip joint height (may be left as measured)."
+}
