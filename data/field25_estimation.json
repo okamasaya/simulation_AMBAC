@@ -1,0 +1,526 @@
+{
+ "grid": [
+  {
+   "name": "真の値（段階 23）",
+   "est": null,
+   "frac": 0.7916666666666666,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": null
+  },
+  {
+   "name": "差分（雑音あり、足の場所は計画）",
+   "est": {
+    "type": "fd",
+    "anchor": "plan",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.0,
+   "ok": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": null
+  },
+  {
+   "name": "差分（雑音あり、足の場所は正しい）",
+   "est": {
+    "type": "fd",
+    "anchor": "true",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.0,
+   "ok": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": null
+  },
+  {
+   "name": "LIPM＋足圧中心のカルマンフィルタ（計画）",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "plan",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.25,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.02941968363348303,
+    0.0118257055393901,
+    0.09145663746862799,
+    0.023402099037433954
+   ]
+  },
+  {
+   "name": "LIPM＋足圧中心のカルマンフィルタ（正しい）",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "true",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.5833333333333334,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.0016814679015652873,
+    0.0005085704676740249,
+    0.10702907200165514,
+    0.017031212917936085
+   ]
+  },
+  {
+   "name": "加速度計のカルマンフィルタ（計画）",
+   "est": {
+    "type": "acc",
+    "sw": 10,
+    "anchor": "plan",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.08333333333333333,
+   "ok": [
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.043827580294418945,
+    0.02294854965978108,
+    0.07460122172208866,
+    0.07163618898412406
+   ]
+  },
+  {
+   "name": "加速度計のカルマンフィルタ（正しい）",
+   "est": {
+    "type": "acc",
+    "sw": 10,
+    "anchor": "true",
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.3333333333333333,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.0008464393642424772,
+    0.000685693625467235,
+    0.050545901504256044,
+    0.03903496715025577
+   ]
+  },
+  {
+   "name": "LIPM のカルマンフィルタ、雑音 3 倍（計画）",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "plan",
+    "sq": 0.006,
+    "sth": 0.006,
+    "sp": 0.03,
+    "sa": 0.30000000000000004
+   },
+   "frac": 0.0,
+   "ok": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": null
+  },
+  {
+   "name": "LIPM のカルマンフィルタ、雑音なし（計画）",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "plan"
+   },
+   "frac": 0.4583333333333333,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.027569606524962854,
+    0.009221857575765406,
+    0.05966435999942322,
+    0.01714051688690871
+   ]
+  },
+  {
+   "name": "LIPM のカルマンフィルタ（計画）、K 0.5",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "plan",
+    "_K": 0.5,
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.5,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "est_rms": [
+    0.022892041069343786,
+    0.013712201653147625,
+    0.0698871647876282,
+    0.029064247258459006
+   ]
+  },
+  {
+   "name": "LIPM のカルマンフィルタ（計画）、K 0.3",
+   "est": {
+    "type": "lipm",
+    "sw": 10,
+    "anchor": "plan",
+    "_K": 0.3,
+    "sq": 0.002,
+    "sth": 0.002,
+    "sp": 0.01,
+    "sa": 0.1
+   },
+   "frac": 0.7083333333333334,
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    false
+   ],
+   "est_rms": [
+    0.02744286558337232,
+    0.013735214418097457,
+    0.0769602319167806,
+    0.03147031568307126
+   ]
+  }
+ ],
+ "push": [
+  {
+   "name": "真の値（段階 23）",
+   "fwd": 40.0,
+   "lat": 20.0
+  },
+  {
+   "name": "差分（雑音あり、足の場所は計画）",
+   "fwd": 0.0,
+   "lat": 0.0
+  },
+  {
+   "name": "LIPM＋足圧中心のカルマンフィルタ（計画）",
+   "fwd": 30.0,
+   "lat": 20.0
+  },
+  {
+   "name": "LIPM＋足圧中心のカルマンフィルタ（正しい）",
+   "fwd": 30.0,
+   "lat": 20.0
+  },
+  {
+   "name": "加速度計のカルマンフィルタ（計画）",
+   "fwd": 0.0,
+   "lat": 0.0
+  },
+  {
+   "name": "LIPM のカルマンフィルタ（計画）、K 0.5",
+   "fwd": 30.0,
+   "lat": 20.0
+  },
+  {
+   "name": "LIPM のカルマンフィルタ（計画）、K 0.3",
+   "fwd": 30.0,
+   "lat": 20.0
+  }
+ ],
+ "LS": [
+  0.25,
+  0.35,
+  0.45
+ ],
+ "TS": [
+  1.0,
+  0.8,
+  0.7,
+  0.6,
+  0.52,
+  0.44,
+  0.4,
+  0.36
+ ],
+ "FS": [
+  100,
+  200,
+  300,
+  400,
+  500
+ ]
+}
