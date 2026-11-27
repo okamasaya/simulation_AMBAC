@@ -9,6 +9,8 @@
              linked_track=板をつないだ履帯（ambac.field.track）。"track": {"front_height", "approach_deg", "pitch", "plate_mass",
              "sprocket_radius", "wheel_radius", "n_road", "drive_force"（N、1 本あたり）, "kv", "width", "n_tracks"（1 または 2）, "gauge"（左右の中心の間隔）}。
              駆動は起動輪（後ろ）の摩擦で伝える。2 本のとき、駆動は drive_L_sprocket（左、+y）と drive_R_sprocket（右、−y）。
+  ankle    : 省略可（base が tank のとき）。{"foot_size", "foot_mass", "height"（足首の高さ）, "axes": "pitch" | "pitch_roll",
+             "kp", "kv"（足首のサーボ、省略時は actuator と同じ）, "armature"（kg·m²、回転子の見かけの慣性）, "contact": "box" | "corners"}：base を足と脚に分け、足首の関節でつなぐ
   waist    : 省略可。{"height", "torso_mass", "torso_size", "torso_com", "range": [deg, deg]}（y 軸まわりに前後に傾く上体）
   arms     : [{"name", "mount": [x, y, z], "shoulder": "pitch" | "yaw_pitch" | "ball3",
                "links": [{"length", "mass"}, ...], "payload"}]
@@ -170,19 +172,47 @@ def build(robot, stage, timestep=5e-4):
                      f'<inertial pos="0 0 0" mass="{fw.get("mass", 10.0)}" diaginertia="{If / 2} {If / 2} {If}"/>'
                      f'<geom type="cylinder" size="{fw.get("radius", 0.2)} 0.02" contype="0" conaffinity="0" rgba="0.9 0.3 0.3 1"/></body>')
     arm_parent_close = ""
+    ank = robot.get("ankle") if b["type"] == "tank" else None
+    leg_close = ""; z_off = 0.0
+    if ank:
+        # 足首: base を足（足裏の箱、自由関節、接触する）に替え、その上に足首の関節（pitch、省略可で roll）で脚をつなぐ。
+        # 脚の質量 = base の質量 − 足の質量。全体の重心は足首なしの base と同じになるように脚の重心を置く。
+        fx, fy, fh = ank.get("foot_size", [sx, sy, 0.05]); fm = ank.get("foot_mass", 2.0); ha = ank.get("height", 0.08)
+        arm_a = ank.get("armature", 0.0)   # モーターの回転子の慣性を減速比の 2 乗倍した値（kg·m²、関節の見かけの慣性）
+        lm = b["mass"] - fm; lz = (b["mass"] * com[2] - fm * fh / 2) / lm - ha
+        Il = [x * lm / b["mass"] for x in Ib]; If_ = _box_inertia(fm, fx, fy, fh)
+        foot_geoms = ""
+        if ank.get("contact", "box") == "corners":   # 足裏の 4 隅の小球（box の代わり。接触点の系統誤差を見る）
+            rr = 0.01
+            for cx in (-fx / 2 + rr, fx / 2 - rr):
+                for cy in (-fy / 2 + rr, fy / 2 - rr):
+                    foot_geoms += f'<geom type="sphere" pos="{cx} {cy} {rr}" size="{rr}" friction="{mu} 0.005 0.0001"/>'
+            foot_geoms += f'<geom type="box" pos="0 0 {fh/2 + 0.005}" size="{fx/2} {fy/2} {fh/2 - 0.005}" contype="0" conaffinity="0" rgba="{color}"/>'
+        else:
+            foot_geoms = f'<geom name="foot" type="box" pos="0 0 {fh/2}" size="{fx/2} {fy/2} {fh/2}" friction="{mu} 0.005 0.0001" rgba="0.4 0.4 0.45 1"/>'
+        parts = [base_open, f'<inertial pos="0 0 {fh/2}" mass="{fm}" diaginertia="{If_[0]} {If_[1]} {If_[2]}"/>', foot_geoms,
+                 f'<body name="leg" pos="0 0 {ha}">', f'<joint name="ankle_pitch" type="hinge" axis="0 1 0" armature="{arm_a}"/>']
+        joints.append("ankle_pitch"); leg_close = "</body>"
+        if ank.get("axes", "pitch") == "pitch_roll":
+            parts += ['<inertial pos="0 0 0" mass="1e-4" diaginertia="1e-7 1e-7 1e-7"/>', '<body name="leg_roll_frame">',
+                      f'<joint name="ankle_roll" type="hinge" axis="1 0 0" armature="{arm_a}"/>']
+            joints.append("ankle_roll"); leg_close = "</body></body>"
+        parts += [f'<inertial pos="{com[0]} {com[1]} {lz}" mass="{lm}" diaginertia="{Il[0]} {Il[1]} {Il[2]}"/>',
+                  f'<geom type="box" pos="0 0 {(fh + sz) / 2 - ha}" size="{sx/2 - 0.01} {sy/2 - 0.01} {(sz - fh) / 2 - 0.002}" contype="0" conaffinity="0" rgba="{color}"/>']
+        z_off = ha
     w = robot.get("waist")
     if w:
         tsx, tsy, tsz = w["torso_size"]; tc = w.get("torso_com", [0, 0, tsz / 2])
         It = _box_inertia(w["torso_mass"], tsx, tsy, tsz)
         lo, hi = w.get("range", [-40, 40])
-        parts += [f'<body name="torso" pos="0 0 {w["height"]}">',
+        parts += [f'<body name="torso" pos="0 0 {w["height"] - z_off}">',
                   f'<joint name="waist" type="hinge" axis="0 1 0" range="{lo} {hi}" limited="true"/>',
                   f'<inertial pos="{tc[0]} {tc[1]} {tc[2]}" mass="{w["torso_mass"]}" diaginertia="{It[0]} {It[1]} {It[2]}"/>',
                   f'<geom type="box" pos="0 0 {tsz/2}" size="{tsx/2} {tsy/2} {tsz/2}" contype="0" conaffinity="0" rgba="0.65 0.65 0.7 1"/>']
         joints.append("waist"); arm_parent_close = "</body>"
     for arm in robot.get("arms", []):
         x, j = _arm_xml(arm); parts.append(x); joints += j
-    parts.append(arm_parent_close + "</body>")
+    parts.append(arm_parent_close + leg_close + "</body>")
     a = robot.get("actuator", {}); kp, kv = a.get("kp", 20000), a.get("kv", 1000)
 
     def per_joint(spec, j):
@@ -198,7 +228,8 @@ def build(robot, stage, timestep=5e-4):
     for j in joints:
         tl = per_joint(a.get("torque_limit"), j)
         fr = f' forcelimited="true" forcerange="{-tl} {tl}"' if tl else ""
-        acts += f'<position name="{j}" joint="{j}" kp="{kp}" kv="{kv}"{fr}/>'
+        kpj, kvj = (ank.get("kp", kp), ank.get("kv", kv)) if (ank and j.startswith("ankle")) else (kp, kv)
+        acts += f'<position name="{j}" joint="{j}" kp="{kpj}" kv="{kvj}"{fr}/>'
     if wheels:
         tr = b.get("track", {}); R = tr.get("wheel_radius", 0.08)
         fw = tr.get("drive_force", 2000.0) * R / len(wheels)     # 転輪 1 個あたりのトルクの上限
