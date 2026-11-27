@@ -5,7 +5,7 @@
 | 技術報告書 | [AMBAC_technical_report.pdf](AMBAC_technical_report.pdf) | 87 |
 | 技術報告書（詳細版） | [AMBAC_technical_report_detailed.pdf](AMBAC_technical_report_detailed.pdf) | 159 |
 | 学術論文（レター、格式版） | [letter/letter_formal.pdf](letter/letter_formal.pdf) | 約 6 |
-| 学術論文（full paper、詳細版） | [fullpaper/AMBAC_fullpaper.pdf](fullpaper/AMBAC_fullpaper.pdf) | 12 |
+| 学術論文（full paper、詳細版、第 4 版） | [fullpaper/AMBAC_fullpaper.pdf](fullpaper/AMBAC_fullpaper.pdf) | 25 |
 
 詳細版には、技術報告書の内容に加えて次のものを収めた。
 
@@ -58,5 +58,5 @@ cd report/fullpaper
 ```
 
 ```bash
-latexmk -lualatex -jobname=AMBAC_fullpaper AMBAC_fullpaper_v1.tex
+latexmk -lualatex -jobname=AMBAC_fullpaper AMBAC_fullpaper_v4.tex
 ```
