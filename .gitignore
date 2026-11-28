@@ -8,3 +8,4 @@ MUJOCO_LOG.TXT
 node_modules/
 package.json
 package-lock.json
+data/bangai06_scan.json
