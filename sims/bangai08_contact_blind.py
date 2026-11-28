@@ -63,6 +63,7 @@ class ContactProblem(P.Problem):
         self.tlo = -np.array([T["flex"], T["add"], T["ir"], T["ele"]])
         self.thi = np.array([T["ext"], T["abd"], T["er"], T["elf"]])
         self.lp_stats = [0, 0]
+        self.ckpt, self.ckpt_best, self.t_start = None, -np.inf, time.time()
 
     def trunk_normal(self, p):
         """胴体のカプセルの外向きの法線と、表面からの距離（腕の太さを引いた値）."""
@@ -145,6 +146,11 @@ class ContactProblem(P.Problem):
         r.pop("states", None)
         out = (r["turns"], np.array(cons), r)
         self.cache[key] = out
+        # 途中経過の保存（F87: 環境の再起動で走行中の計算が消えたため）。実行できる点で回転数が最大のもの
+        if self.ckpt and min(cons) >= -1e-3 and r["turns"] > self.ckpt_best:
+            self.ckpt_best = r["turns"]
+            json.dump(dict(cond=self.cond, x=x.tolist(), turns=r["turns"], nev=self.nev, sec=time.time() - self.t_start),
+                      open(self.ckpt, "w"))
         return out
 
 
@@ -162,6 +168,8 @@ def contact_profile(prob, x):
 
 def run(cond, seed):
     p = ContactProblem(cond)
+    (DATA / "bangai08").mkdir(exist_ok=True)
+    p.ckpt = DATA / "bangai08" / f"{cond}_{seed}_partial.json"
     r = p.solve(seed)
     r.update(P.smoothness(p, r["x"]))
     r["lp_calls"], r["lp_fail"] = p.lp_stats
