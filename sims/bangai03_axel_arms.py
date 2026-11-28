@@ -434,7 +434,7 @@ class Skater:
         return vb
 
     def fly(self, schedule, L, t_air, t_tr=T_TR, t_open=T_OPEN, dt=1e-3, return_trace=False, torque=True, p0="open",
-            plan=None, tau_samples=False):
+            plan=None, tau_samples=False, return_states=False):
         """schedule: 区間ごとの (左の姿勢, 右の姿勢) の列（[0, t_air − t_open] を等分）. 最初は open から、最後は open へ.
 
         腕の関節角を時間の関数として与え（技術）、胴体の動きは運動量と角運動量の保存から解く（RK4）。
@@ -521,6 +521,8 @@ class Skater:
                 out["tau_t"] = tt
         if return_trace:
             out["trace"] = np.array(tr)
+        if return_states:     # 番外編 05: 体の各部の動き（センサーの位置）を後で計算する
+            out["states"] = dict(t=np.arange(nst + 1) * dt, y=np.array(ys), vb=np.array(vbs), plan=plan)
         return out
 
 
