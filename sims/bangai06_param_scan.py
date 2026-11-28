@@ -184,6 +184,36 @@ def figure():
     print("図 → figures/field/bangai06_param_scan.png")
 
 
+
+def literature_weight():
+    """19.4（結果を見た後に追加）: 文献の事前分布 L ~ N(32.8, 2.0)、滞空 U(0.68, 0.76)、体は一様で重みをつけた
+    「C1 と C2 を両方満たす確率」を腕の形ごとに出す. 総当たりの rows は C1 を満たすものだけなので、分母は解析的に出す."""
+    res = json.load(open(DATA / "bangai06_scan.json"))
+    K = res["keys"]
+    R = {k: np.array([r[i] for r in res["rows"]]) for i, k in enumerate(K)}
+    ok = R["ok"].astype(bool)
+    wL = lambda L: np.exp(-0.5 * ((L - A.L_NOM) / A.L_SD) ** 2)
+    in_t = lambda ta: (ta >= A.T_AIR_LO - 1e-9) & (ta <= A.T_AIR_HI + 1e-9)
+    nt = np.sum(in_t(T_AIR))
+    Z = wL(L_GRID).sum() * len(HEIGHTS) * len(MASSES) * nt * len(T_TR)   # 全組み合わせの重みの和
+    out = {}
+    for p in POSES:
+        sel = R["pose"] == p
+        w = wL(R["L"]) * in_t(R["t_air"])
+        p1 = float(w[sel].sum() / Z)
+        p12 = float(w[sel & ok].sum() / Z)
+        out[p] = dict(P_C1=p1, P_C1_C2=p12, P_C2_given_C1=p12 / p1 if p1 else float("nan"))
+        print(f"{POSE_JP[p]:8s} P(3A を降りる) {p1 * 100:5.1f}%   P(降りて、追える) {p12 * 100:5.1f}%   P(追える | 降りる) "
+              f"{out[p]['P_C2_given_C1'] * 100:5.1f}%")
+    # 滞空時間の閾値: 胸で組む・頭上で、追える割合が 50% を切る滞空
+    for p in ("tuck", "up"):
+        sel = R["pose"] == p
+        fr = {float(ta): float(ok[sel & (R["t_air"] == ta)].mean()) for ta in T_AIR if np.any(sel & (R["t_air"] == ta))}
+        out[p]["frac_by_t_air"] = fr
+    json.dump(out, open(DATA / "bangai06_literature.json", "w"), indent=1, ensure_ascii=False)
+    return out
+
+
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "scan"
-    {"check": check, "scan": scan, "summarize": summarize, "figure": figure}[mode]()
+    {"check": check, "scan": scan, "summarize": summarize, "figure": figure, "lit": literature_weight}[mode]()
