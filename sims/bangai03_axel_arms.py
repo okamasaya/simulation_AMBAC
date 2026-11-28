@@ -434,7 +434,7 @@ class Skater:
         return vb
 
     def fly(self, schedule, L, t_air, t_tr=T_TR, t_open=T_OPEN, dt=1e-3, return_trace=False, torque=True, p0="open",
-            plan=None, tau_samples=False, return_states=False):
+            plan=None, tau_samples=False, return_states=False, Lvec=None):
         """schedule: 区間ごとの (左の姿勢, 右の姿勢) の列（[0, t_air − t_open] を等分）. 最初は open から、最後は open へ.
 
         腕の関節角を時間の関数として与え（技術）、胴体の動きは運動量と角運動量の保存から解く（RK4）。
@@ -447,7 +447,7 @@ class Skater:
                 self.add_pose(p)
             plan = self.arm_plan(schedule, t_air, t_tr, t_open, p0)
         mtot = m.body_subtreemass[self.trunk]
-        Lw = np.array([0.0, 0.0, L])
+        Lw = np.array([0.0, 0.0, L]) if Lvec is None else np.asarray(Lvec, float)   # 番外編 07: 傾いた L（外乱）
         P0 = np.array([0.0, 0.0, mtot * G * t_air / 2])
         ia = np.r_[self.jadr["L"], self.jadr["R"]]          # 腕の qpos の番地（qvel も同じ並び: 7..14 → 6..13）
         iv = ia - 1
